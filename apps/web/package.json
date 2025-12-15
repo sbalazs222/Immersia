@@ -1,0 +1,10 @@
+{
+  "name": "@app/web",
+  "private": true,
+  "scripts": {
+    "dev": "echo web dev"
+  },
+  "dependencies": {
+    "@repo/shared": "*"
+  }
+}
