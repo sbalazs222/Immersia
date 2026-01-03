@@ -4,6 +4,10 @@ import { z } from 'zod';
 const EnvSchema = z.object({
   NODE_ENV: z.string().default('development'),
   PORT: z.coerce.number().default(3000),
+  DB_NAME: z.coerce.string().default('your-database'),
+  DB_HOST: z.coerce.string().default('localhost'),
+  DB_USER: z.coerce.string().default('root'),
+  DB_PASSWORD: z.coerce.string().default(''),
 });
 
 const parsed = EnvSchema.safeParse(process.env);
