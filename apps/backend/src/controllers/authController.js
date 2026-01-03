@@ -1,8 +1,9 @@
 import pool from '../config/mysql.js';
 import argon2 from 'argon2';
 import { env } from '../config/config.js';
-import { generateAccessToken, generateRefreshToken } from '../utils/jwt.js';
-import jwt from 'jsonwebtoken';
+import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../utils/jwt.js';
+
+const tokenVersions = Object.create(null);
 
 export async function Login(req, res, next) {
   const conn = await pool.getConnection();
@@ -14,14 +15,20 @@ export async function Login(req, res, next) {
     if (!(await argon2.verify(user[0].password, password)))
       return res.status(400).json({ message: 'Invalid username or password' });
 
-    const payload = {
+    tokenVersions[user[0].id] ??= 1;
+
+    console.log(tokenVersions);
+    const accessToken = generateAccessToken({
       id: user[0].id,
       user: user[0].email,
       role: user[0].role,
-    };
-
-    const accessToken = generateAccessToken(payload);
-    const refreshToken = generateRefreshToken(payload);
+    });
+    const refreshToken = generateRefreshToken({
+      id: user[0].id,
+      user: user[0].email,
+      role: user[0].role,
+      tv: tokenVersions[user[0].id],
+    });
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
@@ -56,11 +63,44 @@ export function Register(req, res, next) {
   }
 }
 export function Verify(req, res, next) {}
-export function Refresh(req, res, next) {}
+export function Refresh(req, res, next) {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) return res.status(401).json({ message: 'Refresh Token required.' });
+
+    const decoded = verifyRefreshToken(refreshToken);
+
+    if (!decoded) return res.status(401).json({ message: 'Invalid refresh token.' });
+    const currentVersion = tokenVersions[decoded.id] ?? 1;
+
+    if (decoded.tv !== currentVersion) {
+      return res.status(401).json({ message: 'Refresh token revoked.' });
+    }
+
+    const accessToken = generateAccessToken({
+      id: decoded.id,
+      user: decoded.email,
+      role: decoded.role,
+    });
+
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 15 * 60 * 1000, // 15 minutes
+    });
+
+    return res.status(200).json({ message: 'Successful refresh' });
+  } catch (error) {
+    next(error);
+  }
+}
 export function Logout(req, res, next) {
   try {
+    tokenVersions[req.user.id] = (tokenVersions[req.user.id] ?? 1) + 1;
     res.clearCookie('accessToken');
     res.clearCookie('refreshToken');
+    console.log(tokenVersions);
 
     return res.status(200).json({ message: 'Successful logout' });
   } catch (error) {

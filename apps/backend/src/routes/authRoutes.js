@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import { Login, Logout, Refresh, Register, Verify } from '../controllers/authController.js';
+import { authenticateToken } from '../middlewares/authentication.js';
 
 const AuthRouter = Router();
 
 AuthRouter.post('/login', Login);
 AuthRouter.post('/register', Register);
 AuthRouter.post('/refresh', Refresh);
-AuthRouter.post('/verify', Verify);
-AuthRouter.post('/logout', Logout);
+AuthRouter.post('/verify', authenticateToken, Verify);
+AuthRouter.post('/logout', authenticateToken, Logout);
 
 export default AuthRouter;
