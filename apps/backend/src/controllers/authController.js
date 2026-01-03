@@ -2,6 +2,7 @@ import pool from '../config/mysql.js';
 import argon2 from 'argon2';
 import { env } from '../config/config.js';
 import { generateAccessToken, generateRefreshToken } from '../utils/jwt.js';
+import jwt from 'jsonwebtoken';
 
 export async function Login(req, res, next) {
   const conn = await pool.getConnection();
@@ -56,4 +57,13 @@ export function Register(req, res, next) {
 }
 export function Verify(req, res, next) {}
 export function Refresh(req, res, next) {}
-export function Logout(req, res, next) {}
+export function Logout(req, res, next) {
+  try {
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+
+    return res.status(200).json({ message: 'Successful logout' });
+  } catch (error) {
+    next(error);
+  }
+}
