@@ -1,5 +1,5 @@
 import express from 'express';
-import cp from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { env } from './config/config.js';
 import { colorLog, errorLog } from 'psgutil';
@@ -10,7 +10,7 @@ const corsOptions = {
   origin: env.FRONTEND_URL || `http://localhost:${env.PORT}`,
 };
 
-app.use(cp());
+app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(colorLog);
 app.use(express.json());
