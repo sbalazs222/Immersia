@@ -1,6 +1,8 @@
 import { NavLink, Route, Routes, BrowserRouter } from 'react-router-dom'
 import { Nav } from 'react-bootstrap'
 
+import Login from '../pages/Login'
+
 export default function Navbar() {
     return (
         <BrowserRouter>
@@ -10,7 +12,7 @@ export default function Navbar() {
             </nav>
             <Routes>
                 <Route path="/" element={<h1>Scenes</h1>} />
-                <Route path="/login" element={<h1>Login Page</h1>} />
+                <Route path="/login" element={<Login />} />
             </Routes>
         </BrowserRouter>
     )
