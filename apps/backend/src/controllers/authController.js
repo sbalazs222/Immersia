@@ -13,7 +13,17 @@ export function Login(req: Request, res: Response, next) {
   }
 }
 export function Register(req, res, next) {
+  try {
+    const body = req.body;
 
+    return res.status(200).json({
+      message: 'Successful registration.', data:
+        JSON.stringify(body),
+    });
+  }
+  catch (error) {
+    next(error);
+  }
 }
 export function Verify(req, res, next) {
 
