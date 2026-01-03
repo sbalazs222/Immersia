@@ -1,7 +1,7 @@
-import { CreateRouter } from 'express';
+import { Router } from 'express';
 import { Login, Logout, Refresh, Register, Verify } from '../controllers/authController.js';
 
-const AuthRouter = CreateRouter();
+const AuthRouter = Router();
 
 AuthRouter.post('/login', Login);
 AuthRouter.post('/register', Register);
