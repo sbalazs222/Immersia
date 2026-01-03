@@ -14,7 +14,12 @@ export default function Login() {
             })
         })
         if (res.status === 200) {
-            alert('Login successful')
+            document.getElementById('resMessage').style.color = 'green'
+            document.getElementById('resMessage').innerText = 'Login successful'
+        }
+        else {
+            document.getElementById('resMessage').style.color = 'red'
+            document.getElementById('resMessage').innerText = 'Login failed'
         }
     }
     return (
@@ -25,6 +30,7 @@ export default function Login() {
                 <input type="password" name="password"/>
                 <button type="submit">Login</button>
             </form>
+            <p id="resMessage"></p>
         </>
     )
 }
