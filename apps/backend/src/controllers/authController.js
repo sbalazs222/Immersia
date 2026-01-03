@@ -1,5 +1,26 @@
-export function Login() {}
-export function Register() {}
-export function Verify() {}
-export function Refresh() {}
-export function Logout() {}
+import { req, res } from 'express';
+
+export function Login(req: Request, res: Response, next) {
+  try {
+    return res.status(200).json({
+      message: 'Successful login.', data: {
+        username: 'user',
+      }
+    });
+  }
+  catch (error) {
+    next(error);
+  }
+}
+export function Register(req, res, next) {
+
+}
+export function Verify(req, res, next) {
+
+}
+export function Refresh(req, res, next) {
+
+}
+export function Logout(req, res, next) {
+
+}
