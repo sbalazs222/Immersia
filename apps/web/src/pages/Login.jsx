@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify'
+
 export default function Login() {
     async function handleSubmit(event) {
         event.preventDefault()
@@ -14,12 +16,10 @@ export default function Login() {
             })
         })
         if (res.status === 200) {
-            document.getElementById('resMessage').style.color = 'green'
-            document.getElementById('resMessage').innerText = 'Login successful'
+            toast.success('Login successful')
         }
         else {
-            document.getElementById('resMessage').style.color = 'red'
-            document.getElementById('resMessage').innerText = 'Login failed'
+            toast.error('Login failed, ' + await res.text())
         }
     }
     return (
@@ -30,7 +30,6 @@ export default function Login() {
                 <input type="password" name="password"/>
                 <button type="submit">Login</button>
             </form>
-            <p id="resMessage"></p>
         </>
     )
 }

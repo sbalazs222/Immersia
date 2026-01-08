@@ -1,15 +1,14 @@
+import { toast } from 'react-toastify'
 export default function Register() {
     async function handleSubmit(event) {
         event.preventDefault()
         const formdata = new FormData(event.target)
         if (!formdata.get('email') || !formdata.get('password') || !formdata.get('confirmPassword')) {
-            document.getElementById('resMessage').style.color = 'red'
-            document.getElementById('resMessage').innerText = 'All fields are required'
+            toast.error('Please fill in all fields')
             return
         }
         if (formdata.get('password') !== formdata.get('confirmPassword')) {
-            document.getElementById('resMessage').style.color = 'red'
-            document.getElementById('resMessage').innerText = 'Passwords do not match'
+            toast.error('Passwords do not match')
             return
         }
         const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/register`, {
@@ -23,8 +22,7 @@ export default function Register() {
             })
         })
         if (res.status === 200) {
-            document.getElementById('resMessage').style.color = 'green'
-            document.getElementById('resMessage').innerText = 'Registration successful'
+            toast.success('Registration successful')
         }
     }
     return (
@@ -36,7 +34,6 @@ export default function Register() {
                 <input type="password" name="confirmPassword" />
                 <button type="submit">Register</button>
             </form>
-            <p id="resMessage"></p>
         </>
     )
 }
