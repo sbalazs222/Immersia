@@ -37,3 +37,18 @@ export async function ServeData(req, res, next) {
     if (conn) conn.release();
   }
 }
+
+export async function GetSoundData(req, res, next) {
+  const conn = await pool.getConnection();
+  try {
+    const slug = req.params.slug;
+
+    const [result] = await conn.query('SELECT * FROM sounds WHERE slug = ?', [slug]);
+
+    return res.status(200).json({ data: result });
+  } catch (error) {
+    next(error);
+  } finally {
+    if (conn) conn.release();
+  }
+}
