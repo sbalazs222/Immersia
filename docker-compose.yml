@@ -1,5 +1,6 @@
 services: 
   backend:
+    user: root
     build:
       context: .
       dockerfile: apps/backend/Dockerfile
@@ -7,16 +8,15 @@ services:
       - apps/backend/.env
     restart: unless-stopped
     volumes:
-      - media:/media
-    user: '1000:1000'
-  
+      - data:/data
+   
   nginx:
     image: nginx:alpine
     volumes:
-      - media:/media:ro
+      - data:/data:ro
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
 
 
 volumes:
-  media:
+  data:

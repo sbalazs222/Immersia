@@ -1,0 +1,39 @@
+const CATEGORIES = ['oneshot', 'ambience', 'scene'];
+import pool from '../config/mysql.js';
+
+export async function ServeData(req, res, next) {
+  const conn = await pool.getConnection();
+
+  try {
+    const category = req.query.c;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+
+    const [countResult] = await pool.query('SELECT COUNT(*) as total FROM sounds WHERE type = ?;', [
+      category,
+    ]);
+    const total = countResult[0].total;
+
+    if (!CATEGORIES.includes(category)) return res.sendStatus(404);
+
+    const [result] = await conn.query(
+      'SELECT id, title FROM sounds WHERE type = ? LIMIT ? OFFSET ?;',
+      [category, limit, offset]
+    );
+
+    return res.status(200).json({
+      data: result,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    });
+  } catch (error) {
+    next(error);
+  } finally {
+    if (conn) conn.release();
+  }
+}

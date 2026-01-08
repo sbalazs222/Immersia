@@ -5,6 +5,7 @@ import { env } from './config/config.js';
 import { colorLog, errorLog } from 'psgutil';
 
 import AuthRouter from './routes/authRoutes.js';
+import ContentRouter from './routes/contentRoutes.js';
 
 const app = express();
 const corsOptions = {
@@ -18,6 +19,7 @@ app.use(colorLog);
 app.use(express.json());
 
 app.use('/auth', AuthRouter);
+app.use('/content', ContentRouter);
 
 app.use(errorLog);
 app.listen(env.PORT, () => {
