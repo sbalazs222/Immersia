@@ -1,6 +1,11 @@
 import { toast } from 'react-toastify'
+import { Navigate } from 'react-router-dom'
 
-export default function Login() {
+export default function Login({isLoggedIn, setIsLoggedIn}) {
+    if (isLoggedIn) {
+        return <Navigate to="/" />
+    }
+
     async function handleSubmit(event) {
         event.preventDefault()
         const formdata = new FormData(event.target)
@@ -16,6 +21,7 @@ export default function Login() {
             })
         })
         if (res.status === 200) {
+            setIsLoggedIn(true)
             toast.success('Login successful')
         }
         else {
