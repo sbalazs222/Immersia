@@ -6,3 +6,17 @@ services:
     env_file:
       - apps/backend/.env
     restart: unless-stopped
+    volumes:
+      - media:/media
+    user: '1000:1000'
+  
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - media:/media:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+
+
+volumes:
+  media:

@@ -8,16 +8,19 @@ const tokenVersions = Object.create(null);
 export async function Login(req, res, next) {
   const conn = await pool.getConnection();
   const { email, password } = req.body;
+
   try {
-    const [user] = await conn.query('SELECT id, password FROM users WHERE email = ?', [email]);
+    const [user] = await conn.query('SELECT id, password, is_active FROM users WHERE email = ?', [
+      email,
+    ]);
     if (user.length < 1) return res.status(400).json({ message: 'Invalid username or password' });
+    if (!user[0].is_active) return res.status(400).json({ message: 'Account is disabled' });
 
     if (!(await argon2.verify(user[0].password, password)))
       return res.status(400).json({ message: 'Invalid username or password' });
 
     tokenVersions[user[0].id] ??= 1;
 
-    console.log(tokenVersions);
     const accessToken = generateAccessToken({
       id: user[0].id,
       user: user[0].email,
@@ -62,7 +65,9 @@ export function Register(req, res, next) {
     next(error);
   }
 }
-export function Verify(req, res, next) {}
+export function Verify(_, res) {
+  return res.status(200).json({ message: 'Successful verification.' });
+}
 export function Refresh(req, res, next) {
   try {
     const refreshToken = req.cookies.refreshToken;
