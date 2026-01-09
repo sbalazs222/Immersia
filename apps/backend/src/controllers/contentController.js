@@ -52,7 +52,7 @@ export async function GetSoundData(req, res, next) {
   }
 }
 
-export async function PlaySound(req, res, next) {
+export async function PlaySound(req, res) {
   const slug = req.params.slug;
 
   const [file] = await pool.query('SELECT sound_file_path FROM sounds WHERE slug = ?', [slug]);
@@ -62,7 +62,7 @@ export async function PlaySound(req, res, next) {
   res.end();
 }
 
-export async function GetThumbnail(req, res, next) {
+export async function GetThumbnail(req, res) {
   const slug = req.params.slug;
 
   const [file] = await pool.query('SELECT image_file_path FROM sounds WHERE slug = ?', [slug]);
