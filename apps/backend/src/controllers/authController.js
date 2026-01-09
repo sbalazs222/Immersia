@@ -10,9 +10,7 @@ export async function Login(req, res, next) {
   const { email, password } = req.body;
 
   try {
-    const [user] = await conn.query('SELECT id, password, is_active FROM users WHERE email = ?', [
-      email,
-    ]);
+    const [user] = await conn.query('SELECT id, password, is_active FROM users WHERE email = ?', [email]);
     if (user.length < 1) return res.status(400).json({ message: 'Invalid username or password' });
     if (!user[0].is_active) return res.status(400).json({ message: 'Account is disabled' });
 
