@@ -10,7 +10,7 @@ import ContentRouter from './routes/contentRoutes.js';
 const app = express();
 const corsOptions = {
   credentials: true,
-  origin: env.FRONTEND_URL || `http://localhost:${env.PORT}`,
+  origin: env.NODE_ENV == 'developement' ? '*' : env.FRONTEND_URL || `http://localhost:${env.PORT}`,
 };
 
 app.use(cookieParser());
