@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticateToken } from '../middlewares/authentication.js';
+//import { authenticateToken } from '../middlewares/authentication.js';
 import { GetThumbnail, PlaySound, ServeData } from '../controllers/contentController.js';
 import { GetSoundData } from '../controllers/contentController.js';
 
