@@ -18,7 +18,7 @@ const tokenVersions = Object.create(null); // Used for invalidation old tokens a
  * - `accessToken`: Short-lived (15 min) for authorization.
  * - `refreshToken`: Long-lived (7 days) for session persistence.
  *
- * @param {import('express').Request} req - Express request object containing `email` and `password` in `req.body`.
+ * * @param {import('express').Request} req - Express request object containing `email` and `password` in `req.body`.
  * @param {import('express').Response} res - Express response object used to set cookies and return status.
  * @param {import('express').NextFunction} next - Express next function for error handling.
  * * @returns {Promise<void>} Returns a 200 JSON response on success, or 401/403 on authentication failure.
@@ -79,7 +79,7 @@ export async function Login(req, res, next) {
  * 3. Validates password strength/format.
  * 4. Hashes the password using Argon2.
  * 5. Executes an atomic INSERT within a SQL transaction.
- * * @param {import('express').Request} req - Express request object containing `email` and `password`.
+ * *  @param {import('express').Request} req - Express request object containing `email` and `password`.
  * @param {import('express').Response} res - Express response object.
  * @param {import('express').NextFunction} next - Express next function for error handling.
  * * @returns {Promise<import('express').Response|void>} Returns a 201 status on success,
