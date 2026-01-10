@@ -5,11 +5,12 @@ import { env } from './config/config.js';
 import { colorLog, errorLog } from 'psgutil';
 
 import AuthRouter from './routes/authRoutes.js';
+import ContentRouter from './routes/contentRoutes.js';
 
 const app = express();
 const corsOptions = {
   credentials: true,
-  origin: env.FRONTEND_URL || `http://localhost:${env.PORT}`,
+  origin: env.NODE_ENV == 'developement' ? '*' : env.FRONTEND_URL || `http://localhost:${env.PORT}`,
 };
 
 app.use(cookieParser());
@@ -18,6 +19,7 @@ app.use(colorLog);
 app.use(express.json());
 
 app.use('/auth', AuthRouter);
+app.use('/content', ContentRouter);
 
 app.use(errorLog);
 app.listen(env.PORT, () => {

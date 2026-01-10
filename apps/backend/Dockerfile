@@ -1,5 +1,9 @@
 FROM node:20-alpine AS base
 WORKDIR /app
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 COPY package*.json ./
 
 COPY apps/backend/package.json apps/backend/package.json
@@ -11,5 +15,6 @@ COPY apps/backend apps/backend
 COPY packages/shared packages/shared
 
 WORKDIR /app/apps/backend
+USER 1000:1000
 
-CMD ["node", "src/index.js"]
+ENTRYPOINT ["/entrypoint.sh"]
