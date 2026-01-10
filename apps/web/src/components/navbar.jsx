@@ -8,7 +8,7 @@ import Register from '../pages/Register'
 export default function Navbar({ isLoggedIn, setIsLoggedIn }) {
 
     async function handleLogout() {
-        const res = await fetch(`/auth/logout`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/logout`, {
             method: 'POST',
             credentials: 'include',
         });
