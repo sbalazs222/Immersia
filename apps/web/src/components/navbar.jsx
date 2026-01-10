@@ -4,8 +4,9 @@ import { toast } from 'react-toastify'
 
 import Login from '../pages/Login'
 import Register from '../pages/Register'
+import Admin from '../pages/Admin'
 
-export default function Navbar({ isLoggedIn, setIsLoggedIn, setIsAdmin }) {
+export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin }) {
 
     async function handleLogout() {
         const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/logout`, {
@@ -44,8 +45,9 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, setIsAdmin }) {
             </nav>
             <Routes>
                 <Route path="/" element={<h1>Scenes</h1>} />
-                <Route path="/login" element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} />
+                {!isAdmin && <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} />}
                 <Route path="/register" element={<Register isLoggedIn={isLoggedIn} />} />
+                {isAdmin && <Route path="/admin" element={<Admin />} />}
             </Routes>
         </BrowserRouter>
     )
