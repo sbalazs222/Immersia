@@ -1,13 +1,14 @@
 import { toast } from 'react-toastify'
 import { Navigate } from 'react-router-dom'
 
-export default function Login({isLoggedIn, setIsLoggedIn}) {
+export default function Login({isLoggedIn, setIsLoggedIn, setIsAdmin}) {
     if (isLoggedIn) {
         return <Navigate to="/" />
     }
 
     async function handleSubmit(event) {
         event.preventDefault()
+        
         const formdata = new FormData(event.target)
         const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, {
             method: 'POST',
@@ -20,12 +21,17 @@ export default function Login({isLoggedIn, setIsLoggedIn}) {
                 password: formdata.get('password')
             })
         })
+        const result = await res.json()
+
         if (res.status === 200) {
             setIsLoggedIn(true)
+            if (result.isAdmin) {
+                setIsAdmin(true)
+            }
             toast.success('Login successful')
         }
         else {
-            toast.error('Login failed, ' + await res.text())
+            toast.error('Login failed, ' + result.message)
         }
     }
     return (

@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 
-export default function Navbar({ isLoggedIn, setIsLoggedIn }) {
+export default function Navbar({ isLoggedIn, setIsLoggedIn, setIsAdmin }) {
 
     async function handleLogout() {
         const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/logout`, {
@@ -15,6 +15,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }) {
         if (res.ok) {
             toast.success('Logged out successfully')
             setIsLoggedIn(false)
+            setIsAdmin(false)
         }
         else {
             toast.error('Internal server error, ' + await res.json().message)
@@ -43,7 +44,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }) {
             </nav>
             <Routes>
                 <Route path="/" element={<h1>Scenes</h1>} />
-                <Route path="/login" element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+                <Route path="/login" element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} />
                 <Route path="/register" element={<Register isLoggedIn={isLoggedIn} />} />
             </Routes>
         </BrowserRouter>

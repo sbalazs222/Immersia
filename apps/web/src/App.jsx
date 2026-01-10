@@ -8,10 +8,11 @@ import NavbarComponent from './components/Navbar.jsx'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
 
   return (
     <>
-      <NavbarComponent isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <NavbarComponent isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />
 
       <ToastContainer position="bottom-end" className="p-3" />
     </>
