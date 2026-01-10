@@ -11,18 +11,32 @@ export default function Register() {
             toast.error('Passwords do not match')
             return
         }
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: formdata.get('email'),
-                password: formdata.get('password')
+
+        try {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: formdata.get('email'),
+                    password: formdata.get('password')
+                })
             })
-        })
-        if (res.status === 200) {
-            toast.success('Registration successful')
+
+            if (res.status === 200) {
+                toast.success('Registration successful')
+            }
+            else {
+                try {
+                    const result = await res.json()
+                    toast.error('Registration failed: ' + (result.message || 'Unknown error'))
+                } catch (jsonError) {
+                    toast.error('Registration failed with status: ' + res.status)
+                }
+            }
+        } catch (error) {
+            toast.error('Network error, please try again later')
         }
     }
     return (

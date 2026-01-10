@@ -22,9 +22,9 @@ export default function Login({setIsLoggedIn, setIsAdmin}) {
                     password: formdata.get('password')
                 })
             })
-            const result = await res.json()
 
             if (res.status === 200) {
+                const result = await res.json()
                 setIsLoggedIn(true)
                 if (result.isAdmin) {
                     setIsAdmin(true)
@@ -32,7 +32,12 @@ export default function Login({setIsLoggedIn, setIsAdmin}) {
                 toast.success('Login successful')
             }
             else {
-                toast.error('Login failed, ' + result.message)
+                try {
+                    const result = await res.json()
+                    toast.error('Login failed: ' + (result.message || 'Unknown error'))
+                } catch (jsonError) {
+                    toast.error('Login failed with status: ' + res.status)
+                }
             }
         } catch (error) {
             toast.error('Network error, please try again later')
