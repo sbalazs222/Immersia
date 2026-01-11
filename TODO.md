@@ -1,0 +1,2 @@
+fájlfeltöltés befelyezni
+fájláthelyezés + db
