@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import Admin from '../pages/Admin'
+import Profile from '../pages/Profile'
 
 export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin }) {
 
@@ -31,6 +32,9 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin 
                     (
                         <>
                             <Nav.Link as={NavLink} to="/">Scenes</Nav.Link>
+                            <Nav.Link as={NavLink} to="/profile">Profile</Nav.Link>
+                            {isAdmin && <Nav.Link as={NavLink} to="/admin">Admin</Nav.Link>}
+
                             <Button onClick={handleLogout}>Logout</Button>
                         </>
                     )
@@ -45,9 +49,10 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin 
             </nav>
             <Routes>
                 <Route path="/" element={<h1>Scenes</h1>} />
-                {!isAdmin && <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} />}
+                {!isLoggedIn && <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} />}
                 <Route path="/register" element={<Register isLoggedIn={isLoggedIn} />} />
                 {isAdmin && <Route path="/admin" element={<Admin />} />}
+                {isLoggedIn && <Route path="/profile" element={<Profile />} />}
             </Routes>
         </BrowserRouter>
     )
