@@ -2,7 +2,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { env } from './config/config.js';
-import { colorLog, errorLog } from 'psgutil';
+import { colorLog } from 'psgutil';
 
 import AuthRouter from './routes/authRoutes.js';
 import ContentRouter from './routes/contentRoutes.js';
