@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import fs from 'fs/promises';
 import fse from 'fs-extra';
 import unzipper from 'unzipper';
@@ -17,72 +18,84 @@ import pool from '../config/mysql.js';
  * * @throws {Error} Passes any internal server error to the `next` middleware.
  */
 export async function HandleUpload(req, res, next) {
+  const incomingAudioFile = req.files?.SoundFile?.[0];
+  const incomingImageFile = req.files?.ImageFile?.[0];
+
+  if (!incomingAudioFile || !incomingImageFile) return res.status(400).json({ message: 'Missing files' });
+
   const conn = await pool.getConnection();
+  const createdFiles = [];
+  let audioMoved = false;
+
   try {
-    await conn.beginTransaction();
     const { Title, Type } = req.body;
-    const incomingAudioFile = req.files.SoundFile[0];
-    const incomingImageFile = req.files.ImageFile[0];
 
-    const slug =
-      Type +
-      Title.toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9]+/g, '-');
+    if (!['oneshot', 'ambience', 'scene'].includes(Type)) return res.status(400).json({ message: 'Invalid type.' });
 
-    const uniqueSlug = `${slug}-${Math.random().toString(36).substring(2, 6)}`;
+    const slugBase = `${Type}-${Title.toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')}`;
 
-    const metadata = await musicMetadata.parseFile(incomingAudioFile.path);
-    const durationInSeconds = Math.round(metadata.format.duration || 0);
+    const uniqueSlug = `${slugBase}-${Math.random().toString(36).substring(2, 6)}`;
 
-    const soundExt = path.extname(incomingAudioFile.originalname);
-    const newSoundName = `${Type}-${uniqueSlug}${soundExt}`;
-    const newImageName = `${Type}-${uniqueSlug}.webp`;
+    if (uniqueSlug.length > 100) return res.status(400).json({ message: 'Title too long.' });
 
-    const finalSoundPath = `/data/sounds/${newSoundName}`;
-    const finalImagePath = `/data/thumb/${newImageName}`;
+    const soundExt = path.extname(incomingAudioFile.originalname).toLowerCase();
+    if (!['.mp3', '.wav'].includes(soundExt)) return res.status(400).json({ message: 'Invalid sound file type.' });
+
+    let durationInSeconds = 0;
+    try {
+      const metadata = await musicMetadata.parseFile(incomingAudioFile.path);
+      durationInSeconds = Math.round(metadata.format.duration || 0);
+    } catch {
+      return res.status(415).json({ message: 'Unsupported media type' });
+    }
+
+    const finalSoundPath = `/data/sounds/${uniqueSlug}${soundExt}`;
+    const finalImagePath = `/data/thumb/${uniqueSlug}.webp`;
+
+    const imageMeta = await sharp(incomingImageFile.path).metadata();
+    if (imageMeta.width > 5000 || imageMeta.height > 5000) {
+      return res.status(400).json({ message: 'Image dimesons too large' });
+    }
+    await sharp(incomingImageFile.path).resize(500, 500, { fit: 'cover' }).webp({ quality: 80 }).toFile(finalImagePath);
+    createdFiles.push(finalImagePath);
 
     await fs.rename(incomingAudioFile.path, finalSoundPath);
+    createdFiles.push(finalSoundPath);
+    audioMoved = true;
 
-    await sharp(incomingImageFile.path).resize(500, 500, { fit: 'cover' }).webp({ quality: 80 }).toFile(finalImagePath);
-
-    await fs.unlink(incomingImageFile.path).catch(() => { });
-
-    const dbData = {
-      slug: uniqueSlug,
-      title: Title,
-      type: Type,
-      sound_file_format: path.extname(incomingAudioFile.originalname).slice(1),
-      sound_file_path: `sounds/${newSoundName}`,
-      image_file_path: `thumb/${newImageName}`,
-      loopable: Type !== 'oneshot' ? 1 : 0,
-      duration_seconds: durationInSeconds,
-    };
-
+    await conn.beginTransaction();
     await conn.query(
-      'INSERT INTO immersia.sounds (slug, title, duration_seconds, loopable, sound_file_path, sound_file_format, image_file_path, `type`) VALUES( ?, ?, ?, ?, ?, ?, ?, ?);',
+      `INSERT INTO immersia.sounds (slug, title, duration_seconds, loopable, sound_file_path, sound_file_format, image_file_path, type) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?);`,
       [
-        dbData.slug,
-        dbData.title,
-        dbData.duration_seconds,
-        dbData.loopable,
-        dbData.sound_file_path,
-        dbData.sound_file_format,
-        dbData.image_file_path,
-        dbData.type,
+        uniqueSlug,
+        Title,
+        durationInSeconds,
+        Type !== 'oneshot' ? 1 : 0,
+        `sounds/${uniqueSlug}${soundExt}`,
+        soundExt,
+        `thumb/${uniqueSlug}.webp`,
+        Type
       ]
     );
+
     await conn.commit();
+
     return res.status(201).json({ message: 'Upload successful' });
+
   } catch (error) {
     await conn.rollback();
-    if (req.files) {
-      if (req.files.SoundFile) await fs.unlink(req.files.SoundFile[0].path).catch(() => { });
-      if (req.files.ImageFile) await fs.unlink(req.files.ImageFile[0].path).catch(() => { });
+
+    for (const file of createdFiles) {
+      await fs.unlink(file).catch(() => { });
     }
     next(error);
+
   } finally {
     conn.release();
+    if (!audioMoved && incomingAudioFile?.path) await fs.unlink(incomingAudioFile.path).catch(() => { });
+    if (incomingImageFile?.path) await fs.unlink(incomingImageFile.path).catch(() => { });
   }
 }
 
@@ -97,81 +110,71 @@ export async function HandleUpload(req, res, next) {
  * * @throws {Error} Passes any internal server error to the `next` middleware.
  */
 export async function HandleMassUpload(req, res, next) {
-  const conn = await pool.getConnection();
-  const tempDir = `/data/incoming/${Date.now()}`;
+  if (!req.file) return res.status(400).json({ message: 'No archive uploaded.' });
+
+  const tempDir = `/data/incoming/${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const movedFiles = [];
+
   try {
-    await conn.beginTransaction();
-    const archiveFile = req.file;
-    // eslint-disable-next-line prettier/prettier
-    await fse.createReadStream(archiveFile.path)
+    await fse.ensureDir(tempDir)
+    await fse.createReadStream(req.file.path)
       .pipe(unzipper.Extract({ path: tempDir }))
       .promise();
 
-    const metadata = await fse.readJSON(`${tempDir}/metadata.json`);
+    const metadata = await fse.readJSON(path.join(tempDir, 'metadata.json'));
+    const insertValues = [];
 
-    const Values = [];
-    for (const item of metadata) {
+    await Promise.all(metadata.map(async (item) => {
       const { Title, Type, SoundFile, ImageFile } = item;
 
-      const soundPath = `${tempDir}/${SoundFile}`;
-      const imagePath = `${tempDir}/${ImageFile}`;
+      const uniqueId = Math.random().toString(36).substring(2, 8);
+      const slug = `${Title.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-')}-${uniqueId}`;
 
-      const slug = Title.toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9]+/g, '-');
+      const soundPath = path.join(tempDir, SoundFile);
+      const imagePath = path.join(tempDir, ImageFile);
 
-      const uniqueSlug = `${slug}-${Math.random().toString(36).substring(2, 6)}`;
+      const finalSoundName = `${Type}-${slug}-${path.extname(SoundFile)}`;
+      const finalImageName = `${Type}-${slug}.webp`;
 
-      const metadata = await musicMetadata.parseFile(soundPath);
-      const durationInSeconds = Math.round(metadata.format.duration || 0);
+      const destImage = `/data/thumb/${finalImageName}`;
+      await sharp(imagePath).resize(500, 500, { fit: 'cover' }).webp({ quality: 80 }).toFile(destImage);
+      movedFiles.push(destImage);
 
-      const soundExt = path.extname(SoundFile);
-      const newSoundName = `${Type}-${uniqueSlug}${soundExt}`;
-      const newImageName = `${Type}-${uniqueSlug}.webp`;
+      const mm = await musicMetadata.parseFile(soundPath);
 
-      const finalSoundPath = `/data/sounds/${newSoundName}`;
-      const finalImagePath = `/data/thumb/${newImageName}`;
+      const destSound = `/data/sounds/${finalSoundName}`;
+      await fse.move(soundPath, destSound);
+      movedFiles.push(destSound);
 
-      await fs.rename(soundPath, finalSoundPath);
-
-      await sharp(imagePath).resize(500, 500, { fit: 'cover' }).webp({ quality: 80 }).toFile(finalImagePath);
-
-      await fs.unlink(imagePath).catch(() => { });
-
-      const dbData = {
-        slug: uniqueSlug,
-        title: Title,
-        type: Type,
-        sound_file_format: path.extname(SoundFile).slice(1),
-        sound_file_path: `sounds/${newSoundName}`,
-        image_file_path: `thumb/${newImageName}`,
-        loopable: Type !== 'oneshot' ? 1 : 0,
-        duration_seconds: durationInSeconds,
-      };
-
-      Values.push([
-        dbData.slug,
-        dbData.title,
-        dbData.duration_seconds,
-        dbData.loopable,
-        dbData.sound_file_path,
-        dbData.sound_file_format,
-        dbData.image_file_path,
-        dbData.type,
+      insertValues.push([
+        slug,
+        Title,
+        Type,
+        Type !== 'oneshot' ? 1 : 0,
+        Math.round(mm.format.duration || 0),
+        path.extname(SoundFile).slice(1),
+        `sounds/${finalSoundName}`,
+        `thumb/${finalImageName}`
       ]);
-    }
-    await conn.query(
-      'INSERT INTO immersia.sounds (slug, title, duration_seconds, loopable, sound_file_path, sound_file_format, image_file_path, `type`) VALUES ?;',
-      [Values]
-    );
+    }));
 
-    await conn.commit();
-    return res.status(200).json({ message: 'Bulk upload successful' });
+    const conn = await pool.getConnection();
+    try {
+      await conn.query(`INSERT INTO immersia.sounds (slug, title, type, loopable, duration_seconds, sound_file_format, sound_file_path , image_file_path) VALUES ?`,
+        [insertValues]);
+    } finally {
+      conn.release();
+    }
+    return res.status(200).json({ message: 'Bulk upload successful', count: insertValues.length });
+
+
   } catch (error) {
-    await conn.rollback();
+    for (const file of movedFiles) {
+      await fse.remove(file).catch(() => { })
+    }
     next(error);
   } finally {
-    await fse.remove(tempDir);
-    conn.release();
+    await fse.remove(tempDir).catch(() => { });
+    await fse.remove(req.file.path).catch(() => { });
   }
 }
