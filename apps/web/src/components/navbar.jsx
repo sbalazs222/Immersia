@@ -6,6 +6,7 @@ import Login from '../pages/Login'
 import Register from '../pages/Register'
 import Admin from '../pages/Admin'
 import Profile from '../pages/Profile'
+import Upload from '../pages/Upload'
 
 export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin }) {
 
@@ -43,6 +44,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin 
                         <>
                             <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
                             <Nav.Link as={NavLink} to="/register">Register</Nav.Link>
+                            <Nav.Link as={NavLink} to="/upload">Upload</Nav.Link>
                         </>
                     )
                 }
@@ -53,6 +55,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin 
                 <Route path="/register" element={<Register isLoggedIn={isLoggedIn} />} />
                 {isAdmin && <Route path="/admin" element={<Admin />} />}
                 {isLoggedIn && <Route path="/profile" element={<Profile />} />}
+                <Route path='/upload' element={<Upload />} />
             </Routes>
         </BrowserRouter>
     )
