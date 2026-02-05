@@ -10,6 +10,7 @@ const EnvSchema = z.object({
   DB_PASSWORD: z.coerce.string().default(''),
   ACCESS_TOKEN_SECRET: z.coerce.string().default('your-access-token-secret-here'),
   REFRESH_TOKEN_SECRET: z.coerce.string().default('your-refresh-token-secret-here'),
+  FRONTEND_URL: z.coerce.string().default('http://localhost:3000'),
 });
 
 const parsed = EnvSchema.safeParse(process.env);
