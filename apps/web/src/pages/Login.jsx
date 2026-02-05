@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify'
+import { Form, Button } from 'react-bootstrap'
 
 export default function Login({setIsLoggedIn, setIsAdmin}) {
     async function handleSubmit(event) {
@@ -46,11 +47,21 @@ export default function Login({setIsLoggedIn, setIsAdmin}) {
     return (
         <>
             <h1>Login Page</h1>
-            <form onSubmit={handleSubmit}>
-                <input type="email" name="email" required />
-                <input type="password" name="password" required />
-                <button type="submit">Login</button>
-            </form>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group controlId='formEmail'>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type='email' name='email' required/>
+                </Form.Group>
+                <Form.Group controlId='formPassword'>
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type='password' name='password' required/>
+                </Form.Group>
+                <Button type='submit'>Login</Button>
+            </Form>
+
+            {/* For testing purposes, remove this in production */}
+            {import.meta.env.DEV == true ? <Button onClick={() => {setIsLoggedIn(true); setIsAdmin(true);}}>Login as Admin (for testing)</Button> : null}
+            
         </>
     )
 }

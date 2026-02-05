@@ -30,11 +30,11 @@ export default function Upload() {
             <h1>Upload page</h1>
 
             <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="formFile" className="mb-3">
+                <Form.Group controlId="formAudio" className="mb-3">
                     <Form.Label>Choose an audio file to upload</Form.Label>
                     <Form.Control type="file" name="file" accept='audio/*'/>
                 </Form.Group>
-                <Form.Group>
+                <Form.Group controlId='formImage'>
                     <Form.Label>Image for the effect</Form.Label>
                     <Form.Control type="file" name="image" accept='image/*'/>
                 </Form.Group>

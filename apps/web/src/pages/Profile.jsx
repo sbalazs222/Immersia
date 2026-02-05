@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
+import { Form, Button } from 'react-bootstrap';
+
 function Profile() {
     const [userData, setUserData] = useState(null);
 
@@ -60,11 +62,17 @@ function Profile() {
                     <p>Email: {userData.email}</p>
                 </div>
             )}
-            <form onSubmit={handleUpdatePassword}>
-                <input type="password" name="currentPassword" placeholder="Current Password" />
-                <input type="password" name="password" placeholder="New Password" />
-                <button type="submit">Update Password</button>
-            </form>
+            <Form onSubmit={handleUpdatePassword}>
+                <Form.Group controlId="formCurrentPassword">
+                    <Form.Label>Current Password</Form.Label>
+                    <Form.Control type="password" name="currentPassword" placeholder="Current Password" />
+                </Form.Group>
+                <Form.Group controlId="formNewPassword">
+                    <Form.Label>New Password</Form.Label>
+                    <Form.Control type="password" name="password" placeholder="New Password" />
+                </Form.Group>
+                <Button type="submit">Update Password</Button>
+            </Form>
         </>
     );
 }
