@@ -15,17 +15,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setIsLoggedIn(true);
-    }
-  }, []);
-
-  function kilepes() {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-  }
-
   return (
     <BrowserRouter>
       <div className='app-container'>
@@ -40,7 +29,7 @@ function App() {
                 <NavLink to="/Profile" className="nav-item"><i className="bi bi-person me-3"></i>Profile</NavLink>
                 <NavLink to="/Admin" className="nav-item"><i className="bi bi-gear me-3"></i>Admin</NavLink>
                 <div className='mt-auto'>
-                  <button className='btn btn-dark w-100' onClick={kilepes}>Logout</button>
+                  <button className='btn btn-dark w-100'>Logout</button>
                 </div>
               </>
             ) : (
