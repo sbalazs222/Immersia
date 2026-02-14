@@ -25,6 +25,9 @@
     "prettier": "^3.7.4"
   },
   "dependencies": {
-    "multer": "^2.0.2"
+    "fs-extra": "^11.3.3",
+    "multer": "^2.0.2",
+    "psgutil": "^1.1.2",
+    "unzipper": "^0.12.3"
   }
 }

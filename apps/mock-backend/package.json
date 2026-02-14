@@ -1,0 +1,20 @@
+{
+  "name": "@app/mock-backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "lint": "eslint src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@repo/shared": "*",
+    "argon2": "^0.44.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "express": "^4.19.0",
+    "nodemon": "^3.1.11",
+    "psgutil": "^1.1.3"
+  }
+}
