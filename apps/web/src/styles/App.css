@@ -57,8 +57,8 @@ body {
 /* Soundboard */
 .tabs-container {
   background-color: #C4C4C4;
-  border-radius: 12px;
-  padding: 5px;
+  border-radius: 10px;
+  padding: 4px;
   display: inline-flex;
   gap: 5px;
 }
@@ -93,6 +93,7 @@ body {
   gap: 20px;
   box-sizing: border-box;
   min-height: 0;
+  background-color: #E5E5E5;
 }
 
 .soundboard-section{
@@ -103,14 +104,13 @@ body {
   flex-direction: column;
   border: 1px solid #ddd;
   min-height: 0;
+  overflow: hidden;
 }
 
 .tabs-dsgn {
-  background-color: #C4C4C4;
   border-radius: 10px;
-  padding: 4px;
-  display: inline-flex;
-  gap: 5px;
+  padding: 15px 20px 5px 20px;
+  display: flex;
 }
 
 .content-area{

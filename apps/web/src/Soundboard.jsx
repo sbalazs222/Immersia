@@ -7,7 +7,7 @@ function SoundBoard() {
     return (
         <>
             <div className='soundboard-dsgn'>
-                <div className='soundboard-section top-section'>
+                <div className='soundboard-section'>
                     <div className='tabs-dsgn'>
                         <div className='tabs-container'>
                             <button className={activeTab == "scenes" ? "tab-btn active" : "tab-btn"} onClick={() => setActiveTab("scenes")}>Scenes</button>
@@ -16,16 +16,16 @@ function SoundBoard() {
                         </div>
                     </div>
 
-                    <div className='content'>
-                        {activeTab == "scenes" && <div className='ideiglenes'>Scenes</div>}
-                        {activeTab == "ambiences" && <div className='ideiglenes'>Ambiences</div>}
-                        {activeTab == "oneshots" && <div className='ideiglenes'>One-shots</div>}
+                    <div className='content-area'>
+                        {activeTab == "scenes" && <div>Scenes</div>}
+                        {activeTab == "ambiences" && <div>Ambiences</div>}
+                        {activeTab == "oneshots" && <div>One-shots</div>}
                     </div>
                 </div>
 
-                <div className='soundboard-section bottom-section'>
+                <div className='soundboard-section'>
                     <div className='content-area'>
-                        <div className='ideiglenes'>Soundboard</div>
+                        <div>Soundboard</div>
                     </div>
                 </div>
             </div>
