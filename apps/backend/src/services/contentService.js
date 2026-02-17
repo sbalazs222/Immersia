@@ -1,4 +1,4 @@
-import { ApiError } from '../utils/apiError';
+import { ApiError } from '../utils/apiError.js';
 import pool from '../config/mysql.js';
 
 export const contentService = {
