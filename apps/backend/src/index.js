@@ -3,11 +3,12 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { env } from './config/config.js';
 import { colorLog } from 'psgutil';
+import { errorHandler } from './middlewares/errorHandler.js';
 
 import AuthRouter from './routes/authRoutes.js';
 import ContentRouter from './routes/contentRoutes.js';
 import UploadRouter from './routes/uploadRoutes.js';
-import { errorHandler } from './middlewares/errorHandler.js';
+import { CheckHealth } from './controllers/healthController.js';
 
 const app = express();
 const corsOptions = {
@@ -23,6 +24,8 @@ app.use(express.json());
 app.use('/auth', AuthRouter);
 app.use('/content', ContentRouter);
 app.use('/upload', UploadRouter);
+
+app.use('/health', CheckHealth);
 
 app.use(errorHandler);
 
