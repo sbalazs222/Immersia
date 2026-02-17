@@ -1,0 +1,140 @@
+[
+  {
+    "Title": "Bell of Doom",
+    "Type": "oneshot",
+    "SoundFile": "BellofDoom.mp3",
+    "ImageFile": "BellofDoom.png"
+  },
+  {
+    "Title": "Big Gears",
+    "Type": "oneshot",
+    "SoundFile": "BigGears.mp3",
+    "ImageFile": "BigGears.png"
+  },
+  {
+    "Title": "Big Gears 2",
+    "Type": "oneshot",
+    "SoundFile": "BigGears2.mp3",
+    "ImageFile": "BigGears.png"
+  },
+  {
+    "Title": "Bow Impact",
+    "Type": "oneshot",
+    "SoundFile": "BowImpact.wav",
+    "ImageFile": "BowImpact.png"
+  },
+  {
+    "Title": "Cloth Rip",
+    "Type": "oneshot",
+    "SoundFile": "ClothRip.wav",
+    "ImageFile": "ClothRip.png"
+  },
+  {
+    "Title": "Distant Thump",
+    "Type": "oneshot",
+    "SoundFile": "DistantThump.wav",
+    "ImageFile": "DistantThump.png"
+  },
+  {
+    "Title": "Explosion",
+    "Type": "oneshot",
+    "SoundFile": "Explosion.mp3",
+    "ImageFile": "Explosion.png"
+  },
+  {
+    "Title": "Fireball",
+    "Type": "oneshot",
+    "SoundFile": "Fireball.mp3",
+    "ImageFile": "Fireball.png"
+  },
+  {
+    "Title": "Fireball Charge",
+    "Type": "oneshot",
+    "SoundFile": "FireballCharge.mp3",
+    "ImageFile": "Fireball.png"
+  },
+  {
+    "Title": "Glitch 1",
+    "Type": "oneshot",
+    "SoundFile": "Glitch1.mp3",
+    "ImageFile": "Glitch.png"
+  },
+  {
+    "Title": "Glitch 2",
+    "Type": "oneshot",
+    "SoundFile": "Glitch2.mp3",
+    "ImageFile": "Glitch.png"
+  },
+  {
+    "Title": "Goo",
+    "Type": "oneshot",
+    "SoundFile": "Goo.wav",
+    "ImageFile": "Goo.png"
+  },
+  {
+    "Title": "Knocking",
+    "Type": "oneshot",
+    "SoundFile": "Knocking.wav",
+    "ImageFile": "Knocking.png"
+  },
+  {
+    "Title": "Magical Harp",
+    "Type": "oneshot",
+    "SoundFile": "MagicalHarp.mp3",
+    "ImageFile": "MagicalHarp.png"
+  },
+  {
+    "Title": "Paper Rip",
+    "Type": "oneshot",
+    "SoundFile": "PaperRip.wav",
+    "ImageFile": "PaperRip.png"
+  },
+  {
+    "Title": "Sci Fi Bell",
+    "Type": "oneshot",
+    "SoundFile": "SciFiBell.wav",
+    "ImageFile": "SciFiBell.png"
+  },
+  {
+    "Title": "Shopkeepers Bell",
+    "Type": "oneshot",
+    "SoundFile": "ShopkeepersBell.mp3",
+    "ImageFile": "ShopkeepersBell.png"
+  },
+  {
+    "Title": "Slime Movement",
+    "Type": "oneshot",
+    "SoundFile": "SlimeMovement.wav",
+    "ImageFile": "SlimeMovement.png"
+  },
+  {
+    "Title": "Snow Footsteps",
+    "Type": "oneshot",
+    "SoundFile": "SnowFootsteps.mp3",
+    "ImageFile": "SnowFootsteps.png"
+  },
+  {
+    "Title": "Space",
+    "Type": "oneshot",
+    "SoundFile": "Space.wav",
+    "ImageFile": "Space.png"
+  },
+  {
+    "Title": "Space Horn",
+    "Type": "oneshot",
+    "SoundFile": "SpaceHorn.wav",
+    "ImageFile": "SpaceHorn.png"
+  },
+  {
+    "Title": "Sword Unsheath",
+    "Type": "oneshot",
+    "SoundFile": "SwordUnsheath.wav",
+    "ImageFile": "SwordUnsheath.png"
+  },
+  {
+    "Title": "War Horn",
+    "Type": "oneshot",
+    "SoundFile": "WarHorn.mp3",
+    "ImageFile": "WarHorn.png"
+  }
+]
