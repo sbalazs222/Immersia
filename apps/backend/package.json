@@ -19,6 +19,7 @@
     "music-metadata": "^11.10.5",
     "mysql2": "^3.16.0",
     "nodemon": "^3.1.11",
+    "piscina": "^5.1.4",
     "psgutil": "^1.0.5",
     "sharp": "^0.34.5",
     "zod": "^4.2.0"

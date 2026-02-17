@@ -1,11 +1,13 @@
-import pool from '../config/mysql.js';
-import argon2 from 'argon2';
 import { env } from '../config/config.js';
-import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../utils/jwt.js';
-import { validateEmail } from '../utils/validation/validateEmail.js';
-import { validatePassword } from '../utils/validation/validatePassword.js';
+import { generateAccessToken, generateRefreshToken } from '../utils/jwt.js';
+import { authService } from '../services/index.js';
 
-const tokenVersions = Object.create(null); // Used for invalidation old tokens after logout
+const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: env.NODE_ENV === 'production',
+  sameSite: 'lax',
+  maxAge: 15 * 60 * 1000, // 15 minutes
+};
 
 /**
  * Handles user authentication and session creation.
@@ -25,49 +27,35 @@ const tokenVersions = Object.create(null); // Used for invalidation old tokens a
  * * @throws {Error} Passes any database or internal server errors to the `next` middleware.
  */
 export async function Login(req, res, next) {
-  const conn = await pool.getConnection();
-  const { email, password } = req.body;
-
   try {
-    const [user] = await conn.query('SELECT id, password, is_active FROM users WHERE email = ?', [email]);
-    if (user.length < 1) return res.status(401).json({ message: 'Invalid address or password' });
-    if (!user[0].is_active) return res.status(403).json({ message: 'Account is disabled' });
+    const { email, password } = req.body;
 
-    if (!(await argon2.verify(user[0].password, password)))
-      return res.status(401).json({ message: 'Invalid address or password' });
-
-    tokenVersions[user[0].id] ??= 1;
+    const { user, tokenVersion } = await authService.loginUser(email, password);
 
     const accessToken = generateAccessToken({
-      id: user[0].id,
-      user: user[0].email,
-      role: user[0].role,
+      id: user.id,
+      user: user.email,
+      role: user.role,
     });
     const refreshToken = generateRefreshToken({
-      id: user[0].id,
-      user: user[0].email,
-      role: user[0].role,
-      tv: tokenVersions[user[0].id],
+      id: user.id,
+      user: user.email,
+      role: user.role,
+      tv: tokenVersion,
     });
 
     res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      ...COOKIE_OPTIONS,
       maxAge: 15 * 60 * 1000, // 15 minutes
     });
     res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      ...COOKIE_OPTIONS,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
     return res.status(200).json({ message: 'Successful login.' });
   } catch (error) {
     next(error);
-  } finally {
-    conn.release();
   }
 }
 /**
@@ -87,27 +75,13 @@ export async function Login(req, res, next) {
  * * @throws {Error} Rolls back the transaction and passes database errors to the error middleware.
  */
 export async function Register(req, res, next) {
-  const conn = await pool.getConnection();
-  await conn.beginTransaction();
   try {
     const { email, password } = req.body;
 
-    if (!validateEmail(email)) return res.status(400).json({ message: 'Incorrect email format.' });
-
-    const [user] = await conn.query('SELECT id FROM users WHERE email = ?', [email]);
-    if (user.length > 0) return res.status(400).json({ message: 'Account with address already exists. ' });
-
-    if (!validatePassword(password)) return res.status(400).json({ message: 'Incorrect password.' });
-
-    await conn.query('INSERT INTO users (email, password) VALUES (?, ?);', [email, await argon2.hash(password)]);
-
-    conn.commit();
+    await authService.registerUser(email, password);
     return res.status(201).json({ message: 'Successful registration.' });
   } catch (error) {
-    await conn.rollback();
     next(error);
-  } finally {
-    if (conn) conn.release();
   }
 }
 /**
@@ -131,19 +105,9 @@ export function Verify(_, res) {
  * @param {import('express').NextFunction} next - Error handling middleware.
  * @returns {Promise<import('express').Response|void>} 200 on success, or 401 if the token is missing, invalid, or revoked.
  */
-export function Refresh(req, res, next) {
+export async function Refresh(req, res, next) {
   try {
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) return res.status(401).json({ message: 'Refresh Token required.' });
-
-    const decoded = verifyRefreshToken(refreshToken);
-
-    if (!decoded) return res.status(401).json({ message: 'Invalid refresh token.' });
-    const currentVersion = tokenVersions[decoded.id] ?? 1;
-
-    if (decoded.tv !== currentVersion) {
-      return res.status(401).json({ message: 'Refresh token revoked.' });
-    }
+    const decoded = await authService.refreshSession(req.cookies.refreshToken);
 
     const accessToken = generateAccessToken({
       id: decoded.id,
@@ -152,9 +116,7 @@ export function Refresh(req, res, next) {
     });
 
     res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      ...COOKIE_OPTIONS,
       maxAge: 15 * 60 * 1000, // 15 minutes
     });
 
@@ -173,12 +135,12 @@ export function Refresh(req, res, next) {
  * @param {import('express').NextFunction} next - Error handling middleware.
  * @returns {import('express').Response|void} 200 JSON confirming logout.
  */
-export function Logout(req, res, next) {
+export async function Logout(req, res, next) {
   try {
-    tokenVersions[req.user.id] = (tokenVersions[req.user.id] ?? 1) + 1;
+    await authService.logoutUser(req.user.id);
+
     res.clearCookie('accessToken');
     res.clearCookie('refreshToken');
-    console.log(tokenVersions);
 
     return res.status(200).json({ message: 'Successful logout' });
   } catch (error) {
