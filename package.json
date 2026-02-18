@@ -29,9 +29,8 @@
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "multer": "^2.0.2",
-    "react-bootstrap": "^2.10.10"
+    "react-bootstrap": "^2.10.10",
     "fs-extra": "^11.3.3",
-    "multer": "^2.0.2",
     "psgutil": "^1.1.2",
     "unzipper": "^0.12.3"
   }

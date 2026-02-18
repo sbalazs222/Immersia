@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import "./styles/App.css"
+import "../styles/App.css"
 
 function SoundBoard() {
     const [activeTab, setActiveTab] = useState("scenes")
