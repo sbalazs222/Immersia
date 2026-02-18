@@ -1,6 +1,120 @@
-.content-container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+body {
+  background-color: #E5E5E5;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  overflow: hidden;
+}
+
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.sidebar {
+  width: 260px;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+  border-right: 1px solid #ddd;
+  flex-shrink: 0;
+}
+
+.nav-item {
+  color: #666;
+  text-decoration: none;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.nav-item:hover {
+  background-color: #f3f4f6;
+  color: #333;
+}
+
+.nav-item.active {
+  background-color: #9CA3AF;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.main-content {
+  flex-grow: 1;
+  background-color: #E5E5E5;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Soundboard */
+.tabs-container {
+  background-color: #C4C4C4;
+  border-radius: 10px;
+  padding: 4px;
+  display: inline-flex;
+  gap: 5px;
+}
+
+.tab-btn {
+  border: none;
+  background: transparent;
+  padding: 8px 30px;
+  font-weight: 600;
+  color: #555;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.tab-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #333;
+}
+
+.tab-btn.active {
+  background-color: #9CA3AF;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.soundboard-dsgn {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 20px;
+  gap: 20px;
+  box-sizing: border-box;
+  min-height: 0;
+  background-color: #E5E5E5;
+}
+
+.soundboard-section{
+  flex: 1;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.tabs-dsgn {
+  border-radius: 10px;
+  padding: 15px 20px 5px 20px;
+  display: flex;
+}
+
+.content-area{
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
 }

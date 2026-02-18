@@ -4,7 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { ToastContainer, toast } from 'react-toastify'
 import { useState } from 'react'
 
-import NavbarComponent from './components/Navbar.jsx'
+import Login from "./Login";
+import Register from "./Register";
+import SoundBoard from "./Soundboard";
+import Admin from "./Admin";
+import Profile from "./Profile";
+
+import './styles/App.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
