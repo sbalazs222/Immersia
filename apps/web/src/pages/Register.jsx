@@ -1,4 +1,6 @@
 import { toast } from 'react-toastify'
+import { Form, Button } from 'react-bootstrap'
+
 export default function Register() {
     async function handleSubmit(event) {
         event.preventDefault()
@@ -42,12 +44,21 @@ export default function Register() {
     return (
         <>
             <h1>Register Page</h1>
-            <form onSubmit={handleSubmit}>
-                <input type="email" name="email"/>
-                <input type="password" name="password"/>
-                <input type="password" name="confirmPassword" />
-                <button type="submit">Register</button>
-            </form>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group controlId='formEmail'>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type='email' name='email' required />
+                </Form.Group>
+                <Form.Group controlId='formPassword'>
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type='password' name='password' required />
+                </Form.Group>
+                <Form.Group controlId='formConfirmPassword'>
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control type='password' name='confirmPassword' required />
+                </Form.Group>
+                <Button type='submit'>Register</Button>
+            </Form>
         </>
     )
 }
