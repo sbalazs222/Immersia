@@ -6,4 +6,4 @@ chown -R 1000:1000 /data
 
 apk add su-exec
 
-exec su-exec 1000:1000 node src/index.js
+exec su-exec 1000:1000 npm run start

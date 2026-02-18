@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react'
-import { ToastContainer } from 'react-bootstrap'
-import { BrowserRouter, NavLink, Routes, Route } from 'react-router-dom'
+import './styles/App.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+import { ToastContainer, toast } from 'react-toastify'
+import { useState } from 'react'
 
 import Login from "./Login";
 import Register from "./Register";
@@ -14,47 +16,33 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  async function handleLogout() {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/logout`, {
+                method: 'POST',
+                credentials: 'include',
+            });
+            if (res.ok) {
+                toast.success('Logged out successfully')
+                setIsLoggedIn(false)
+                setIsAdmin(false)
+            }
+            else {
+                toast.error('Internal server error, ' + await res.json().message)
+            }
+        } catch (error) {
+            toast.error('Network error, please try again later')
+        }
+    }
 
   return (
-    <BrowserRouter>
-      <div className='app-container'>
+    <>
+      <NavbarComponent isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} isAdmin={isAdmin} setIsAdmin={setIsAdmin} handleLogout={handleLogout}/>
 
-        {/* BAL MENÜ */}
-        <div className='sidebar'>
-          <h4 className='fw-bold mb-5 ps-2'>Immersia</h4>
-          <nav className='d-flex flex-column h-100'>
-            {!isLoggedIn ? (
-              <>
-                <NavLink to="/Soundboard" className="nav-item"><i className='bi bi-grid-1x2-fill me-3'></i>Soundboard</NavLink>
-                <NavLink to="/Profile" className="nav-item"><i className="bi bi-person me-3"></i>Profile</NavLink>
-                <NavLink to="/Admin" className="nav-item"><i className="bi bi-gear me-3"></i>Admin</NavLink>
-                <div className='mt-auto'>
-                  <button className='btn btn-dark w-100'>Logout</button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className='mt-4 border-top pt-4'>
-                  <NavLink to="/Login" className="nav-item"><i className='bi bi-box-arrow-in-right me-3'></i>Login</NavLink>
-                  <NavLink to="/Register" className="nav-item"><i className="bi bi-person-add me-3"></i>Register</NavLink>
-                </div>
-              </>
-            )}
-          </nav>
-        </div>
-
-        <div className='main-content'>
-        <Routes>
-          <Route path="/Soundboard" element={<SoundBoard />} />
-          <Route path="/Login" element={<Login setLogin={setIsLoggedIn} />} />
-          <Route path="/Register" element={<Register />} />
-          <Route path="/Profile" element={<Profile/>} />
-          <Route path="/Admin" element={<Admin/>} />
-        </Routes>
-        </div>
-      </div>
-      <ToastContainer position='bottom-end' className='p-3' />
-    </BrowserRouter>
+      <ToastContainer position="bottom-right" className="p-3" style={{ position: 'fixed', bottom: '1rem', right: '1rem', zIndex: 9999 }} />
+    </>
   )
 }
 

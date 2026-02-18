@@ -40,6 +40,7 @@ export default [
 
     rules: {
       'prettier/prettier': 'error',
+      'object-curly-spacing': ['error', 'always'],
       'no-unused-vars': 'warn',
       'import/no-unresolved': 'off',
       'boundaries/element-types': [
