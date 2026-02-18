@@ -1,5 +1,5 @@
 {
-  "name": "@app/backend",
+  "name": "@app/mock-backend",
   "private": true,
   "type": "module",
   "scripts": {
@@ -13,16 +13,8 @@
     "argon2": "^0.44.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
     "express": "^4.19.0",
-    "express-rate-limit": "^8.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "music-metadata": "^11.10.5",
-    "mysql2": "^3.16.0",
     "nodemon": "^3.1.11",
-    "piscina": "^5.1.4",
-    "psgutil": "^1.0.5",
-    "sharp": "^0.34.5",
-    "zod": "^4.2.0"
+    "psgutil": "^1.1.3"
   }
 }

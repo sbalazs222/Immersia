@@ -3,10 +3,12 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { env } from './config/config.js';
 import { colorLog } from 'psgutil';
+import { errorHandler } from './middlewares/errorHandler.js';
 
 import AuthRouter from './routes/authRoutes.js';
 import ContentRouter from './routes/contentRoutes.js';
 import UploadRouter from './routes/uploadRoutes.js';
+import { CheckHealth } from './controllers/healthController.js';
 
 const app = express();
 const corsOptions = {
@@ -23,10 +25,10 @@ app.use('/auth', AuthRouter);
 app.use('/content', ContentRouter);
 app.use('/upload', UploadRouter);
 
-app.use((error, req, res, next) => {
-  console.error(error);
-  return env.NODE_ENV == 'development' ? res.status(500).json(error) : res.sendStatus(500);
-});
+app.use('/health', CheckHealth);
+
+app.use(errorHandler);
+
 app.listen(env.PORT, () => {
   console.log(`Backend running on http://localhost:${env.PORT}`);
 });
