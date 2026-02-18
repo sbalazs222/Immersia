@@ -24,7 +24,7 @@ export default function Login({setIsLoggedIn, setIsAdmin}) {
                 })
             })
 
-            if (res.status === 200) {
+            if (res.ok) {
                 const result = await res.json()
                 setIsLoggedIn(true)
                 if (result.isAdmin) {
