@@ -4,6 +4,7 @@ import { env } from '../config/config.js';
 import { ApiError } from '../utils/apiError.js';
 import { verifyRefreshToken } from '../utils/jwt.js';
 import getBlindIndex from '../utils/emailBlindIndex.js';
+import { mailService } from './mailService.js';
 
 const tokenVersions = Object.create(null);
 
@@ -20,12 +21,12 @@ export const authService = {
       if (existing.length > 0) throw new ApiError(409, 'USER_EXISTS');
 
       const hashedPassword = await argon2.hash(password);
-      await conn.query('INSERT INTO users (email, email_blind_index, password) VALUES (AES_ENCRYPT(?, ?), ?, ?);', [
-        email,
-        env.DB_ENCRYPT_SECRET,
-        index,
-        hashedPassword,
-      ]);
+      const [insertResult] = await conn.query(
+        'INSERT INTO users (email, email_blind_index, password) VALUES (AES_ENCRYPT(?, ?), ?, ?);',
+        [email, env.DB_ENCRYPT_SECRET, index, hashedPassword]
+      );
+      const userId = insertResult.insertId;
+      mailService.confirmAddressSendToken(email, userId);
 
       conn.commit();
     } catch (error) {
