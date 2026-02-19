@@ -11,24 +11,28 @@ const tokenVersions = Object.create(null);
 export const authService = {
   async registerUser(email, password) {
     const conn = await pool.getConnection();
-
     const index = getBlindIndex(email);
+
+    const hashedPassword = await argon2.hash(password);
 
     try {
       await conn.beginTransaction();
 
-      const [existing] = await conn.query('SELECT id FROM users WHERE email_blind_index = ?', [index]);
-      if (existing.length > 0) throw new ApiError(409, 'USER_EXISTS');
+      const [existing] = await conn.query('SELECT id, is_verified FROM users WHERE email_blind_index = ?', [index]);
+      if (existing.length > 0) {
+        if (existing[0].is_verified) throw new ApiError(409, 'USER_EXISTS');
 
-      const hashedPassword = await argon2.hash(password);
+        await conn.query('DELETE FROM users WHERE id = ?', existing[0].id);
+      }
+
       const [insertResult] = await conn.query(
         'INSERT INTO users (email, email_blind_index, password) VALUES (AES_ENCRYPT(?, ?), ?, ?);',
         [email, env.DB_ENCRYPT_SECRET, index, hashedPassword]
       );
       const userId = insertResult.insertId;
-      mailService.confirmAddressSendToken(email, userId);
-
       conn.commit();
+
+      mailService.confirmAddressSendToken(email, userId);
     } catch (error) {
       if (conn) await conn.rollback();
       throw error;
