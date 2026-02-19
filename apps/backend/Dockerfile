@@ -9,7 +9,7 @@ COPY package*.json ./
 COPY apps/backend/package.json apps/backend/package.json
 COPY packages/shared/package.json packages/shared/package.json
 
-RUN npm ci
+RUN npm ci --omit=dev
 
 COPY apps/backend apps/backend
 COPY packages/shared packages/shared
