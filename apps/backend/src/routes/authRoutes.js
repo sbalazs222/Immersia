@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import { Login, Logout, Refresh, Register, VerifyEmail } from '../controllers/authController.js';
+import { Login, Logout, Refresh, Register } from '../controllers/authController.js';
 import { authenticateToken, validateRegisterSchema } from '../middlewares/index.js';
 import { validateRequiredFields } from 'psgutil';
+import { VerifyEmail } from '../controllers/mailController.js';
 
 const AuthRouter = Router();
 

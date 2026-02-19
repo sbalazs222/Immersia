@@ -1,7 +1,6 @@
 import { env } from '../config/config.js';
 import { generateAccessToken, generateRefreshToken } from '../utils/jwt.js';
 import { authService } from '../services/index.js';
-import { mailService } from '../services/index.js';
 
 const COOKIE_OPTIONS = {
   httpOnly: true,
@@ -85,17 +84,7 @@ export async function Register(req, res, next) {
     next(error);
   }
 }
-/**
- * Confirms the validity of the user's current access token.
- * @description
- * If the request reaches this function, the token is valid.
- * @returns {import('express').Response} 200 JSON indicating the user is verified.
- */
-export async function VerifyEmail(req, res) {
-  const token = req.query.token;
-  await mailService.confirmAddressReceiveToken(token);
-  return res.status(200).json({ message: 'Successful verification.' });
-}
+
 /**
  * Issues a new access token using a valid refresh token.
  * @description
