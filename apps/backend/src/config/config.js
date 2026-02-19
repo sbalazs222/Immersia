@@ -8,6 +8,8 @@ const EnvSchema = z.object({
   DB_HOST: z.coerce.string().default('localhost'),
   DB_USER: z.coerce.string().default('root'),
   DB_PASSWORD: z.coerce.string().default(''),
+  DB_ENCRYPT_SECRET: z.coerce.string().default('your-encryption-secret-here'),
+  DB_HASH_PEPPER: z.coerce.string().default('your-hash-pepper-here'),
   ACCESS_TOKEN_SECRET: z.coerce.string().default('your-access-token-secret-here'),
   REFRESH_TOKEN_SECRET: z.coerce.string().default('your-refresh-token-secret-here'),
   FRONTEND_URL: z.coerce.string().default('http://localhost:3000'),
