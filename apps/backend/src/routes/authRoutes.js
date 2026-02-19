@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { Login, Logout, Refresh, Register } from '../controllers/authController.js';
 import { authenticateToken, validateRegisterSchema } from '../middlewares/index.js';
 import { validateRequiredFields } from 'psgutil';
-import { VerifyEmail } from '../controllers/mailController.js';
 
 const AuthRouter = Router();
 
@@ -11,5 +10,4 @@ AuthRouter.post('/register', validateRequiredFields(['email', 'password']), vali
 AuthRouter.post('/refresh', Refresh);
 AuthRouter.post('/logout', authenticateToken, Logout);
 
-AuthRouter.get('/verify-address', VerifyEmail);
 export default AuthRouter;

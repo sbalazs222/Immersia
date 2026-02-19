@@ -8,6 +8,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import AuthRouter from './routes/authRoutes.js';
 import ContentRouter from './routes/contentRoutes.js';
 import UploadRouter from './routes/uploadRoutes.js';
+import MailRouter from './routes/mailRoutes.js';
 import { CheckHealth } from './controllers/healthController.js';
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use('/auth', AuthRouter);
 app.use('/content', ContentRouter);
 app.use('/upload', UploadRouter);
+app.use('/mail', MailRouter);
 
 app.use('/health', CheckHealth);
 

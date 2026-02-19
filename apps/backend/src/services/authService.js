@@ -39,13 +39,14 @@ export const authService = {
 
   async loginUser(email, password) {
     const [users] = await pool.query(
-      'SELECT id, AES_DECRYPT(email, ?) as email, role, password, is_active, token_version FROM users WHERE email_blind_index = ?',
+      'SELECT id, AES_DECRYPT(email, ?) as email, role, password, is_active, is_verified, token_version FROM users WHERE email_blind_index = ?',
       [env.DB_ENCRYPT_SECRET, getBlindIndex(email)]
     );
     const user = users[0];
 
     if (!user || !(await argon2.verify(user.password, password))) throw new ApiError(401, 'INVALID_CREDENTIALS');
     if (!user.is_active) throw new ApiError(403, 'ACCOUNT_DISABLED');
+    if (!user.is_verified) throw new ApiError(403, 'ACCOUNT_NOT_VERIFIED');
 
     tokenVersions[user.id] ??= 1;
     return { user, tokenVersion: user.tokenVersion };
