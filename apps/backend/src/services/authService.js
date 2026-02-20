@@ -1,7 +1,9 @@
 import pool from '../config/mysql.js';
 import argon2 from 'argon2';
+import { env } from '../config/config.js';
 import { ApiError } from '../utils/apiError.js';
 import { verifyRefreshToken } from '../utils/jwt.js';
+import getBlindIndex from '../utils/emailBlindIndex.js';
 
 const tokenVersions = Object.create(null);
 
@@ -9,14 +11,21 @@ export const authService = {
   async registerUser(email, password) {
     const conn = await pool.getConnection();
 
+    const index = getBlindIndex(email);
+
     try {
       await conn.beginTransaction();
 
-      const [existing] = await conn.query('SELECT id FROM users WHERE email = ?', [email]);
+      const [existing] = await conn.query('SELECT id FROM users WHERE email_blind_index = ?', [index]);
       if (existing.length > 0) throw new ApiError(409, 'USER_EXISTS');
 
       const hashedPassword = await argon2.hash(password);
-      await conn.query('INSERT INTO users (email, password) VALUES (?, ?);', [email, hashedPassword]);
+      await conn.query('INSERT INTO users (email, email_blind_index, password) VALUES (AES_ENCRYPT(?, ?), ?, ?);', [
+        email,
+        env.DB_ENCRYPT_SECRET,
+        index,
+        hashedPassword,
+      ]);
 
       conn.commit();
     } catch (error) {
@@ -28,9 +37,10 @@ export const authService = {
   },
 
   async loginUser(email, password) {
-    const [users] = await pool.query('SELECT id, email, role, password, is_active, token_version FROM users WHERE email = ?', [
-      email,
-    ]);
+    const [users] = await pool.query(
+      'SELECT id, AES_DECRYPT(email, ?) as email, role, password, is_active, token_version FROM users WHERE email_blind_index = ?',
+      [env.DB_ENCRYPT_SECRET, getBlindIndex(email)]
+    );
     const user = users[0];
 
     if (!user || !(await argon2.verify(user.password, password))) throw new ApiError(401, 'INVALID_CREDENTIALS');
