@@ -118,3 +118,14 @@ body {
   padding: 20px;
   overflow-y: auto;
 }
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.form-control:focus {
+  border-color: #9CA3AF;
+  box-shadow: 0 0 0 0.2rem rgba(156, 163, 175, 0.25);
+}

@@ -43,22 +43,26 @@ export default function Register() {
     }
     return (
         <>
-            <h1>Register Page</h1>
+            <div className='soundboard-dsgn d-flex align-items-center justify-content-center'>
+            <div className='soundboard-section p-5' style={{ maxWidth: '450px', flex: 'none' }}>
+            <h2 className="mb-4 fw-bold">Register</h2>
             <Form onSubmit={handleSubmit}>
-                <Form.Group controlId='formEmail'>
+                <Form.Group className='mb-3' controlId='formEmail'>
                     <Form.Label>Email</Form.Label>
-                    <Form.Control type='email' name='email' required />
+                    <Form.Control type='email' name='email' placeholder='Email' required />
                 </Form.Group>
-                <Form.Group controlId='formPassword'>
+                <Form.Group className='mb-3' controlId='formPassword'>
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type='password' name='password' required />
+                    <Form.Control type='password' name='password' placeholder='Password' required />
                 </Form.Group>
-                <Form.Group controlId='formConfirmPassword'>
+                <Form.Group className='mb-4' controlId='formConfirmPassword'>
                     <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control type='password' name='confirmPassword' required />
+                    <Form.Control type='password' name='confirmPassword' placeholder='Confirm Password' required />
                 </Form.Group>
-                <Button type='submit'>Register</Button>
+                <Button type='submit' variant='dark' className='w-100' style={{backgroundColor: '#333333', border: 'none', padding: '10px'}}>Register</Button>
             </Form>
+            </div>
+            </div>
         </>
     )
 }

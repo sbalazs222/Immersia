@@ -1,7 +1,9 @@
 import { toast } from 'react-toastify'
 import { Form, Button } from 'react-bootstrap'
+import '../styles/App.css'
 
-export default function Login({setIsLoggedIn, setIsAdmin}) {
+
+export default function Login({ setIsLoggedIn, setIsAdmin }) {
     async function handleSubmit(event) {
         event.preventDefault()
 
@@ -46,22 +48,25 @@ export default function Login({setIsLoggedIn, setIsAdmin}) {
     }
     return (
         <>
-            <h1>Login Page</h1>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group controlId='formEmail'>
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type='email' name='email' required/>
-                </Form.Group>
-                <Form.Group controlId='formPassword'>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type='password' name='password' required/>
-                </Form.Group>
-                <Button type='submit'>Login</Button>
-            </Form>
-
+            <div className='soundboard-dsgn d-flex align-items-center justify-content-center'>
+                <div className='soundboard-section p-5' style={{ maxWidth: '450px', flex: 'none' }}>
+                    <h2 className="mb-4 fw-bold">Login</h2>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className='mb-3' controlId='formEmail'>
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type='email' name='email' placeholder='Email' required />
+                        </Form.Group>
+                        <Form.Group className='mb-4' controlId='formPassword'>
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type='password' name='password' placeholder='Password' required />
+                        </Form.Group>
+                        <Button type='submit' variant='secondary' className='w-100 mb-3' style={{ backgroundColor: '#9CA3AF', border: 'none' }}>Login</Button>
+                    </Form>
+                </div>
+            </div>
             {/* For testing purposes, remove this in production */}
-            {import.meta.env.DEV == true ? <Button onClick={() => {setIsLoggedIn(true); setIsAdmin(true);}}>Login as Admin (for testing)</Button> : null}
-            
+            {import.meta.env.DEV == true ? <Button onClick={() => { setIsLoggedIn(true); setIsAdmin(true); }}>Login as Admin (for testing)</Button> : null}
+
         </>
     )
 }

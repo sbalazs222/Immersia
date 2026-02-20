@@ -1,5 +1,5 @@
-import './styles/App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './styles/App.css'
 
 import { ToastContainer, toast } from 'react-toastify'
 import { useState } from 'react'
