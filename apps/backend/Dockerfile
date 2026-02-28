@@ -15,6 +15,5 @@ COPY apps/backend apps/backend
 COPY packages/shared packages/shared
 
 WORKDIR /app/apps/backend
-USER 1000:1000
 
 ENTRYPOINT ["/entrypoint.sh"]

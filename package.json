@@ -9,8 +9,7 @@
   "scripts": {
     "dev": "concurrently -n \"web,api\" -c \"cyan,magenta\" \"npm run dev -w apps/web\" \"npm run dev -w apps/backend\"",
     "lint": "eslint .",
-    "fix": "eslint . --fix",
-    "start": "node ."
+    "fix": "eslint . --fix"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
