@@ -54,7 +54,7 @@ services:
       - shared-proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.immersia-frontend.rule=Host(`immersia.techtrove.ddns.net`)"
+      - "traefik.http.routers.immersia-frontend.rule=Host(`immersia.techtrove.cc`)"
       - "traefik.http.routers.immersia-frontend.entrypoints=websecure"
       - "traefik.http.routers.immersia-frontend.tls.certresolver=letsencrypt"
       - "traefik.http.routers.immersia-frontend.tls=true"
