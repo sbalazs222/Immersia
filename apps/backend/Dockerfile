@@ -14,8 +14,6 @@ RUN npm ci --omit=dev
 COPY apps/backend apps/backend
 COPY packages/shared packages/shared
 
-COPY apps/backend/.env apps/backend/.env
-
 WORKDIR /app/apps/backend
 USER 1000:1000
 
