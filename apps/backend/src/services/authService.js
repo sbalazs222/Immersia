@@ -4,30 +4,35 @@ import { env } from '../config/config.js';
 import { ApiError } from '../utils/apiError.js';
 import { verifyRefreshToken } from '../utils/jwt.js';
 import getBlindIndex from '../utils/emailBlindIndex.js';
+import { mailService } from './mailService.js';
 
 const tokenVersions = Object.create(null);
 
 export const authService = {
   async registerUser(email, password) {
     const conn = await pool.getConnection();
-
     const index = getBlindIndex(email);
+
+    const hashedPassword = await argon2.hash(password);
 
     try {
       await conn.beginTransaction();
 
-      const [existing] = await conn.query('SELECT id FROM users WHERE email_blind_index = ?', [index]);
-      if (existing.length > 0) throw new ApiError(409, 'USER_EXISTS');
+      const [existing] = await conn.query('SELECT id, is_verified FROM users WHERE email_blind_index = ?', [index]);
+      if (existing.length > 0) {
+        if (existing[0].is_verified) throw new ApiError(409, 'USER_EXISTS');
 
-      const hashedPassword = await argon2.hash(password);
-      await conn.query('INSERT INTO users (email, email_blind_index, password) VALUES (AES_ENCRYPT(?, ?), ?, ?);', [
-        email,
-        env.DB_ENCRYPT_SECRET,
-        index,
-        hashedPassword,
-      ]);
+        await conn.query('DELETE FROM users WHERE id = ?', existing[0].id);
+      }
 
+      const [insertResult] = await conn.query(
+        'INSERT INTO users (email, email_blind_index, password) VALUES (AES_ENCRYPT(?, ?), ?, ?);',
+        [email, env.DB_ENCRYPT_SECRET, index, hashedPassword]
+      );
+      const userId = insertResult.insertId;
       conn.commit();
+
+      mailService.confirmAddressSendToken(email, userId);
     } catch (error) {
       if (conn) await conn.rollback();
       throw error;
@@ -38,13 +43,14 @@ export const authService = {
 
   async loginUser(email, password) {
     const [users] = await pool.query(
-      'SELECT id, AES_DECRYPT(email, ?) as email, role, password, is_active, token_version FROM users WHERE email_blind_index = ?',
+      'SELECT id, AES_DECRYPT(email, ?) as email, role, password, is_active, is_verified, token_version FROM users WHERE email_blind_index = ?',
       [env.DB_ENCRYPT_SECRET, getBlindIndex(email)]
     );
     const user = users[0];
 
     if (!user || !(await argon2.verify(user.password, password))) throw new ApiError(401, 'INVALID_CREDENTIALS');
     if (!user.is_active) throw new ApiError(403, 'ACCOUNT_DISABLED');
+    if (!user.is_verified) throw new ApiError(403, 'ACCOUNT_NOT_VERIFIED');
 
     tokenVersions[user.id] ??= 1;
     return { user, tokenVersion: user.tokenVersion };

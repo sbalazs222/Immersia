@@ -84,15 +84,7 @@ export async function Register(req, res, next) {
     next(error);
   }
 }
-/**
- * Confirms the validity of the user's current access token.
- * @description
- * If the request reaches this function, the token is valid.
- * @returns {import('express').Response} 200 JSON indicating the user is verified.
- */
-export function Verify(_, res) {
-  return res.status(200).json({ message: 'Successful verification.' });
-}
+
 /**
  * Issues a new access token using a valid refresh token.
  * @description
