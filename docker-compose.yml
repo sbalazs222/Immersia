@@ -31,7 +31,7 @@ services:
 
       - "traefik.http.routers.immersia-backend.rule=Host(`api.immersia.techtrove.cc`)"
       - "traefik.http.routers.immersia-backend.entrypoints=websecure"
-      - "traefik.http.routers.immersia-backend.ts.certresolver=letsencrypt"
+      - "traefik.http.routers.immersia-backend.tls.certresolver=letsencrypt"
       - "traefik.http.routers.immersia-backend.tls=true"
 
       - "traefik.http.services.immersia-backend.loadbalancer.server.port=${PORT}"
