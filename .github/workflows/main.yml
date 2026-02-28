@@ -1,0 +1,14 @@
+name: Autodeploy
+
+on:
+  push:
+    branches: 
+      - autodeploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Trigger Portainer Webhook
+        run: |
+          curl -X POST "${{secrets.PORTAINER_WEBHOOK_URL}}"
