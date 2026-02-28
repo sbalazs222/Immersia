@@ -1,29 +1,47 @@
 services: 
   backend:
+    restart: unless-stopped
     user: root
     build:
       context: .
       dockerfile: apps/backend/Dockerfile
-    env_file:
-      - apps/backend/.env
-    environment:
-      - NODE_ENV: ${NODE_ENV}
-      - DB_NAME: ${DB_NAME}
-      - DB_HOST: ${DB_HOST}
-      - DB_USER: ${DB_USER}
-      - DB_PASSWORD: ${DB_PASSWORD}
-      - ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET}
-      - REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
-      - DB_ENCRYPT_SECRET: ${DB_ENCRYPT_SECRET}
-      - DB_HASH_PEPPER: ${DB_HASH_PEPPER}
-      - FRONTEND_URL: ${FRONTEND_URL}
-      - MAIL_HOST: ${MAIL_HOST}
-      - MAIL_PORT: ${MAIL_PORT}
-      - MAIL_USER: ${MAIL_USER}
-      - MAIL_PASS: ${MAIL_PASS}
-    restart: unless-stopped
+      
     volumes:
       - data:/data
+
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
+      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+      DB_ENCRYPT_SECRET: ${DB_ENCRYPT_SECRET}
+      DB_HASH_PEPPER: ${DB_HASH_PEPPER}
+      FRONTEND_URL: ${FRONTEND_URL}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USER: ${MAIL_USER}
+      MAIL_PASS: ${MAIL_PASS}
+
+    labels:
+      - "traefik.enable=true"
+
+      - "traefik.http.routers.immersia-backend.rule=Host(`api.immersia.techtrove.cc`)"
+      - "traefik.http.routers.immersia-backend.entrypoints=websecure"
+      - "traefik.http.routers.immersia-backend.ts.certresolver=letsencrypt"
+      - "traefik.http.routers.immersia-backend.tls=true"
+
+      - "traefik.http.services.immersia-backend.loadbalancer.server.port=${PORT}"
+
+      - "traefik.docker.network=shared-proxy"
+
+    networks:
+      - shared-proxy
+      - shared-db
+
    
   nginx:
     image: nginx:alpine
@@ -36,3 +54,9 @@ services:
 
 volumes:
   data:
+
+networks:
+  shared-proxy:
+    external: true
+  shared-db:
+    external: true
