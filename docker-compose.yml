@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: apps/backend/Dockerfile
-      
+
     volumes:
       - data:/data
 
@@ -43,13 +43,23 @@ services:
       - shared-db
 
    
-  nginx:
-    image: nginx:alpine
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    restart: unless-stopped
+    networks:
+      - shared-proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.immersia-frontend.rule=Host(`immersia.techtrove.ddns.net`)"
+      - "traefik.http.routers.immersia-frontend.entrypoints=websecure"
+      - "traefik.http.routers.immersia-frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.immersia-frontend.tls=true"
+      - "traefik.http.services.immersia-frontend.loadbalancer.server.port=80"
+      - "traefik.docker.network=shared-proxy"
     volumes:
       - data:/data:ro
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    ports: 
-      - 80:80
 
 
 volumes:
