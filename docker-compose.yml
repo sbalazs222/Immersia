@@ -37,7 +37,7 @@ services:
       - "traefik.http.middlewares.strip-api.stripprefix.prefixes=/api"
       - "traefik.http.routers.immersia-backend.middlewares=strip-api"
 
-      - "traefik.http.services.immersia-backend.loadbalancer.server.port=${HOSTNAME}"
+      - "traefik.http.services.immersia-backend.loadbalancer.server.port=${PORT}"
 
       - "traefik.docker.network=shared-proxy"
 
@@ -57,7 +57,7 @@ services:
       - shared-proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.immersia-frontend.rule=Host(`${FRONTEND_HOSTNAME}`)"
+      - "traefik.http.routers.immersia-frontend.rule=Host(`${HOSTNAME}`)"
       - "traefik.http.routers.immersia-frontend.entrypoints=websecure"
       - "traefik.http.routers.immersia-frontend.tls.certresolver=letsencrypt"
       - "traefik.http.routers.immersia-frontend.tls=true"
