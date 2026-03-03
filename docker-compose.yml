@@ -29,7 +29,7 @@ services:
     labels:
       - "traefik.enable=true"
 
-      - "traefik.http.routers.immersia-backend.rule=Host(`${BACKEND_HOSTNAME}` && PathPrefix(`/api`))"
+      - "traefik.http.routers.immersia-backend.rule=Host(`${HOSTNAME}` && PathPrefix(`/api`))"
       - "traefik.http.routers.immersia-backend.entrypoints=websecure"
       - "traefik.http.routers.immersia-backend.tls.certresolver=letsencrypt"
       - "traefik.http.routers.immersia-backend.tls=true"
@@ -37,7 +37,7 @@ services:
       - "traefik.http.middlewares.strip-api.stripprefix.prefixes=/api"
       - "traefik.http.routers.immersia-backend.middlewares=strip-api"
 
-      - "traefik.http.services.immersia-backend.loadbalancer.server.port=${PORT}"
+      - "traefik.http.services.immersia-backend.loadbalancer.server.port=${HOSTNAME}"
 
       - "traefik.docker.network=shared-proxy"
 
