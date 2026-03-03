@@ -29,10 +29,13 @@ services:
     labels:
       - "traefik.enable=true"
 
-      - "traefik.http.routers.immersia-backend.rule=Host(`api.immersia.techtrove.cc`)"
+      - "traefik.http.routers.immersia-backend.rule=Host(`${BACKEND_HOSTNAME}` && PathPrefix(`/api`))"
       - "traefik.http.routers.immersia-backend.entrypoints=websecure"
       - "traefik.http.routers.immersia-backend.tls.certresolver=letsencrypt"
       - "traefik.http.routers.immersia-backend.tls=true"
+
+      - "traefik.http.middlewares.strip-api.stripprefix.prefixes=/api"
+      - "traefik.http.routers.immersia-backend.middlewares=strip-api"
 
       - "traefik.http.services.immersia-backend.loadbalancer.server.port=${PORT}"
 
@@ -54,7 +57,7 @@ services:
       - shared-proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.immersia-frontend.rule=Host(`immersia.techtrove.cc`)"
+      - "traefik.http.routers.immersia-frontend.rule=Host(`${FRONTEND_HOSTNAME}`)"
       - "traefik.http.routers.immersia-frontend.entrypoints=websecure"
       - "traefik.http.routers.immersia-frontend.tls.certresolver=letsencrypt"
       - "traefik.http.routers.immersia-frontend.tls=true"
