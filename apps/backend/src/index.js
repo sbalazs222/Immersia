@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { env } from './config/config.js';
 import { colorLog } from 'psgutil';
-import { errorHandler } from './middlewares/errorHandler.js';
+import { ErrorHandler } from './middlewares/index.js';
 
 import { AuthRouter, ContentRouter, UploadRouter, MailRouter } from './routers/index.js';
 import { CheckHealth } from './controllers/healthController.js';
@@ -26,7 +26,7 @@ app.use('/mail', MailRouter);
 
 app.use('/health', CheckHealth);
 
-app.use(errorHandler);
+app.use(ErrorHandler);
 
 app.listen(env.PORT, () => {
   console.log(`Backend running on http://localhost:${env.PORT}`);
