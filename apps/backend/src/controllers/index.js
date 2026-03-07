@@ -1,7 +1,6 @@
 import Login from './auth/Login.js';
 import Logout from './auth/Logout.js';
 import Register from './auth/Register.js';
-import Refresh from './auth/Refresh.js';
 
 import GetAll from './content/GetAll.js';
 import GetSound from './content/GetSound.js';
@@ -15,7 +14,7 @@ import ConfirmEmailResend from './mail/ConfirmEmailResend.js';
 
 import CheckHealth from './health/CheckHealth.js';
 
-export const AuthControllers = { Login, Logout, Register, Refresh };
+export const AuthControllers = { Login, Logout, Register };
 export const ContentControllers = { GetAll, GetSound, GetThumbnail, GetSoundData };
 export const UploadControllers = { UploadSingle, UploadArchive };
 export const MailControllers = { ConfirmEmailReceive, ConfirmEmailResend };

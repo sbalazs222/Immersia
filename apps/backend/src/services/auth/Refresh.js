@@ -9,6 +9,7 @@ async function Refresh(refreshToken) {
 
   const [users] = await pool.query('SELECT token_version FROM users WHERE id = ?', [decoded.id]);
   const user = users[0];
+
   if (!user || decoded.tv !== user.token_version) throw new ApiError(401, 'REFRESH_TOKEN_REVOKED');
 
   return decoded;

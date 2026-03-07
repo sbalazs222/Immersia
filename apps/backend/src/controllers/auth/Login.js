@@ -10,12 +10,10 @@ export default async function Login(req, res, next) {
 
     const accessToken = generateAccessToken({
       id: user.id,
-      user: user.email,
       role: user.role,
     });
     const refreshToken = generateRefreshToken({
       id: user.id,
-      user: user.email,
       role: user.role,
       tv: tokenVersion,
     });

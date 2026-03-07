@@ -1,17 +1,37 @@
-import { verifyAccessToken } from '../utils/jwt.js';
+import { verifyAccessToken, generateAccessToken } from '../utils/jwt.js';
+import { AuthService } from '../services/index.js';
+import COOKIE_CONFIG from '../config/CookieConfig.js';
 
-export default function AuthenticateToken(req, res, next) {
+export default async function AuthenticateToken(req, res, next) {
   const accessToken = req.cookies.accessToken;
+  const refreshToken = req.cookies.refreshToken;
 
-  if (!accessToken) {
-    return res.status(401).json({ message: 'NO_TOKEN' });
+  if (accessToken) {
+    const decoded = verifyAccessToken(accessToken);
+    if (decoded) {
+      req.user = decoded;
+      return next();
+    }
   }
-  const decoded = verifyAccessToken(accessToken);
 
-  if (!decoded) {
-    return res.status(401).json({ message: 'INVALID_TOKEN' });
+  if (refreshToken) {
+    try {
+      const decoded = await AuthService.Refresh(refreshToken);
+      const newAccessToken = generateAccessToken({
+        id: decoded.id,
+        user: decoded.email,
+        role: decoded.role,
+      });
+      res.cookie('accessToken', newAccessToken, {
+        ...COOKIE_CONFIG,
+        maxAge: 15 * 60 * 1000,
+      });
+      req.user = { id: decoded.id, user: decoded.email, role: decoded.role };
+      return next();
+    } catch {
+      return res.status(401).json({ message: 'INVALID_REFRESH_TOKEN' });
+    }
   }
 
-  req.user = decoded;
-  next();
+  return res.status(401).json({ message: 'NO_TOKEN' });
 }
