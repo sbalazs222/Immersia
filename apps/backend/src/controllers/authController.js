@@ -1,8 +1,8 @@
 import { env } from '../config/config.js';
 import { generateAccessToken, generateRefreshToken } from '../utils/jwt.js';
-import { authService } from '../services/index.js';
+import { AuthService } from '../services/index.js';
 
-const COOKIE_OPTIONS = {
+export const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: env.NODE_ENV === 'production',
   sameSite: 'lax',
@@ -30,7 +30,7 @@ export async function Login(req, res, next) {
   try {
     const { email, password } = req.body;
 
-    const { user, tokenVersion } = await authService.loginUser(email, password);
+    const { user, tokenVersion } = await AuthService.Login(email, password);
 
     const accessToken = generateAccessToken({
       id: user.id,
@@ -78,7 +78,7 @@ export async function Register(req, res, next) {
   try {
     const { email, password } = req.body;
 
-    await authService.registerUser(email, password);
+    await AuthService.Register(email, password);
     return res.status(201).json({ message: 'SUCCESS' });
   } catch (error) {
     next(error);
@@ -99,7 +99,7 @@ export async function Register(req, res, next) {
  */
 export async function Refresh(req, res, next) {
   try {
-    const decoded = await authService.refreshSession(req.cookies.refreshToken);
+    const decoded = await AuthService.Refresh(req.cookies.refreshToken);
 
     const accessToken = generateAccessToken({
       id: decoded.id,
@@ -130,7 +130,7 @@ export async function Refresh(req, res, next) {
  */
 export async function Logout(req, res, next) {
   try {
-    await authService.logoutUser(req.user.id);
+    await AuthService.Logout(req.user.id);
 
     res.clearCookie('accessToken');
     res.clearCookie('refreshToken');

@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import { Login, Logout, Refresh, Register } from '../controllers/authController.js';
-import { authenticateToken, validateRegisterSchema } from '../middlewares/index.js';
-import { validateRequiredFields } from 'psgutil';
+import { AuthControllers } from '../controllers/index.js';
+import { AuthenticateToken, ValidateRegisterSchema, ValidateRequiredFields } from '../middlewares/index.js';
 
 const AuthRouter = Router();
 
-AuthRouter.post('/login', validateRequiredFields(['email', 'password']), Login);
-AuthRouter.post('/register', validateRequiredFields(['email', 'password']), validateRegisterSchema, Register);
-AuthRouter.post('/refresh', Refresh);
-AuthRouter.post('/logout', authenticateToken, Logout);
+AuthRouter.post('/login', ValidateRequiredFields(['email', 'password']), AuthControllers.Login);
+AuthRouter.post('/register', ValidateRequiredFields(['email', 'password']), ValidateRegisterSchema, AuthControllers.Register);
+AuthRouter.post('/refresh', AuthControllers.Refresh);
+AuthRouter.post('/logout', AuthenticateToken, AuthControllers.Logout);
 
 export default AuthRouter;
