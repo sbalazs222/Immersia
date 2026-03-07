@@ -28,7 +28,7 @@ export const contentService = {
     };
   },
   async getSoundBySlug(slug) {
-    const [rows] = await pool.query('SELECT * FROM sounds WHERE slug LIKE ?', [slug]);
+    const [rows] = await pool.query('SELECT slug, title, duration_seconds, loopable, type FROM sounds WHERE slug LIKE ?', [slug]);
     if (rows.length === 0) throw new ApiError(404, 'SOUND_NOT_FOUND');
     return rows[0];
   },

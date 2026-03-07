@@ -1,7 +1,6 @@
-/* eslint-disable prettier/prettier */
-import { ApiError } from "../utils/apiError.js";
+import { ApiError } from '../utils/apiError.js';
 
-import { validateEmail, validatePassword } from "../validation/index.js";
+import { validateEmail, validatePassword } from '../validation/index.js';
 
 export default function validateRegisterSchema(req, res, next) {
   try {

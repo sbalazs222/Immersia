@@ -23,7 +23,7 @@ const COOKIE_OPTIONS = {
  * * @param {import('express').Request} req - Express request object containing `email` and `password` in `req.body`.
  * @param {import('express').Response} res - Express response object used to set cookies and return status.
  * @param {import('express').NextFunction} next - Express next function for error handling.
- * * @returns {Promise<void>} Returns a 200 JSON response on success, or 401/403 on authentication failure.
+ * * @returns {Promise<void>} Returns a 200 JSON response on success, or 401 on authentication failure.
  * * @throws {Error} Passes any database or internal server errors to the `next` middleware.
  */
 export async function Login(req, res, next) {
@@ -53,7 +53,7 @@ export async function Login(req, res, next) {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    return res.status(200).json({ message: 'Successful login.' });
+    return res.status(200).json({ message: 'SUCCESS', data: { role: user.role } });
   } catch (error) {
     next(error);
   }
@@ -79,7 +79,7 @@ export async function Register(req, res, next) {
     const { email, password } = req.body;
 
     await authService.registerUser(email, password);
-    return res.status(201).json({ message: 'Successful registration.' });
+    return res.status(201).json({ message: 'SUCCESS' });
   } catch (error) {
     next(error);
   }
@@ -112,11 +112,12 @@ export async function Refresh(req, res, next) {
       maxAge: 15 * 60 * 1000, // 15 minutes
     });
 
-    return res.status(200).json({ message: 'Successful refresh' });
+    return res.status(200).json({ message: 'SUCCESS' });
   } catch (error) {
     next(error);
   }
 }
+
 /**
  * Terminates the user session and invalidates all active refresh tokens.
  * @description
@@ -134,7 +135,7 @@ export async function Logout(req, res, next) {
     res.clearCookie('accessToken');
     res.clearCookie('refreshToken');
 
-    return res.status(200).json({ message: 'Successful logout' });
+    return res.status(200).json({ message: 'SUCCESS' });
   } catch (error) {
     next(error);
   }

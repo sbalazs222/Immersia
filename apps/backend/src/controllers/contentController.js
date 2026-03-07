@@ -16,7 +16,7 @@ export async function ServeData(req, res, next) {
       parseInt(req.query.limit) || 10
     );
 
-    return res.status(200).json(result);
+    return res.status(200).json({ message: 'SUCCESS', data: result.rows, pagination: result.pagination });
   } catch (error) {
     next(error);
   }
@@ -33,7 +33,7 @@ export async function GetSoundData(req, res, next) {
   try {
     const result = await contentService.getSoundBySlug(req.params.slug);
 
-    return res.status(200).json(result);
+    return res.status(200).json({ message: 'SUCCESS', data: result });
   } catch (error) {
     next(error);
   }

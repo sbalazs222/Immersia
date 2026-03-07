@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { uploadMass, uploadSingle } from '../config/multerStorage.js';
 import { HandleMassUpload, HandleUpload } from '../controllers/uploadController.js';
 import { validateRequiredFields } from 'psgutil';
-import { uploadLimiter } from '../middlewares/rateLimiter.js';
+import { uploadLimiter } from '../middlewares/uploadLimiter.js';
 
 const UploadRouter = Router();
 
