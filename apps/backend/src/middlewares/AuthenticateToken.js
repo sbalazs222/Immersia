@@ -1,6 +1,6 @@
 import { verifyAccessToken } from '../utils/jwt.js';
 
-export function authenticateToken(req, res, next) {
+export default function AuthenticateToken(req, res, next) {
   const accessToken = req.cookies.accessToken;
 
   if (!accessToken) {
