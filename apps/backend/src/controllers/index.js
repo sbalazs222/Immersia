@@ -8,7 +8,10 @@ import GetSound from './content/GetSound.js';
 import GetThumbnail from './content/GetThumb.js';
 import GetSoundData from './content/GetSoundData.js';
 
+import UploadSingle from './upload/UploadSingle.js';
+import UploadArchive from './upload/UploadArchive.js';
+
 export const AuthControllers = { Login, Logout, Register, Refresh };
 export const ContentControllers = { GetAll, GetSound, GetThumbnail, GetSoundData };
-export const UploadControllers = {};
+export const UploadControllers = { UploadSingle, UploadArchive };
 export const MailControllers = {};

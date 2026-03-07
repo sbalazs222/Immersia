@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { uploadMass, uploadSingle } from '../config/multerStorage.js';
-import { HandleMassUpload, HandleUpload } from '../controllers/uploadController.js';
 import { ValidateRequiredFields, UploadLimiter } from '../middlewares/index.js';
+import { UploadControllers } from '../controllers/index.js';
 
 const UploadRouter = Router();
 
@@ -13,9 +13,9 @@ UploadRouter.post(
     { name: 'ImageFile', maxCount: 1 },
   ]),
   ValidateRequiredFields(['Title', 'Type']),
-  HandleUpload
+  UploadControllers.UploadSingle
 );
 
-UploadRouter.post('/newarchive', UploadLimiter, uploadMass.single('Archive'), HandleMassUpload);
+UploadRouter.post('/newarchive', UploadLimiter, uploadMass.single('Archive'), UploadControllers.UploadArchive);
 
 export default UploadRouter;

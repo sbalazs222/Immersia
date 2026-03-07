@@ -6,9 +6,12 @@ import Logout from './auth/Logout.js';
 import GetSoundBySlug from './content/GetSoundBySlug.js';
 import GetSoundsByCategory from './content/GetSoundsByCategory.js';
 
-import { uploadService } from './uploadService.js';
+import UploadSingle from './upload/UploadSingle.js';
+import UploadArchive from './upload/UploadArchive.js';
+
 import { mailService } from './mailService.js';
 
-export { uploadService, mailService };
+export { mailService };
 export const AuthService = { Register, Login, Refresh, Logout };
 export const ContentService = { GetSoundBySlug, GetSoundsByCategory };
+export const UploadService = { UploadSingle, UploadArchive };
