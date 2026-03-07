@@ -1,7 +1,7 @@
-import pool from '../config/mysql.js';
+import pool from '../../config/mysql.js';
 import fs from 'fs/promises';
 
-export async function CheckHealth(req, res) {
+export default async function CheckHealth(req, res) {
   const status = {
     uptime: process.uptime(),
     message: 'OK',

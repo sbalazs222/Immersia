@@ -3,13 +3,9 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { env } from './config/config.js';
 import { colorLog } from 'psgutil';
-import { errorHandler } from './middlewares/errorHandler.js';
+import { ErrorHandler } from './middlewares/index.js';
 
-import AuthRouter from './routes/authRoutes.js';
-import ContentRouter from './routes/contentRoutes.js';
-import UploadRouter from './routes/uploadRoutes.js';
-import MailRouter from './routes/mailRoutes.js';
-import { CheckHealth } from './controllers/healthController.js';
+import { AuthRouter, ContentRouter, UploadRouter, MailRouter, HealthRouter } from './routers/index.js';
 
 const app = express();
 const corsOptions = {
@@ -27,9 +23,9 @@ app.use('/content', ContentRouter);
 app.use('/upload', UploadRouter);
 app.use('/mail', MailRouter);
 
-app.use('/health', CheckHealth);
+app.use('/health', HealthRouter);
 
-app.use(errorHandler);
+app.use(ErrorHandler);
 
 app.listen(env.PORT, () => {
   console.log(`Backend running on http://localhost:${env.PORT}`);

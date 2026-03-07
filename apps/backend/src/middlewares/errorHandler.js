@@ -1,6 +1,6 @@
 import { ConsoleColor as cc } from 'psgutil';
 
-export const errorHandler = (err, req, res, next) => {
+const ErrorHandler = (err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || 'Internal Server Error';
 
@@ -14,3 +14,5 @@ export const errorHandler = (err, req, res, next) => {
     message: message,
   });
 };
+
+export default ErrorHandler;

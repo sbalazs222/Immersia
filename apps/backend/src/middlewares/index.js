@@ -1,4 +1,7 @@
-import validateRegisterSchema from './validateRegisterSchema.js';
-import { authenticateToken } from './authentication.js';
+import ValidateRegisterSchema from './validation/validateRegisterSchema.js';
+import ValidateRequiredFields from './validation/ValidateRequiredFields.js';
+import AuthenticateToken from './AuthenticateToken.js';
+import UploadLimiter from './UploadLimiter.js';
+import ErrorHandler from './ErrorHandler.js';
 
-export { validateRegisterSchema, authenticateToken };
+export { ValidateRegisterSchema, AuthenticateToken, ValidateRequiredFields, UploadLimiter, ErrorHandler };
