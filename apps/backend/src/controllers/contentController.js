@@ -1,4 +1,4 @@
-import { contentService } from '../services/index.js';
+import { ContentService } from '../services/index.js';
 
 /**
  * Handles serving data to frontend
@@ -10,7 +10,7 @@ import { contentService } from '../services/index.js';
  */
 export async function ServeData(req, res, next) {
   try {
-    const result = await contentService.getSoundsByCategory(
+    const result = await ContentService.getSoundsByCategory(
       req.query.c,
       parseInt(req.query.page) || 1,
       parseInt(req.query.limit) || 10
@@ -31,7 +31,7 @@ export async function ServeData(req, res, next) {
  */
 export async function GetSoundData(req, res, next) {
   try {
-    const result = await contentService.getSoundBySlug(req.params.slug);
+    const result = await ContentService.getSoundBySlug(req.params.slug);
 
     return res.status(200).json({ message: 'SUCCESS', data: result });
   } catch (error) {
@@ -48,7 +48,7 @@ export async function GetSoundData(req, res, next) {
  */
 export async function PlaySound(req, res, next) {
   try {
-    const result = await contentService.getSoundBySlug(req.params.slug);
+    const result = await ContentService.getSoundBySlug(req.params.slug);
 
     res.set('X-Accel-Redirect', '/internal/' + result.sound_file_path);
     res.set('Content-Type', 'audio/mpeg');
@@ -60,7 +60,7 @@ export async function PlaySound(req, res, next) {
 
 export async function GetThumbnail(req, res, next) {
   try {
-    const result = await contentService.getSoundBySlug(req.params.slug);
+    const result = await ContentService.getSoundBySlug(req.params.slug);
 
     res.set('X-Accel-Redirect', '/internal/' + result.image_file_path);
     res.set('Content-Type', 'image/jpeg');
