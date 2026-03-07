@@ -3,7 +3,7 @@ import getBlindIndex from '../../utils/emailBlindIndex.js';
 import argon2 from 'argon2';
 import { ApiError } from '../../utils/apiError.js';
 import { env } from '../../config/config.js';
-import { mailService } from '../mailService.js';
+import { MailService } from '../index.js';
 
 async function Register(email, password) {
   const conn = await pool.getConnection();
@@ -28,7 +28,7 @@ async function Register(email, password) {
     const userId = insertResult.insertId;
     conn.commit();
 
-    mailService.confirmAddressSendToken(email, userId);
+    MailService.ConfirmEmailSend(email, userId);
   } catch (error) {
     if (conn) await conn.rollback();
     throw error;

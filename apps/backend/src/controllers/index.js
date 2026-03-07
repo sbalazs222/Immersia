@@ -10,8 +10,10 @@ import GetSoundData from './content/GetSoundData.js';
 
 import UploadSingle from './upload/UploadSingle.js';
 import UploadArchive from './upload/UploadArchive.js';
+import ConfirmEmailReceive from './mail/ConfirmEmailReceive.js';
+import ConfirmEmailResend from './mail/ConfirmEmailResend.js';
 
 export const AuthControllers = { Login, Logout, Register, Refresh };
 export const ContentControllers = { GetAll, GetSound, GetThumbnail, GetSoundData };
 export const UploadControllers = { UploadSingle, UploadArchive };
-export const MailControllers = {};
+export const MailControllers = { ConfirmEmailReceive, ConfirmEmailResend };

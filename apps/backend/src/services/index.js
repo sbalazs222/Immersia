@@ -9,9 +9,11 @@ import GetSoundsByCategory from './content/GetSoundsByCategory.js';
 import UploadSingle from './upload/UploadSingle.js';
 import UploadArchive from './upload/UploadArchive.js';
 
-import { mailService } from './mailService.js';
+import ConfirmEmailReceive from './mail/ConfirmEmailReceive.js';
+import ConfirmEmailSend from './mail/ConfirmEmailSend.js';
+import ConfirmEmailResend from './mail/ConfirmEmailResend.js';
 
-export { mailService };
 export const AuthService = { Register, Login, Refresh, Logout };
 export const ContentService = { GetSoundBySlug, GetSoundsByCategory };
 export const UploadService = { UploadSingle, UploadArchive };
+export const MailService = { ConfirmEmailReceive, ConfirmEmailSend, ConfirmEmailResend };

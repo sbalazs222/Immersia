@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { VerifyEmail, ResendEmail } from '../controllers/mailController.js';
+import { MailControllers } from '../controllers/index.js';
 
 const MailRouter = Router();
 
-MailRouter.post('/verify', VerifyEmail);
-MailRouter.post('/resend', ResendEmail);
+MailRouter.post('/verify', MailControllers.ConfirmEmailReceive);
+MailRouter.post('/resend', MailControllers.ConfirmEmailResend);
 
 export default MailRouter;
