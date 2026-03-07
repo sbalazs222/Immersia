@@ -5,10 +5,7 @@ import { env } from './config/config.js';
 import { colorLog } from 'psgutil';
 import { errorHandler } from './middlewares/errorHandler.js';
 
-import AuthRouter from './routes/authRoutes.js';
-import ContentRouter from './routes/contentRoutes.js';
-import UploadRouter from './routes/uploadRoutes.js';
-import MailRouter from './routes/mailRoutes.js';
+import { AuthRouter, ContentRouter, UploadRouter, MailRouter } from './routers/index.js';
 import { CheckHealth } from './controllers/healthController.js';
 
 const app = express();
