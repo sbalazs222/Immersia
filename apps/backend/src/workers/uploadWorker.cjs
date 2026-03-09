@@ -30,7 +30,6 @@ module.exports = async ({ item, tempDir, slug }) => {
       slug,
       Title,
       Type,
-      Type !== 'oneshot' ? 1 : 0,
       Math.round(mm.format.duration || 0),
       path.extname(SoundFile).slice(1),
       `sounds/${finalSoundName}`,

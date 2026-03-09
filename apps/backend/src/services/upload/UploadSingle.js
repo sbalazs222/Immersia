@@ -50,12 +50,11 @@ export default async function UploadSingle(files, body) {
 
     await conn.beginTransaction();
     await conn.query(
-      `INSERT INTO immersia.sounds (slug, title, duration_seconds, loopable, sound_file_path, sound_file_format, image_file_path, type) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?);`,
+      `INSERT INTO immersia.sounds (slug, title, duration_seconds, sound_file_path, sound_file_format, image_file_path, type) VALUES ( ?, ?, ?, ?, ?, ?, ? );`,
       [
         uniqueSlug,
         Title,
         duration,
-        Type !== 'oneshot' ? 1 : 0,
         `sounds/${uniqueSlug}${soundExt}`,
         soundExt,
         `thumb/${uniqueSlug}.webp`,

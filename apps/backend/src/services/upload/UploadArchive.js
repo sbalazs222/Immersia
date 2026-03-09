@@ -46,7 +46,7 @@ export default async function UploadArchive(zipPath) {
 
     try {
       await pool.query(
-        `INSERT INTO immersia.sounds (slug, title, type, loopable, duration_seconds, sound_file_format, sound_file_path, image_file_path) VALUES ?`,
+        `INSERT INTO immersia.sounds (slug, title, type, duration_seconds, sound_file_format, sound_file_path, image_file_path) VALUES ?`,
         [insertValues]
       );
     } catch (dbError) {
