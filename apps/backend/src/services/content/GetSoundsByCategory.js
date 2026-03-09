@@ -14,7 +14,7 @@ export default async function GetSoundsByCategory(category, page, limit, userId)
       `SELECT
         s.title, 
         s.slug,
-        (f.user_id IN NOT NULL) AS is_favourite
+        (f.user_id IS NOT NULL) AS is_favourite
       FROM sounds s
       LEFT JOIN favourites f ON s.id = f.sound_id AND f.user_id = ?
       WHERE s.type = ? 
