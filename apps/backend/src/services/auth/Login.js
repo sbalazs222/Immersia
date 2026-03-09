@@ -13,7 +13,7 @@ async function Login(email, password) {
 
   if (!user || !(await argon2.verify(user.password, password))) throw new ApiError(401, 'INVALID_CREDENTIALS');
   if (!user.is_active) throw new ApiError(403, 'ACCOUNT_DISABLED');
-  if (!user.is_verified) throw new ApiError(403, 'ACCOUNT_NOT_VERIFIED');
+  if (user.role !== 1 && !user.is_verified) throw new ApiError(403, 'ACCOUNT_NOT_VERIFIED');
 
   return { user, tokenVersion: user.token_version };
 }
