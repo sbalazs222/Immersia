@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import pool from '../../config/mysql.js';
 import { ApiError } from '../../utils/apiError.js';
 import createMailToken from '../../utils/mail/createMailToken.js';
-import sendConfirmMail from '../../utils/mail/sendMail.js';
+import sendConfirmMail from '../../utils/mail/sendConfirmMail.js';
 import { env } from '../../config/config.js';
 
 export default async function ConfirmEmailResend(token) {

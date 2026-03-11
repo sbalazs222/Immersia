@@ -11,8 +11,8 @@ import UploadSingle from './upload/UploadSingle.js';
 import UploadArchive from './upload/UploadArchive.js';
 import ConfirmEmailReceive from './mail/ConfirmEmailReceive.js';
 import ConfirmEmailResend from './mail/ConfirmEmailResend.js';
-import ResetPasswordReceive from '../services/mail/ResetPasswordReceive.js';
-import ResetPasswordSend from '../services/mail/ResetPasswordSend.js';
+import ResetPasswordReceive from './mail/ResetPasswordReceive.js';
+import ResetPasswordSend from './mail/ResetPasswordSend.js';
 
 import CheckHealth from './health/CheckHealth.js';
 
