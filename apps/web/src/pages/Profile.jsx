@@ -56,23 +56,27 @@ function Profile() {
 
     return (
         <>
-            <h1>User Profile</h1>
+        <div className='soundboard-dsgn d-flex align-items-center justify-content-center'>
+            <div className='soundboard-section p-5' style={{ maxWidth: '450px', flex: 'none' }}>
+            <h1 className="mb-4 fw-bold">User Profile</h1>
             {userData && (
                 <div>
                     <p>Email: {userData.email}</p>
                 </div>
             )}
             <Form onSubmit={handleUpdatePassword}>
-                <Form.Group controlId="formCurrentPassword">
+                <Form.Group className="mb-3" controlId="formCurrentPassword">
                     <Form.Label>Current Password</Form.Label>
                     <Form.Control type="password" name="currentPassword" placeholder="Current Password" />
                 </Form.Group>
-                <Form.Group controlId="formNewPassword">
+                <Form.Group className="mb-4" controlId="formNewPassword">
                     <Form.Label>New Password</Form.Label>
                     <Form.Control type="password" name="password" placeholder="New Password" />
                 </Form.Group>
-                <Button type="submit">Update Password</Button>
+                <Button type="submit" variant="dark" className="w-100" style={{backgroundColor: "#333333", border: "none", padding: "10px"}}>Update Password</Button>
             </Form>
+            </div>
+            </div>
         </>
     );
 }
