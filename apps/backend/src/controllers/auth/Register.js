@@ -1,12 +1,9 @@
 import { AuthService } from '../../services/index.js';
 
 export default async function Register(req, res, next) {
-  try {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    await AuthService.Register(email, password);
-    return res.status(201).json({ message: 'SUCCESS' });
-  } catch (error) {
-    next(error);
-  }
+  await AuthService.Register(email, password);
+  return res.status(201).json({ message: 'SUCCESS' });
+
 }
