@@ -33,7 +33,7 @@ export const uploadSingle = multer({
     files: 2,
   },
   fileFilter: (req, file, cb) => {
-    if (file.fieldame === 'SoundFile') {
+    if (file.fieldname === 'SoundFile') {
       if (!['audio/mpeg', 'audio/wav', 'audio/x-wav'].includes(file.mimetype)) {
         return cb(new ApiError(415, 'UNSUPPORTED_AUDIO_FORMAT'), false);
       }
