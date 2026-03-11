@@ -1,6 +1,6 @@
 import transporter from '../../config/transporter.js';
 
-export default function sendMail(to, link) {
+export default function sendConfirmMail(to, link) {
   transporter.sendMail({
     from: 'noreply@immersia.cc',
     to: to,
