@@ -30,5 +30,5 @@ export default async function ResetPasswordSend(emailParam, userIdParam) {
   const token = await createMailToken('password_reset', userId);
   const link = `${env.FRONTEND_URL}/reset-password?token=${token}`;
 
-  return sendPasswordResetMail(email, link);
+  sendPasswordResetMail(email, link);
 }

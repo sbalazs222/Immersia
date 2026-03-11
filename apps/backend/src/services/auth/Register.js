@@ -5,7 +5,7 @@ import { ApiError } from '../../utils/apiError.js';
 import { env } from '../../config/config.js';
 import { MailService } from '../index.js';
 
-async function Register(email, password) {
+export default async function Register(email, password) {
   const conn = await pool.getConnection();
   const index = getBlindIndex(email);
 
@@ -36,5 +36,3 @@ async function Register(email, password) {
     conn.release();
   }
 }
-
-export default Register;

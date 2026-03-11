@@ -2,7 +2,7 @@ import { verifyRefreshToken } from '../../utils/jwt.js';
 import { ApiError } from '../../utils/apiError.js';
 import pool from '../../config/mysql.js';
 
-async function Refresh(refreshToken) {
+export default async function Refresh(refreshToken) {
   if (!refreshToken) throw new ApiError(401, 'NO_REFRESH_TOKEN');
   const decoded = verifyRefreshToken(refreshToken);
   if (!decoded) throw new ApiError(401, 'INVALID_REFRESH_TOKEN');
@@ -14,5 +14,3 @@ async function Refresh(refreshToken) {
 
   return decoded;
 }
-
-export default Refresh;

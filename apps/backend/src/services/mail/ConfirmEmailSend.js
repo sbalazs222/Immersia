@@ -6,5 +6,4 @@ export default async function ConfirmEmailSend(email, userId) {
   const token = await createMailToken('confirm', userId);
   const link = `${env.FRONTEND_URL}/verify?token=${token}`;
   sendConfirmMail(email, link);
-  return;
 }

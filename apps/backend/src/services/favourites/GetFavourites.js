@@ -1,10 +1,8 @@
 import pool from '../../config/mysql.js';
 
 export default async function GetFavourites(userId) {
-
-  const [data] = await
-    pool.query(
-      `SELECT
+  const [data] = await pool.query(
+    `SELECT
         s.title, 
         s.slug
       FROM favourites f
@@ -13,8 +11,8 @@ export default async function GetFavourites(userId) {
       ORDER BY
         f.created_at DESC,
         s.title ASC`,
-      [userId]
-    );
+    [userId]
+  );
 
   return data;
 }
