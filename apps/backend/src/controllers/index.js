@@ -14,8 +14,12 @@ import ConfirmEmailResend from './mail/ConfirmEmailResend.js';
 
 import CheckHealth from './health/CheckHealth.js';
 
+import AddRemoveFavourite from './favourites/AddRemoveFavourite.js';
+import GetFavourites from './favourites/GetFavourites.js';
+
 export const AuthControllers = { Login, Logout, Register };
 export const ContentControllers = { GetAll, GetSound, GetThumbnail, GetSoundData };
 export const UploadControllers = { UploadSingle, UploadArchive };
 export const MailControllers = { ConfirmEmailReceive, ConfirmEmailResend };
 export const HealthControllers = { CheckHealth };
+export const FavouriteControllers = { AddRemoveFavourite, GetFavourites };

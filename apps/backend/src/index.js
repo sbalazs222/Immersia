@@ -5,7 +5,7 @@ import { env } from './config/config.js';
 import { colorLog } from 'psgutil';
 import { ErrorHandler } from './middlewares/index.js';
 
-import { AuthRouter, ContentRouter, UploadRouter, MailRouter, HealthRouter } from './routers/index.js';
+import { AuthRouter, ContentRouter, UploadRouter, MailRouter, HealthRouter, FavouriteRouter } from './routers/index.js';
 
 const app = express();
 const corsOptions = {
@@ -22,7 +22,7 @@ app.use('/auth', AuthRouter);
 app.use('/content', ContentRouter);
 app.use('/upload', UploadRouter);
 app.use('/mail', MailRouter);
-
+app.use('/fav', FavouriteRouter);
 app.use('/health', HealthRouter);
 
 app.use(ErrorHandler);
