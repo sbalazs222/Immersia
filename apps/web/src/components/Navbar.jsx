@@ -6,6 +6,7 @@ import Admin from '../pages/Admin'
 import Profile from '../pages/Profile'
 import Upload from '../pages/Upload'
 import SoundBoard from '../pages/Soundboard'
+import Verification from '../pages/Verification'
 
 export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin, handleLogout }) {
 
@@ -75,6 +76,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin,
                         {isLoggedIn && <Route path="/soundboard" element={<SoundBoard />} />}
                         {isLoggedIn && <Route path="/profile" element={<Profile />} />}
                         {isLoggedIn && <Route path='/upload' element={<Upload />} />}
+                        <Route path='/verify-email' element={<Verification />} />
                     </Routes>
                 </div>
             </div>

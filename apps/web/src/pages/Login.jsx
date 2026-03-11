@@ -34,6 +34,9 @@ export default function Login({ setIsLoggedIn, setIsAdmin }) {
                 }
                 toast.success('Login successful')
             }
+            else if (res.message == 'ACCOUNT_NOT_VERIFIED') {
+                toast.error('Email not verified, please check your inbox for the verification email');
+            }
             else {
                 try {
                     const result = await res.json()
