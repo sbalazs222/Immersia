@@ -62,16 +62,9 @@ function Profile() {
                     <p>Email: {userData.email}</p>
                 </div>
             )}
+            <h3>With the button below you can change your password via email.</h3>
             <Form onSubmit={handleUpdatePassword}>
-                <Form.Group controlId="formCurrentPassword">
-                    <Form.Label>Current Password</Form.Label>
-                    <Form.Control type="password" name="currentPassword" placeholder="Current Password" />
-                </Form.Group>
-                <Form.Group controlId="formNewPassword">
-                    <Form.Label>New Password</Form.Label>
-                    <Form.Control type="password" name="password" placeholder="New Password" />
-                </Form.Group>
-                <Button type="submit">Update Password</Button>
+                <Button type="submit">Send</Button>
             </Form>
         </>
     );

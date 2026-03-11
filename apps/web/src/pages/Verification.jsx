@@ -14,7 +14,7 @@ export default async function Verification() {
     }
 
     async function verifyEmail() {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/verify?code=${code}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/verify?code=${code}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export default async function Verification() {
     }
 
     async function resendVerificationEmail() {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/resend?code=${code}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/resend?code=${code}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
