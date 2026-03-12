@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import pool from '../../config/mysql.js';
 import { ApiError } from '../../utils/apiError.js';
 import createMailToken from '../../utils/mail/createMailToken.js';
-import sendMail from '../../utils/mail/sendMail.js';
+import sendConfirmMail from '../../utils/mail/sendConfirmMail.js';
 import { env } from '../../config/config.js';
 
 export default async function ConfirmEmailResend(token) {
@@ -23,6 +23,6 @@ export default async function ConfirmEmailResend(token) {
 
   const newToken = await createMailToken('confirm', exists[0].user_id);
   const link = `${env.FRONTEND_URL}/verify?token=${newToken}`;
-  sendMail(email[0].email, link);
+  sendConfirmMail(email[0].email, link);
   await pool.query('DELETE FROM email_codes WHERE token_hash = ?;', [tokenHashOld]);
 }
