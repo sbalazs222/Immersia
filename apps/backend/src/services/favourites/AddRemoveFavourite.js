@@ -1,4 +1,3 @@
-import { ApiError } from '../../utils/apiError.js';
 import pool from '../../config/mysql.js';
 
 export default async function AddRemoveFavourite(userId, slug) {

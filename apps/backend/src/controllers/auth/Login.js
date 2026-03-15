@@ -2,7 +2,7 @@ import { AuthService } from '../../services/index.js';
 import { generateAccessToken, generateRefreshToken } from '../../utils/jwt.js';
 import COOKIE_CONFIG from '../../config/CookieConfig.js';
 
-export default async function Login(req, res, next) {
+export default async function Login(req, res) {
   const { email, password } = req.body;
 
   const { user, tokenVersion } = await AuthService.Login(email, password);
@@ -27,5 +27,4 @@ export default async function Login(req, res, next) {
   });
 
   return res.status(200).json({ message: 'SUCCESS', data: { role: user.role } });
-
 }

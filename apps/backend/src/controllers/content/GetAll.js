@@ -1,6 +1,6 @@
 import { ContentService } from '../../services/index.js';
 
-export default async function GetAll(req, res, next) {
+export default async function GetAll(req, res) {
   //TODO: input validation
   const result = await ContentService.GetSoundsByCategory(
     req.query.c,

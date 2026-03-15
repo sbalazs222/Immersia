@@ -1,15 +1,11 @@
 import transporter from '../../config/transporter.js';
+import { PasswordResetMail } from './mailDesigns.js';
 
 export default function sendConfirmMail(to, link) {
   transporter.sendMail({
     from: 'noreply@immersia.cc',
     to: to,
     subject: 'Email cím megerősítése',
-    html: `
-      <h1> Immersia </h1>
-      <p>A következő linkre kattintva megerősítheti email címét.</p>
-      <p>Ha nem ön kezdeményezte a regisztrációt nyugodtan figyelmen kívűl hagyhatja ezt a levelet.</p>
-      <a href='${link}'> Cím megerősítése </a>
-      `,
+    html: PasswordResetMail(link),
   });
 }

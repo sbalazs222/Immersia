@@ -6,9 +6,8 @@ const MINUTE_IN_MILLISECONDS = 60 * 1000;
 
 /**
  * @typedef {('confirm' | 'password_reset')} mailTokenType
- * 
- * @param {mailTokenType} action 
- * @param {Number} userId 
+ * @param {mailTokenType} action
+ * @param {Number} userId
  */
 export default async function createMailToken(action, userId) {
   const token = crypto.randomBytes(128).toString('hex');

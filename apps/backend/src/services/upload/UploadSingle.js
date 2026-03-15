@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { ApiError } from '../../utils/apiError.js';
 import path from 'path';
 import * as musicMetadata from 'music-metadata';
@@ -51,27 +50,19 @@ export default async function UploadSingle(files, body) {
     await conn.beginTransaction();
     await conn.query(
       `INSERT INTO immersia.sounds (slug, title, duration_seconds, sound_file_path, sound_file_format, image_file_path, type) VALUES ( ?, ?, ?, ?, ?, ?, ? );`,
-      [
-        uniqueSlug,
-        Title,
-        duration,
-        `sounds/${uniqueSlug}${soundExt}`,
-        soundExt,
-        `thumb/${uniqueSlug}.webp`,
-        Type,
-      ]
+      [uniqueSlug, Title, duration, `sounds/${uniqueSlug}${soundExt}`, soundExt, `thumb/${uniqueSlug}.webp`, Type]
     );
 
     await conn.commit();
   } catch (error) {
     await conn.rollback();
     for (const file of createdFiles) {
-      await fse.unlink(file).catch(() => { });
+      await fse.unlink(file).catch(() => {});
     }
     throw error;
   } finally {
     conn.release();
-    await fse.unlink(incomingAudioFile.path).catch(() => { });
-    await fse.unlink(incomingImageFile.path).catch(() => { });
+    await fse.unlink(incomingAudioFile.path).catch(() => {});
+    await fse.unlink(incomingImageFile.path).catch(() => {});
   }
 }
