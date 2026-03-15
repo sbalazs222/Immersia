@@ -16,6 +16,7 @@ CREATE TABLE `sounds` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `type` enum('oneshot','ambience','scene') NOT NULL,
+  `is_enabled` tinyint(1) DEFAULT 0,
   KEY `idx_sounds_type` (`type`),
   FULLTEXT KEY `ft_sounds_title` (`title`),
   PRIMARY KEY (`id`),
