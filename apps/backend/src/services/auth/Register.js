@@ -18,7 +18,7 @@ export default async function Register(email, password) {
     if (existing.length > 0) {
       if (existing[0].is_verified) throw new ApiError(409, 'USER_EXISTS');
 
-      await conn.query('DELETE FROM users WHERE id = ?', existing[0].id);
+      await conn.query('DELETE FROM users WHERE id = ? AND is_verified IS 1;', existing[0].id);
     }
 
     const [insertResult] = await conn.query(
