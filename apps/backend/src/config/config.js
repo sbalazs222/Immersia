@@ -6,6 +6,7 @@ const EnvSchema = z.object({
   NODE_ENV: z.string().default('development'),
   PORT: z.coerce.number().default(3000),
   FRONTEND_URL: z.coerce.string().default('http://localhost:3000'),
+  UPLOAD_CONCURRENCY_LIMIT: z.coerce.string().default(2),
 
   // Database config
   DB_NAME: z.coerce.string().default('your-database'),
