@@ -47,6 +47,7 @@ export default async function UploadSingle(files, body) {
     await fse.rename(incomingAudioFile.path, finalSoundPath);
     createdFiles.push(finalSoundPath);
 
+    console.log("KITERJESZTÉS: " + soundExt);
     await conn.beginTransaction();
     await conn.query(
       `INSERT INTO immersia.sounds (slug, title, duration_seconds, sound_file_path, sound_file_format, image_file_path, type) VALUES ( ?, ?, ?, ?, ?, ?, ? );`,

@@ -15,9 +15,15 @@ const ErrorHandler = (err, req, res, next) => {
     console.error(`${cc.red}[ERROR] ${statusCode} - ${err.message}`);
   }
 
-  res.status(statusCode).json({
-    message: env.NODE_ENV === 'development' ? message : 'INTERNAL_SERVER_ERROR',
-  });
+  if (env.NODE_ENV === 'development') {
+    res.status(statusCode).json({
+      message: message,
+    });
+  } else {
+    res.status(statusCode).json({
+      message: statusCode !== 500 ? message : 'INTERNAL_SERVER_ERROR',
+    });
+  }
 };
 
 export default ErrorHandler;

@@ -74,12 +74,13 @@ SUCCESS > Successful logout\
 
 # /content
 
-## GET /all
+## GET /all/:category
 Protected
+
+category: oneshot, ambience, scene
 
 ### Query: 
 ```
-c: kategória
 page: kért oldalszám
 limit: oldalanként megjelenített hangok
 ```
