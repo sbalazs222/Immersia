@@ -7,16 +7,17 @@ import unzipper from 'unzipper';
 import fse from 'fs-extra';
 import pool from '../../config/mysql.js';
 import pLimit from 'p-limit';
+import { env } from '../../config/config.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const workerPool = new Piscina({
   filename: path.resolve(__dirname, '../../workers/uploadWorker.cjs'),
   minThreads: 1,
-  maxThreads: 3,
+  maxThreads: env.UPLOAD_CONCURRENCY_LIMIT+1,
 });
 
-const limit = pLimit(2);
+const limit = pLimit(env.UPLOAD_CONCURRENCY_LIMIT);
 
 export default async function UploadArchive(zipPath) {
   if (!zipPath) throw new ApiError(400, 'NO_ARCHIVE');

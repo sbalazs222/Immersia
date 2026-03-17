@@ -56,7 +56,9 @@ function Profile() {
 
     return (
         <>
-            <h1>User Profile</h1>
+        <div className='soundboard-dsgn d-flex align-items-center justify-content-center'>
+            <div className='soundboard-section p-5' style={{ maxWidth: '450px', flex: 'none' }}>
+            <h1 className="mb-4 fw-bold">User Profile</h1>
             {userData && (
                 <div>
                     <p>Email: {userData.email}</p>
@@ -66,6 +68,8 @@ function Profile() {
             <Form onSubmit={handleUpdatePassword}>
                 <Button type="submit">Send</Button>
             </Form>
+            </div>
+            </div>
         </>
     );
 }

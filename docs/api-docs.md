@@ -1,6 +1,6 @@
 # /auth
 
-## /login
+## POST /login 
 
 #### Request: 
 ```
@@ -30,7 +30,7 @@ ACCOUNT_NOT_VERIFIED > Account email verification did not happen
 0 > Admin\
 1 > User
 
-## /register
+## POST /register
 
 ### Request: 
 ```
@@ -56,27 +56,7 @@ USER_EXISTS > Account with email exists\
 INCORRECT_EMAIL > Provided email in incorrect format\
 INCORRECT_PASSWORD > Password not up to requirements
 
-## /refresh
-
-### Request: 
-```
-{ }
-```
-
-### Response:
-
-```
-{
-  'message': string
-}
-```
-### Message
-SUCCESS > Successful refresh\
-NO_REFRESH_TOKEN > No refresh token provided\
-INVALID_REFRESH_TOKEN > Provided refresh token invalid\
-REFRESH_TOKEN_REVOKED > Refresh token version old\
-
-## /logout
+## POST /logout
 Protected
 
 ### Request: 
@@ -94,7 +74,7 @@ SUCCESS > Successful logout\
 
 # /content
 
-## /all
+## GET /all
 Protected
 
 ### Query: 
@@ -112,16 +92,17 @@ limit: oldalanként megjelenített hangok
 ### Response:
 ```
 {
-  message: 'SUCCESS', 
-  data: {
-    title: string
-    slug: string
+  'message': 'SUCCESS', 
+  'data': {
+    'title': string
+    'slug': string
+    'is_favourite': bool
   } 
-  pagination: {
-    page: number
-    limit: numnber
-    total: number
-    totalPages: number
+  'pagination': {
+    'page': number
+    'limit': numnber
+    'total': number
+    'totalPages': number
   } 
 }
 ```
@@ -138,7 +119,7 @@ totalPages: number of total pages
 SUCCESS > Successful retrieval\
 INVALID_CATEGORY > Provided category does not exist
 
-## /sounds/:slug
+## GET /sounds/:slug
 Protected
 
 ### Request: 
@@ -170,7 +151,7 @@ type > type of the sound ['oneshot', 'ambience', 'scene']
 SUCCESS > Successful \
 SOUND_NOT_FOUND > Invalid slug
 
-## /play/:slug
+## GET /play/:slug
 
 ### Request: 
 ```
@@ -181,11 +162,44 @@ SOUND_NOT_FOUND > Invalid slug
 
 ```
 { }
+```
+
+## GET /thumb/:slug
+
+### Request: 
+```
+{ }
+```
+
+### Response:
+
+```
+{ }
+```
+
+
+# /fav
+## POST /
+
+### Request: 
+```
+{
+  'slug': string
+}
+```
+
+### Response:
+
+```
+{
+  'message': string
+}
 ```
 ### Message
-SUCCESS > Successful \
 
-## /thumb/:slug
+SUCCESS > successful add or remove
+
+## GET /
 
 ### Request: 
 ```
@@ -195,26 +209,30 @@ SUCCESS > Successful \
 ### Response:
 
 ```
-{ }
+{
+  'message': string
+  'data': [
+    'slug': string,
+    'title': string
+  ]
+}
 ```
+### Message
 
+SUCCESS > successful retrieval
 
 # példa
 ## /
 
 ### Request: 
 ```
-{
-
-}
+{ }
 ```
 
 ### Response:
 
 ```
-{
-
-}
+{ }
 ```
 ### Message
 SUCCESS > Successful \

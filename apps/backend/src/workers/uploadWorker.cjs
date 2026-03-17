@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const sharp = require('sharp');
 const path = require('path');
 const musicMetadata = require('music-metadata');

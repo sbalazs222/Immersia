@@ -1,4 +1,5 @@
 import { ConsoleColor as cc } from 'psgutil';
+import { env } from '../config/config.js';
 
 const ErrorHandler = (err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -15,7 +16,7 @@ const ErrorHandler = (err, req, res, next) => {
   }
 
   res.status(statusCode).json({
-    message: message,
+    message: env.NODE_ENV === 'development' ? message : 'INTERNAL_SERVER_ERROR',
   });
 };
 

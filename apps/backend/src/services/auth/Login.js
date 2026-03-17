@@ -4,7 +4,7 @@ import { ApiError } from '../../utils/apiError.js';
 import getBlindIndex from '../../utils/emailBlindIndex.js';
 import pool from '../../config/mysql.js';
 
-async function Login(email, password) {
+export default async function Login(email, password) {
   const [users] = await pool.query(
     'SELECT id, CAST(AES_DECRYPT(email, ?) AS CHAR) as email, role, password, is_active, is_verified, token_version FROM users WHERE email_blind_index = ?',
     [env.DB_ENCRYPT_SECRET, getBlindIndex(email)]
@@ -17,5 +17,3 @@ async function Login(email, password) {
 
   return { user, tokenVersion: user.token_version };
 }
-
-export default Login;

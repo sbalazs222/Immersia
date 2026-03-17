@@ -27,7 +27,9 @@ export default function Upload() {
 
     return (
         <>
-            <h1>Upload page</h1>
+        <div className='soundboard-dsgn d-flex align-items-center justify-content-center'>
+            <div className='soundboard-section p-5' style={{ maxWidth: '450px', flex: 'none' }}>
+            <h1 className="mb-4 fw-bold">Upload page</h1>
 
             <Form onSubmit={handleSubmit}>
                 <Form.Group>
@@ -50,10 +52,12 @@ export default function Upload() {
                         <option value="scene">Scene</option>
                     </Form.Select>
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant="dark" type="submit" className="w-100" style={{backgroundColor: "#333333", border: "none", padding: "10px", marginTop: "15px"}}>
                     Upload
                 </Button>
             </Form>
+            </div>
+            </div>
         </>
     );
 }
