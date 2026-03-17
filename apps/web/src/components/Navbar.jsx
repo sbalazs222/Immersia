@@ -9,7 +9,6 @@ import SoundBoard from '../pages/Soundboard'
 import Verification from '../pages/Verification'
 
 export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin, handleLogout }) {
-
     return (
         <BrowserRouter>
             <div className='app-container'>
@@ -63,6 +62,10 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin,
 
                 <div className='main-content content-container'>
                     <Routes>
+                        {!isLoggedIn && (
+                            <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} />
+                        )}
+
                         {/* Auth Routes */}
                         {!isLoggedIn && (
                             <>
