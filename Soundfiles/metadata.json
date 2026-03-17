@@ -1,0 +1,268 @@
+[
+  {
+    "Title": "Bell of Doom",
+    "Type": "oneshot",
+    "SoundFile": "BellofDoom.mp3",
+    "ImageFile": "BellofDoom.png"
+  },
+  {
+    "Title": "Big Gears",
+    "Type": "oneshot",
+    "SoundFile": "BigGears.mp3",
+    "ImageFile": "BigGears.png"
+  },
+  {
+    "Title": "Big Gears 2",
+    "Type": "oneshot",
+    "SoundFile": "BigGears2.mp3",
+    "ImageFile": "BigGears.png"
+  },
+  {
+    "Title": "Bow Impact",
+    "Type": "oneshot",
+    "SoundFile": "BowImpact.wav",
+    "ImageFile": "BowImpact.png"
+  },
+  {
+    "Title": "Cloth Rip",
+    "Type": "oneshot",
+    "SoundFile": "ClothRip.wav",
+    "ImageFile": "ClothRip.png"
+  },
+  {
+    "Title": "Distant Thump",
+    "Type": "oneshot",
+    "SoundFile": "DistantThump.wav",
+    "ImageFile": "DistantThump.png"
+  },
+  {
+    "Title": "Explosion",
+    "Type": "oneshot",
+    "SoundFile": "Explosion.mp3",
+    "ImageFile": "Explosion.png"
+  },
+  {
+    "Title": "Fireball",
+    "Type": "oneshot",
+    "SoundFile": "Fireball.mp3",
+    "ImageFile": "Fireball.png"
+  },
+  {
+    "Title": "Fireball Charge",
+    "Type": "oneshot",
+    "SoundFile": "FireballCharge.mp3",
+    "ImageFile": "Fireball.png"
+  },
+  {
+    "Title": "Glitch 1",
+    "Type": "oneshot",
+    "SoundFile": "Glitch1.mp3",
+    "ImageFile": "Glitch.png"
+  },
+  {
+    "Title": "Glitch 2",
+    "Type": "oneshot",
+    "SoundFile": "Glitch2.mp3",
+    "ImageFile": "Glitch.png"
+  },
+  {
+    "Title": "Goo",
+    "Type": "oneshot",
+    "SoundFile": "Goo.wav",
+    "ImageFile": "Goo.png"
+  },
+  {
+    "Title": "Knocking",
+    "Type": "oneshot",
+    "SoundFile": "Knocking.wav",
+    "ImageFile": "Knocking.png"
+  },
+  {
+    "Title": "Magical Harp",
+    "Type": "oneshot",
+    "SoundFile": "MagicalHarp.mp3",
+    "ImageFile": "MagicalHarp.png"
+  },
+  {
+    "Title": "Paper Rip",
+    "Type": "oneshot",
+    "SoundFile": "PaperRip.wav",
+    "ImageFile": "PaperRip.png"
+  },
+  {
+    "Title": "Sci Fi Bell",
+    "Type": "oneshot",
+    "SoundFile": "SciFiBell.wav",
+    "ImageFile": "SciFiBell.png"
+  },
+  {
+    "Title": "Shopkeepers Bell",
+    "Type": "oneshot",
+    "SoundFile": "ShopkeepersBell.mp3",
+    "ImageFile": "ShopkeepersBell.png"
+  },
+  {
+    "Title": "Slime Movement",
+    "Type": "oneshot",
+    "SoundFile": "SlimeMovement.wav",
+    "ImageFile": "SlimeMovement.png"
+  },
+  {
+    "Title": "Snow Footsteps",
+    "Type": "oneshot",
+    "SoundFile": "SnowFootsteps.mp3",
+    "ImageFile": "SnowFootsteps.png"
+  },
+  {
+    "Title": "Space",
+    "Type": "oneshot",
+    "SoundFile": "Space.wav",
+    "ImageFile": "Space.png"
+  },
+  {
+    "Title": "Space Horn",
+    "Type": "oneshot",
+    "SoundFile": "SpaceHorn.wav",
+    "ImageFile": "SpaceHorn.png"
+  },
+  {
+    "Title": "Sword Unsheath",
+    "Type": "oneshot",
+    "SoundFile": "SwordUnsheath.wav",
+    "ImageFile": "SwordUnsheath.png"
+  },
+  {
+    "Title": "War Horn",
+    "Type": "oneshot",
+    "SoundFile": "WarHorn.mp3",
+    "ImageFile": "WarHorn.png"
+  },
+
+
+
+  {
+    "Title": "Angry Crowd",
+    "Type": "ambience",
+    "SoundFile": "AngryCrowd.mp3",
+    "ImageFile": "AngryCrowd.png"
+  },
+  {
+    "Title": "Festival",
+    "Type": "ambience",
+    "SoundFile": "Festival.mp3",
+    "ImageFile": "Festival.png"
+  },
+  {
+    "Title": "Fireplace",
+    "Type": "ambience",
+    "SoundFile": "Fireplace.mp3",
+    "ImageFile": "Fireplace.png"
+  },
+  {
+    "Title": "Harbour",
+    "Type": "ambience",
+    "SoundFile": "Harbour.mp3",
+    "ImageFile": "Harbour.png"
+  },
+  {
+    "Title": "Indoor Rain",
+    "Type": "ambience",
+    "SoundFile": "IndoorRain.mp3",
+    "ImageFile": "IndoorRain.png"
+  },
+  {
+    "Title": "Market",
+    "Type": "ambience",
+    "SoundFile": "Market.mp3",
+    "ImageFile": "Market.png"
+  },
+  {
+    "Title": "Paniced Crowd",
+    "Type": "ambience",
+    "SoundFile": "PanicedCrowd.mp3",
+    "ImageFile": "PanicedCrowd.png"
+  },
+  {
+    "Title": "Rain",
+    "Type": "ambience",
+    "SoundFile": "Rain.mp3",
+    "ImageFile": "Rain.png"
+  },
+  {
+    "Title": "River",
+    "Type": "ambience",
+    "SoundFile": "River.mp3",
+    "ImageFile": "River.png"
+  },
+  {
+    "Title": "Thunderstorm",
+    "Type": "ambience",
+    "SoundFile": "Thunderstorm.mp3",
+    "ImageFile": "Thunderstorm.png"
+  },
+
+
+
+  {
+    "Title": "City Combat",
+    "Type": "scene",
+    "SoundFile": "CityCombat.mp3",
+    "ImageFile": "City.png"
+  },
+  {
+    "Title": "City Explore",
+    "Type": "scene",
+    "SoundFile": "CityExplore.mp3",
+    "ImageFile": "City.png"
+  },
+  {
+    "Title": "Forest Combat",
+    "Type": "scene",
+    "SoundFile": "ForestCombat.mp3",
+    "ImageFile": "Forest.png"
+  },
+  {
+    "Title": "Forest Explore",
+    "Type": "scene",
+    "SoundFile": "ForestExplore.mp3",
+    "ImageFile": "Forest.png"
+  },
+  {
+    "Title": "Mountain Explore",
+    "Type": "scene",
+    "SoundFile": "MountainsExplore.mp3",
+    "ImageFile": "Mountains.png"
+  },
+  {
+    "Title": "Mountains Combat",
+    "Type": "scene",
+    "SoundFile": "MountainsCombat.mp3",
+    "ImageFile": "Mountains.png"
+  },
+  {
+    "Title": "Seasidetown Explore",
+    "Type": "scene",
+    "SoundFile": "SeasidetownExplore.mp3",
+    "ImageFile": "Seasidetown.png"
+  },
+  {
+    "Title": "Seasidetown Combat",
+    "Type": "scene",
+    "SoundFile": "SeasidetownCombat.mp3",
+    "ImageFile": "Seasidetown.png"
+  },
+  {
+    "Title": "Village Combat",
+    "Type": "scene",
+    "SoundFile": "VillageCombat.mp3",
+    "ImageFile": "Village.png"
+  },
+  {
+    "Title": "Village Explore",
+    "Type": "scene",
+    "SoundFile": "VillageExplore.mp3",
+    "ImageFile": "Village.png"
+  }
+]
+
+
