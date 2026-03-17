@@ -1,40 +1,46 @@
 import { useSearchParams, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 import { Button } from "react-bootstrap"
 
-export default async function Verification() {
+export default function Verification() {
     const [isValidToken, setIsValidToken] = useState(true)
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
     const code = searchParams.get("code")
-    if (!code) {
-        navigate("/login")
-        return null
-    }
 
-    async function verifyEmail() {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/verify?code=${code}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include'
-        });
-        if (res.ok) {
-            toast.success("Email verified successfully, you can now log in")
-            setTimeout(() => {}, 3000);
-            navigate("/login");
+    useEffect(() => {
+        if (!code) {
+            navigate("/login")
+            return
         }
-        else if (res.status === 410) {
-            toast.error("Verification code has expired");
-            setIsValidToken(false);
+
+        async function verifyEmail() {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/verify?code=${code}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include'
+            });
+            if (res.ok) {
+                toast.success("Email verified successfully, you can now log in")
+                setTimeout(() => {
+                    navigate("/login");
+                }, 3000);
+            }
+            else if (res.status === 410) {
+                toast.error("Verification code has expired");
+                setIsValidToken(false);
+            }
+            else {
+                toast.error("Failed to verify email");
+                navigate("/login");
+            }
         }
-        else {
-            toast.error("Failed to verify email");
-            navigate("/login");
-        }
-    }
+
+        verifyEmail()
+    }, [code, navigate])
 
     async function resendVerificationEmail() {
         const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/resend?code=${code}`, {
@@ -51,8 +57,6 @@ export default async function Verification() {
             toast.error("Failed to resend verification email")
         }
     }
-
-    verifyEmail()
 
     return (
         <>
