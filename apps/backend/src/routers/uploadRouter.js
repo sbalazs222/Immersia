@@ -6,7 +6,7 @@ import { UploadControllers } from '../controllers/index.js';
 const UploadRouter = Router();
 
 UploadRouter.post(
-  '/newsound',
+  '/sound',
   UploadLimiter,
   uploadSingle.fields([
     { name: 'SoundFile', maxCount: 1 },
@@ -16,6 +16,6 @@ UploadRouter.post(
   UploadControllers.UploadSingle
 );
 
-UploadRouter.post('/newarchive', UploadLimiter, uploadMass.single('Archive'), UploadControllers.UploadArchive);
+UploadRouter.post('/archive', UploadLimiter, uploadMass.single('Archive'), UploadControllers.UploadArchive);
 
 export default UploadRouter;
