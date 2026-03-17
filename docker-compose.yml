@@ -26,7 +26,7 @@ services:
       MAIL_USER: ${MAIL_USER}
       MAIL_PASS: ${MAIL_PASS}
 
-    labels:
+#    labels:
 #      - "traefik.enable=true"
 #
 #      - "traefik.http.routers.immersia-backend.rule=Host(`${HOSTNAME}`) && PathPrefix(`/api`)"
