@@ -11,7 +11,6 @@ CREATE TABLE `sounds` (
   `title` varchar(100) NOT NULL,
   `duration_seconds` int(11) DEFAULT NULL,
   `sound_file_path` varchar(500) NOT NULL,
-  `sound_file_format` enum('ogg','mp3','wav') NOT NULL,
   `image_file_path` varchar(500) NOT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),

@@ -50,8 +50,8 @@ export default async function UploadSingle(files, body) {
     console.log("KITERJESZTÉS: " + soundExt);
     await conn.beginTransaction();
     await conn.query(
-      `INSERT INTO immersia.sounds (slug, title, duration_seconds, sound_file_path, sound_file_format, image_file_path, type) VALUES ( ?, ?, ?, ?, ?, ?, ? );`,
-      [uniqueSlug, Title, duration, `sounds/${uniqueSlug}${soundExt}`, soundExt, `thumb/${uniqueSlug}.webp`, Type]
+      `INSERT INTO immersia.sounds (slug, title, duration_seconds, sound_file_path, image_file_path, type) VALUES ( ?, ?, ?, ?, ?, ? );`,
+      [uniqueSlug, Title, duration, `sounds/${uniqueSlug}${soundExt}`, `thumb/${uniqueSlug}.webp`, Type]
     );
 
     await conn.commit();
