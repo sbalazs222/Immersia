@@ -14,14 +14,14 @@ module.exports = async ({ item, tempDir, slug }) => {
   const finalImageName = `${Type}-${slug}.webp`;
 
   // Image Processing
-  const destImage = `/data/thumb/${finalImageName}`;
+  const destImage = `/immersia_data/thumb/${finalImageName}`;
   await sharp(imagePath).resize(500, 500, { fit: 'cover' }).webp({ quality: 80 }).toFile(destImage);
 
   // Audio Metadata
   const mm = await musicMetadata.parseFile(soundPath);
 
   // Move Audio
-  const destSound = `/data/sounds/${finalSoundName}`;
+  const destSound = `/immersia_data/sounds/${finalSoundName}`;
   await fse.move(soundPath, destSound);
 
   const createdFiles = [destSound, destImage];

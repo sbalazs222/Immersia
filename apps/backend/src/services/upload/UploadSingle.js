@@ -21,8 +21,8 @@ export default async function UploadSingle(files, body) {
   const uniqueSlug = `${slugBase}-${Math.random().toString(36).substring(2, 6)}`;
   if (uniqueSlug.length > 100) throw new ApiError(400, 'TITLE_TOO_LONG');
   const soundExt = path.extname(incomingAudioFile.originalname).toLowerCase();
-  const finalSoundPath = `/data/sounds/${uniqueSlug}${soundExt}`;
-  const finalImagePath = `/data/thumb/${uniqueSlug}.webp`;
+  const finalSoundPath = `/immersia_data/sounds/${uniqueSlug}${soundExt}`;
+  const finalImagePath = `/immersia_data/thumb/${uniqueSlug}.webp`;
 
   const createdFiles = [];
   const conn = await pool.getConnection();

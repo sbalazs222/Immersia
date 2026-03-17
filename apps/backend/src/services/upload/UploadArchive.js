@@ -21,7 +21,7 @@ const limit = pLimit(env.UPLOAD_CONCURRENCY_LIMIT);
 
 export default async function UploadArchive(zipPath) {
   if (!zipPath) throw new ApiError(400, 'NO_ARCHIVE');
-  const tempDir = `/data/incoming/batch-${Date.now()}`;
+  const tempDir = `/immersia_data/incoming/batch-${Date.now()}`;
 
   await fse.ensureDir(tempDir);
   try {
