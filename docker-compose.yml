@@ -29,7 +29,7 @@ services:
     labels:
       - "traefik.enable=true"
 
-      - "traefik.http.routers.immersia-backend.rule=Host(`${HOSTNAME}`) && PathPrefix(`/immersia`)"
+      - "traefik.http.routers.immersia-backend.rule=Host(`api.techtrove.cc`) && PathPrefix(`/immersia`)"
       - "traefik.http.routers.immersia-backend.entrypoints=websecure"
       - "traefik.http.routers.immersia-backend.tls.certresolver=letsencrypt"
       - "traefik.http.routers.immersia-backend.tls=true"
