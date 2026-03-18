@@ -35,7 +35,7 @@ services:
       - "traefik.http.routers.immersia-backend.tls=true"
 
       - "traefik.http.middlewares.strip-api.stripprefix.prefixes=/immersia"
-      - "traefik.http.routers.immersia-backend.middlewares=strip-api"
+      - "traefik.http.routers.immersia-backend.middlewares=immersia-strip"
       - "traefik.http.routers.immersia-backend.priority=100"
 
       - "traefik.http.services.immersia-backend.loadbalancer.server.port=${PORT}"
