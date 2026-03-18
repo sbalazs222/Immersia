@@ -7,9 +7,8 @@ export default function Upload() {
         e.preventDefault();
         const formData = new FormData(e.target);
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/upload/sound`, {
+            const res = await fetch(`https://immersia.techtrove.cc/api/upload/sound`, {
                 method: 'POST',
-                credentials: 'include',
                 contentType: 'multipart/form-data',
                 body: formData
             });

@@ -172,7 +172,7 @@ function SoundBoard() {
                                         key={scene.slug ?? scene._id}
                                         className={`scene-item ${selectedScene && getItemKey(selectedScene) === getItemKey(scene) ? "selected" : ""}`}
                                     >
-                                        <div className='scene-name' onClick={() => playScene(scene)}>{scene.title}</div>
+                                        <div className='scene-name' onClick={() => playScene(scene)}>{scene.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${scene.slug}`} alt={scene.title} /></div>
                                     </div>
                                 ))}
                             </div>
@@ -184,7 +184,7 @@ function SoundBoard() {
                                         key={ambience.slug ?? ambience._id}
                                         className={`ambience-item ${isItemSelected(selectedAmbiences, ambience) ? "selected" : ""}`}
                                     >
-                                        <div className='ambience-name' onClick={() => toggleAmbiencePlayback(ambience)}>{ambience.title}</div>
+                                        <div className='ambience-name' onClick={() => toggleAmbiencePlayback(ambience)}>{ambience.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${ambience.slug}`} alt={ambience.title} /></div>
                                     </div>
                                 ))}
                             </div>
@@ -196,7 +196,7 @@ function SoundBoard() {
                                         key={oneshot.slug ?? oneshot._id}
                                         className={`oneshot-item ${isItemSelected(selectedOneShots, oneshot) ? "selected" : ""}`}
                                     >
-                                        <div className='oneshot-name' onClick={() => toggleOneShotSelection(oneshot)}>{oneshot.title}</div>
+                                        <div className='oneshot-name' onClick={() => toggleOneShotSelection(oneshot)}>{oneshot.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${oneshot.slug}`} alt={oneshot.title} /></div>
                                     </div>
                                 ))}
                             </div>
@@ -211,7 +211,7 @@ function SoundBoard() {
                             <div className='selected-scene'>
                                 {selectedScene ? (
                                     <div className='scene-item selected'>
-                                        <div className='scene-name' onClick={() => playScene(selectedScene)}>{selectedScene.title}</div>
+                                        <div className='scene-name' onClick={() => playScene(selectedScene)}>{selectedScene.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${selectedScene.slug}`} alt={selectedScene.title} /></div>
                                     </div>
                                 ) : (
                                     <div>No scene selected</div>
@@ -223,7 +223,7 @@ function SoundBoard() {
                                 {selectedAmbiences.length > 0 ? (
                                     selectedAmbiences.map(ambience => (
                                         <div key={getItemKey(ambience)} className='ambience-item selected'>
-                                            <div className='ambience-name' onClick={() => toggleAmbiencePlayback(ambience)}>{ambience.title}</div>
+                                            <div className='ambience-name' onClick={() => toggleAmbiencePlayback(ambience)}>{ambience.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${ambience.slug}`} alt={ambience.title} /></div>
                                         </div>
                                     ))
                                 ) : (
@@ -236,7 +236,7 @@ function SoundBoard() {
                                 {selectedOneShots.length > 0 ? (
                                     selectedOneShots.map(oneshot => (
                                         <div key={getItemKey(oneshot)} className='oneshot-item selected'>
-                                            <div className='oneshot-name' onClick={() => playOneShot(oneshot)}>{oneshot.title}</div>
+                                            <div className='oneshot-name' onClick={() => playOneShot(oneshot)}>{oneshot.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${oneshot.slug}`} alt={oneshot.title} /></div>
                                         </div>
                                     ))
                                 ) : (
