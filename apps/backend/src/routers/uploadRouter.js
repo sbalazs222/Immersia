@@ -10,6 +10,8 @@ UploadRouter.post(
   UploadLimiter,
   uploadSingle.fields([
     { name: 'SoundFile', maxCount: 1 },
+    { name: 'SoundFileCombat', maxCount: 1 },
+    { name: 'SoundFileExplore', maxCount: 1 },
     { name: 'ImageFile', maxCount: 1 },
   ]),
   ValidateRequiredFields(['Title', 'Type']),

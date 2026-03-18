@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Piscina from 'piscina';
@@ -14,7 +13,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const workerPool = new Piscina({
   filename: path.resolve(__dirname, '../../workers/uploadWorker.cjs'),
   minThreads: 1,
-  maxThreads: env.UPLOAD_CONCURRENCY_LIMIT+1,
+  maxThreads: env.UPLOAD_CONCURRENCY_LIMIT + 1,
 });
 
 const limit = pLimit(env.UPLOAD_CONCURRENCY_LIMIT);
@@ -43,11 +42,19 @@ export default async function UploadArchive(zipPath) {
     const results = await Promise.all(uploadPromises);
 
     const allCreatedFiles = results.flatMap((r) => r.files);
-    const insertValues = results.map((r) => r.dbRow);
+    const insertValues = results.map((r) => {
+      r.dbRow.slug,
+        r.dbRow.title,
+        r.dbRow.type,
+        r.dbRow.sound_file_path,
+        r.dbRow.sound_file_path_alt || null,
+        r.dbRow.image_file_path
+      });
 
     try {
+      console.log()
       await pool.query(
-        `INSERT INTO immersia.sounds (slug, title, type, duration_seconds, sound_file_format, sound_file_path, image_file_path) VALUES ?`,
+        `INSERT INTO immersia.sounds (slug, title, type, sound_file_path, sound_file_path_alt, image_file_path) VALUES ?`,
         [insertValues]
       );
     } catch (dbError) {

@@ -30,10 +30,10 @@ export const uploadSingle = multer({
   storage: diskStorage,
   limits: {
     fileSize: 20 * 1024 * 1024,
-    files: 2,
+    files: 3,
   },
   fileFilter: (req, file, cb) => {
-    if (file.fieldname === 'SoundFile') {
+    if (file.fieldname === 'SoundFile' || file.fieldname === 'SoundFileCombat' || file.fieldname === 'SoundFileExplore') {
       if (!['audio/mpeg', 'audio/wav', 'audio/x-wav'].includes(file.mimetype)) {
         return cb(new ApiError(415, 'UNSUPPORTED_AUDIO_FORMAT'), false);
       }
