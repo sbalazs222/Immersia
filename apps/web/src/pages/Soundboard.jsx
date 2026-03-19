@@ -40,12 +40,62 @@ function SoundBoard() {
         audio.currentTime = 0
     }
 
-    const playScene = (scene, isChangingMode) => {
+    const fadeOutAudio = (audio, duration = 500) => {
+        if (!audio) return Promise.resolve()
+
+        return new Promise(resolve => {
+            const startVolume = audio.volume
+            const startTime = Date.now()
+
+            const fade = () => {
+                const elapsed = Date.now() - startTime
+                const progress = Math.min(elapsed / duration, 1)
+                audio.volume = startVolume * (1 - progress)
+
+                if (progress < 1) {
+                    requestAnimationFrame(fade)
+                } else {
+                    audio.pause()
+                    audio.currentTime = 0
+                    audio.volume = startVolume
+                    resolve()
+                }
+            }
+
+            requestAnimationFrame(fade)
+        })
+    }
+
+    const fadeInAudio = (audio, targetVolume, duration = 500) => {
+        if (!audio) return Promise.resolve()
+
+        return new Promise(resolve => {
+            audio.volume = 0
+            const startTime = Date.now()
+
+            const fade = () => {
+                const elapsed = Date.now() - startTime
+                const progress = Math.min(elapsed / duration, 1)
+                audio.volume = targetVolume * progress
+
+                if (progress < 1) {
+                    requestAnimationFrame(fade)
+                } else {
+                    audio.volume = targetVolume
+                    resolve()
+                }
+            }
+
+            requestAnimationFrame(fade)
+        })
+    }
+
+    const playScene = async (scene, isChangingMode) => {
         const slug = scene?.slug
         if (!slug) return
         
         if (selectedScene && getItemKey(selectedScene) === getItemKey(scene) && !isChangingMode) {
-            stopAudio(sceneAudioRef.current)
+            await fadeOutAudio(sceneAudioRef.current)
             sceneAudioRef.current = null
             setSelectedScene(null)
             return
@@ -54,24 +104,28 @@ function SoundBoard() {
         const currentSceneKey = getItemKey(selectedScene)
         const nextSceneKey = getItemKey(scene)
 
-        if (sceneAudioRef.current && currentSceneKey !== nextSceneKey && !isChangingMode) {
-            stopAudio(sceneAudioRef.current)
+        // Fade out current audio if switching scenes or mode
+        if (sceneAudioRef.current && (currentSceneKey !== nextSceneKey || isChangingMode)) {
+            await fadeOutAudio(sceneAudioRef.current)
             sceneAudioRef.current = null
         }
 
+        // Create new audio if needed
         if (!sceneAudioRef.current || currentSceneKey !== nextSceneKey || isChangingMode) {
-            stopAudio(sceneAudioRef.current)
             const sceneAudio = new Audio(`https://immersia.techtrove.cc/api/content/play/${slug}${sceneMode == "combat"? "?state=0" : ""}`)
             sceneAudio.loop = true
             sceneAudioRef.current = sceneAudio
         }
 
-        sceneAudioRef.current.volume = sceneVolume / 100
-
         setSelectedScene(scene)
-        sceneAudioRef.current.play().catch(err => {
+
+        // Play and fade in
+        try {
+            await sceneAudioRef.current.play()
+            await fadeInAudio(sceneAudioRef.current, sceneVolume / 100)
+        } catch (err) {
             console.error("Failed to play scene:", err)
-        })
+        }
     }
 
     const toggleAmbiencePlayback = ambience => {
@@ -223,59 +277,17 @@ function SoundBoard() {
                 </div>
 
                 <div className='soundboard-section'>
-                    {/*
-                    <div className='content-area'>
-                        <div>Soundboard</div>
-                        {activeTab == "scene" &&
-                            <div className='selected-scene'>
-                                {selectedScene ? (
-                                    <div className='scene-item selected'>
-                                        <div className='scene-name' onClick={() => playScene(selectedScene)}>{selectedScene.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${selectedScene.slug}`} alt={selectedScene.title} /></div>
-                                    </div>
-                                ) : (
-                                    <div>No scene selected</div>
-                                )}
-                            </div>
-                        }
-                        {activeTab == "ambience" &&
-                            <div className='selected-ambiences'>
-                                {selectedAmbiences.length > 0 ? (
-                                    selectedAmbiences.map(ambience => (
-                                        <div key={getItemKey(ambience)} className='ambience-item selected'>
-                                            <div className='ambience-name' onClick={() => toggleAmbiencePlayback(ambience)}>{ambience.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${ambience.slug}`} alt={ambience.title} /></div>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <div>No ambience selected</div>
-                                )}
-                            </div>
-                        }
-                        {activeTab == "oneshot" && 
-                            <div className='selected-oneshots'>
-                                {selectedOneShots.length > 0 ? (
-                                    selectedOneShots.map(oneshot => (
-                                        <div key={getItemKey(oneshot)} className='oneshot-item selected'>
-                                            <div className='oneshot-name' onClick={() => playOneShot(oneshot)}>{oneshot.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${oneshot.slug}`} alt={oneshot.title} /></div>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <div>No oneshot selected</div>
-                                )}
-                            </div>
-                        }
-                    </div>
-                    */}
                     <Row>
                         <Col>
                             <div className='scenePlayer mb-4'>
                                 <div className='scenePlayer-content'>
                                     <h2>Scene Player</h2>
-                                    <Button onClick={() => setSceneMode("explore")}>Explore</Button>
-                                    <Button onClick={() => setSceneMode("combat")}>Combat</Button>
                                     <Form.Range min={0} max={100} value={sceneVolume} onChange={(e) => setSceneVolume(parseFloat(e.target.value))} />
                                     {selectedScene ? (
                                         <div className='scene-item selected'>
                                             <div className='scene-name' onClick={() => playScene(selectedScene, false)}>{selectedScene.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${selectedScene.slug}`} alt={selectedScene.title} width={"50px"} height={"50px"}/></div>
+                                            <Button onClick={() => setSceneMode("explore")}>Explore</Button>
+                                            <Button onClick={() => setSceneMode("combat")}>Combat</Button>
                                         </div>
                                     ) : (
                                         <div>No scene selected</div>
