@@ -282,12 +282,12 @@ function SoundBoard() {
                             <div className='scenePlayer mb-4'>
                                 <div className='scenePlayer-content'>
                                     <h2>Scene Player</h2>
-                                    <Button onClick={() => setSceneMode("explore")}>Explore</Button>
-                                    <Button onClick={() => setSceneMode("combat")}>Combat</Button>
                                     <Form.Range min={0} max={100} value={sceneVolume} onChange={(e) => setSceneVolume(parseFloat(e.target.value))} />
                                     {selectedScene ? (
                                         <div className='scene-item selected'>
                                             <div className='scene-name' onClick={() => playScene(selectedScene, false)}>{selectedScene.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${selectedScene.slug}`} alt={selectedScene.title} width={"50px"} height={"50px"}/></div>
+                                            <Button onClick={() => setSceneMode("explore")}>Explore</Button>
+                                            <Button onClick={() => setSceneMode("combat")}>Combat</Button>
                                         </div>
                                     ) : (
                                         <div>No scene selected</div>
