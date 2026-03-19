@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { Row, Col, Button, Form } from 'react-bootstrap'
 import "../styles/App.css"
 
 function SoundBoard() {
@@ -9,6 +10,8 @@ function SoundBoard() {
     const [selectedScene, setSelectedScene] = useState(null)
     const [selectedAmbiences, setSelectedAmbiences] = useState([])
     const [selectedOneShots, setSelectedOneShots] = useState([])
+    const [sceneMode, setSceneMode] = useState("explore")
+    const [sceneVolume, setSceneVolume] = useState(50)
     const [savedPages, setSavedPages] = useState([])
     const sceneAudioRef = useRef(null)
     const ambienceAudioMapRef = useRef(new Map())
@@ -37,11 +40,11 @@ function SoundBoard() {
         audio.currentTime = 0
     }
 
-    const playScene = scene => {
+    const playScene = (scene, isChangingMode) => {
         const slug = scene?.slug
         if (!slug) return
-
-        if (selectedScene && getItemKey(selectedScene) === getItemKey(scene)) {
+        
+        if (selectedScene && getItemKey(selectedScene) === getItemKey(scene) && !isChangingMode) {
             stopAudio(sceneAudioRef.current)
             sceneAudioRef.current = null
             setSelectedScene(null)
@@ -51,16 +54,19 @@ function SoundBoard() {
         const currentSceneKey = getItemKey(selectedScene)
         const nextSceneKey = getItemKey(scene)
 
-        if (sceneAudioRef.current && currentSceneKey !== nextSceneKey) {
+        if (sceneAudioRef.current && currentSceneKey !== nextSceneKey && !isChangingMode) {
             stopAudio(sceneAudioRef.current)
             sceneAudioRef.current = null
         }
 
-        if (!sceneAudioRef.current) {
-            const sceneAudio = new Audio(`https://immersia.techtrove.cc/api/content/play/${slug}`)
+        if (!sceneAudioRef.current || currentSceneKey !== nextSceneKey || isChangingMode) {
+            stopAudio(sceneAudioRef.current)
+            const sceneAudio = new Audio(`https://immersia.techtrove.cc/api/content/play/${slug}${sceneMode == "combat"? "?state=0" : ""}`)
             sceneAudio.loop = true
             sceneAudioRef.current = sceneAudio
         }
+
+        sceneAudioRef.current.volume = sceneVolume / 100
 
         setSelectedScene(scene)
         sceneAudioRef.current.play().catch(err => {
@@ -118,7 +124,7 @@ function SoundBoard() {
             clearOneShot()
         })
     }
-    
+
     async function fetchSounds() {
         const res = await fetch(`https://immersia.techtrove.cc/api/content/all/${activeTab}`, {
             method: "GET",
@@ -135,6 +141,18 @@ function SoundBoard() {
     useEffect(() => {
         fetchSounds()
     }, [activeTab])
+
+    useEffect(() => {
+        if (selectedScene) {
+            playScene(selectedScene, true)
+        }
+    }, [sceneMode])
+
+    useEffect(() => {
+        if (sceneAudioRef.current) {
+            sceneAudioRef.current.volume = sceneVolume / 100
+        }
+    }, [sceneVolume])
 
     useEffect(() => {
         return () => {
@@ -165,38 +183,38 @@ function SoundBoard() {
                     </div>
 
                     <div className='content-area'>
-                        {activeTab == "scene" && 
+                        {activeTab == "scene" &&
                             <div className='scenes-list'>
                                 {scenes.map(scene => (
                                     <div
                                         key={scene.slug ?? scene._id}
                                         className={`scene-item ${selectedScene && getItemKey(selectedScene) === getItemKey(scene) ? "selected" : ""}`}
                                     >
-                                        <div className='scene-name' onClick={() => playScene(scene)}>{scene.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${scene.slug}`} alt={scene.title} /></div>
+                                        <div className='scene-name' onClick={() => playScene(scene)}>{scene.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${scene.slug}`} alt={scene.title} width={"50px"} height={"50px"}/></div>
                                     </div>
                                 ))}
                             </div>
                         }
-                        {activeTab == "ambience" && 
+                        {activeTab == "ambience" &&
                             <div className='ambiences-list'>
                                 {ambiences.map(ambience => (
                                     <div
                                         key={ambience.slug ?? ambience._id}
                                         className={`ambience-item ${isItemSelected(selectedAmbiences, ambience) ? "selected" : ""}`}
                                     >
-                                        <div className='ambience-name' onClick={() => toggleAmbiencePlayback(ambience)}>{ambience.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${ambience.slug}`} alt={ambience.title} /></div>
+                                        <div className='ambience-name' onClick={() => toggleAmbiencePlayback(ambience)}>{ambience.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${ambience.slug}`} alt={ambience.title} width={"50px"} height={"50px"}/></div>
                                     </div>
                                 ))}
                             </div>
                         }
-                        {activeTab == "oneshot" && 
+                        {activeTab == "oneshot" &&
                             <div className='oneshots-list'>
                                 {oneshots.map(oneshot => (
                                     <div
                                         key={oneshot.slug ?? oneshot._id}
                                         className={`oneshot-item ${isItemSelected(selectedOneShots, oneshot) ? "selected" : ""}`}
                                     >
-                                        <div className='oneshot-name' onClick={() => toggleOneShotSelection(oneshot)}>{oneshot.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${oneshot.slug}`} alt={oneshot.title} /></div>
+                                        <div className='oneshot-name' onClick={() => toggleOneShotSelection(oneshot)}>{oneshot.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${oneshot.slug}`} alt={oneshot.title} width={"50px"} height={"50px"}/></div>
                                     </div>
                                 ))}
                             </div>
@@ -205,6 +223,7 @@ function SoundBoard() {
                 </div>
 
                 <div className='soundboard-section'>
+                    {/*
                     <div className='content-area'>
                         <div>Soundboard</div>
                         {activeTab == "scene" &&
@@ -245,6 +264,59 @@ function SoundBoard() {
                             </div>
                         }
                     </div>
+                    */}
+                    <Row>
+                        <Col>
+                            <div className='scenePlayer mb-4'>
+                                <div className='scenePlayer-content'>
+                                    <h2>Scene Player</h2>
+                                    <Button onClick={() => setSceneMode("explore")}>Explore</Button>
+                                    <Button onClick={() => setSceneMode("combat")}>Combat</Button>
+                                    <Form.Range min={0} max={100} value={sceneVolume} onChange={(e) => setSceneVolume(parseFloat(e.target.value))} />
+                                    {selectedScene ? (
+                                        <div className='scene-item selected'>
+                                            <div className='scene-name' onClick={() => playScene(selectedScene, false)}>{selectedScene.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${selectedScene.slug}`} alt={selectedScene.title} width={"50px"} height={"50px"}/></div>
+                                        </div>
+                                    ) : (
+                                        <div>No scene selected</div>
+                                    )}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col>
+                            <div className='ambiencePlayer mb-4'>
+                                <div className='ambiencePlayer-content'>
+                                    <h2>Ambience Player</h2>
+                                    {selectedAmbiences.length > 0 ? (
+                                        selectedAmbiences.map(ambience => (
+                                            <div key={getItemKey(ambience)} className='ambience-item selected'>
+                                                <div className='ambience-name' onClick={() => toggleAmbiencePlayback(ambience)}>{ambience.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${ambience.slug}`} alt={ambience.title} width={"50px"} height={"50px"}/></div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div>No ambience selected</div>
+                                    )}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col>
+                            <div className='oneshotPlayer mb-4'>
+                                <div className='oneshotPlayer-content'>
+                                    <h2>One-Shot Player</h2>
+                                    {selectedOneShots.length > 0 ? (
+                                        selectedOneShots.map(oneshot => (
+                                            <div key={getItemKey(oneshot)} className='oneshot-item selected'>
+                                                <div className='oneshot-name' onClick={() => playOneShot(oneshot)}>{oneshot.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${oneshot.slug}`} alt={oneshot.title} width={"50px"} height={"50px"}/></div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div>No oneshot selected</div>
+                                    )}
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+
                 </div>
             </div>
         </>
