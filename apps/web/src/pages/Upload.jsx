@@ -1,7 +1,10 @@
 import { toast } from 'react-toastify'
 import { Form, Button } from 'react-bootstrap'
+import { useState } from 'react'
 
 export default function Upload() {
+
+    const [uploadType, setUploadType] = useState("oneshot");
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -35,17 +38,29 @@ export default function Upload() {
                     <Form.Label>Title</Form.Label>
                     <Form.Control type='text' name='Title' />
                 </Form.Group>
-                <Form.Group controlId="formAudio" className="mb-3">
-                    <Form.Label>Choose an audio file to upload - Supported audio formats: .WAW, .MP3, .OGG</Form.Label>
-                    <Form.Control type="file" name="SoundFile" accept='audio/waw'/>
-                </Form.Group>
+                {
+                    uploadType !== "scene" ? (
+                        <Form.Group controlId="formAudio" className="mb-3">
+                            <Form.Label>Choose an audio file to upload - Supported audio formats: .WAW, .MP3, .OGG</Form.Label>
+                            <Form.Control type="file" name="SoundFile" accept='.mp3, .ogg, .waw'/>
+                        </Form.Group>
+                    ) : (
+                        <Form.Group controlId="formAudio" className="mb-3">
+                            <Form.Label>Explore Audio</Form.Label>
+                            <Form.Control type="file" name="SoundFileExplore" accept='.mp3, .ogg, .waw'/>
+                            <Form.Label>Combat Audio</Form.Label>   
+                            <Form.Control type="file" name="SoundFileCombat" accept='.mp3, .ogg, .waw'/>
+                        </Form.Group>
+                    )
+                }
+                    
                 <Form.Group controlId='formImage'>
                     <Form.Label>Image for the effect</Form.Label>
                     <Form.Control type="file" name="ImageFile" accept='image/*'/>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Effect type</Form.Label>
-                    <Form.Select name="Type">
+                    <Form.Select name="Type" onChange={(e) => setUploadType(e.target.value)}>
                         <option value="oneshot">One-shot</option>
                         <option value="ambience">Ambience</option>
                         <option value="scene">Scene</option>
