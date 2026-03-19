@@ -37,7 +37,12 @@ export default async function UploadSingle(files, body) {
     const imageMeta = await sharp(incomingImageFile.path).metadata();
     if (imageMeta.width > 5000 || imageMeta.height > 5000) throw new ApiError(400, 'IMAGE_TOO_LARGE');
 
-    await sharp(incomingImageFile.path).resize(500, 500, { fit: 'cover' }).webp({ quality: 80 }).toFile(finalImagePath);
+    if (Type == 'scene') {
+      await sharp(incomingImageFile.path).resize(900, 550, { fit: 'cover' }).webp({ quality: 80 }).toFile(finalImagePath);
+    } else {
+      await sharp(incomingImageFile.path).resize(500, 500, { fit: 'cover' }).webp({ quality: 80 }).toFile(finalImagePath);
+
+    }
     createdFiles.push(finalImagePath);
 
     for (const cfg of audioConfigs) {
