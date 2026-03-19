@@ -7,7 +7,7 @@ const UploadRouter = Router();
 
 UploadRouter.post(
   '/sound',
-  /*UploadLimiter*/,
+  /*UploadLimiter,*/
   uploadSingle.fields([
     { name: 'SoundFile', maxCount: 1 },
     { name: 'SoundFileCombat', maxCount: 1 },
@@ -18,6 +18,6 @@ UploadRouter.post(
   UploadControllers.UploadSingle
 );
 
-UploadRouter.post('/archive', /*UploadLimiter*/, uploadMass.single('Archive'), UploadControllers.UploadArchive);
+UploadRouter.post('/archive', /*UploadLimiter,*/ uploadMass.single('Archive'), UploadControllers.UploadArchive);
 
 export default UploadRouter;
