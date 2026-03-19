@@ -20,7 +20,7 @@ function SoundBoard() {
     const pageStateRef = useRef({ scene: 1, ambience: 1, oneshot: 1 })
     const totalPagesRef = useRef({ scene: 1, ambience: 1, oneshot: 1 })
 
-    const getItemKey = item => item?.slug ?? item?._id ?? item?.id ?? item?.title
+    const getItemKey = item => item?.slug ?? item?.title
 
     const isItemSelected = (selectedItems, item) => {
         const itemKey = getItemKey(item)

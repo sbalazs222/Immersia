@@ -18,6 +18,7 @@ body {
   flex-direction: column;
   padding: 30px 20px;
   border-right: 1px solid #ddd;
+  border-right: 1px solid #ddd;
   flex-shrink: 0;
 }
 
@@ -136,7 +137,6 @@ body {
   border: 1px solid #E5E7EB;
   border-radius: 8px;
   padding: 10px 12px;
-  margin-bottom: 8px;
   background-color: #FFFFFF;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease;
@@ -154,4 +154,12 @@ body {
 .oneshot-item.selected {
   background-color: #E5E7EB;
   border-color: #9CA3AF;
+}
+
+.scenes-list,
+.ambiences-list,
+.oneshots-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
 }
