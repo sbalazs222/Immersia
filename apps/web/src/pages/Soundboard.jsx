@@ -186,7 +186,8 @@ function SoundBoard() {
         setIsLoading(true)
 
         try {
-            const res = await fetch(`https://immersia.techtrove.cc/api/content/all/${activeTab}?page=${page}&limit=10`, {
+            const limit = append ? 10 : 30
+            const res = await fetch(`https://immersia.techtrove.cc/api/content/all/${activeTab}?page=${page}&limit=${limit}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
