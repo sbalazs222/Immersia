@@ -1,6 +1,6 @@
 WEB
   -fixing email verification
-  -adding scene upload
+  -adding archive uploader
   -creating player
   -outro intro for scenes
   -admin manager
