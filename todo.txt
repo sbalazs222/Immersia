@@ -4,3 +4,21 @@ WEB
   -creating player
   -outro intro for scenes
   -admin manager
+
+BACKEND
+mass upload hiba lista
+max 24 karakteres title
+content token auth
+content validáció
+levél design
+(cron törléshez)
+felhasználói adatok encodeolása--
+process limit feltöltéshez--
+levelezés--
+hiba kód homogenizálás--
+struktúra felülvizsgálat--
+pagination limit not updating--
+token refresh backenden--
+kedvenc logika--
+jelszó visszaállítás--
+durationt kivenni--
