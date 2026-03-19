@@ -4,3 +4,4 @@ WEB
   -creating player
   -outro intro for scenes
   -admin manager
+  -scrolling pagination
