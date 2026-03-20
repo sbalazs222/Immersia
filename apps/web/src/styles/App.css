@@ -55,6 +55,18 @@ body {
   height: 100vh;
 }
 
+.smalltext {
+  color:#555555;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.mediumtext {
+    color:#555555;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
 /* Soundboard */
 .tabs-container {
   background-color: #C4C4C4;
