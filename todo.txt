@@ -2,6 +2,8 @@ WEB
   -adding archive uploader
   -creating player
   -admin manager
+  -soundboard buttons click area
+  -redirect after logout
 
 BACKEND
 mass upload hiba lista
