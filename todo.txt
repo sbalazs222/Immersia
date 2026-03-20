@@ -6,7 +6,6 @@ WEB
   -redirect after logout
 
 BACKEND
-mass upload hiba lista
 content token auth
 levél design
 (cron törléshez)
@@ -22,3 +21,4 @@ jelszó visszaállítás--
 durationt kivenni--
 max 24 karakteres title--
 content validáció--
+mass upload hiba lista--
