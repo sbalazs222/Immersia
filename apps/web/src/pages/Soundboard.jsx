@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Row, Col, Button, Form } from 'react-bootstrap'
 import "../styles/App.css"
 
@@ -12,12 +12,15 @@ function SoundBoard() {
     const [selectedOneShots, setSelectedOneShots] = useState([])
     const [sceneMode, setSceneMode] = useState("explore")
     const [sceneVolume, setSceneVolume] = useState(50)
-    const [savedPages, setSavedPages] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
     const sceneAudioRef = useRef(null)
     const ambienceAudioMapRef = useRef(new Map())
     const oneshotAudioSetRef = useRef(new Set())
+    const contentAreaRef = useRef(null)
+    const pageStateRef = useRef({ scene: 1, ambience: 1, oneshot: 1 })
+    const totalPagesRef = useRef({ scene: 1, ambience: 1, oneshot: 1 })
 
-    const getItemKey = item => item?.slug ?? item?._id ?? item?.id ?? item?.title
+    const getItemKey = item => item?.slug ?? item?.title
 
     const isItemSelected = (selectedItems, item) => {
         const itemKey = getItemKey(item)
@@ -179,23 +182,66 @@ function SoundBoard() {
         })
     }
 
-    async function fetchSounds() {
-        const res = await fetch(`https://immersia.techtrove.cc/api/content/all/${activeTab}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
+    async function fetchSounds(page = 1, append = false) {
+        setIsLoading(true)
+
+        try {
+            const limit = append ? 10 : 30
+            const res = await fetch(`https://immersia.techtrove.cc/api/content/all/${activeTab}?page=${page}&limit=${limit}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            const data = await res.json()
+            const items = data.data || []
+            const paginationData = data.pagination || {}
+
+            // Update the appropriate state based on activeTab
+            if (activeTab === "scene") {
+                setScenes(prev => append ? [...prev, ...items] : items)
+            } else if (activeTab === "ambience") {
+                setAmbiences(prev => append ? [...prev, ...items] : items)
+            } else if (activeTab === "oneshot") {
+                setOneshots(prev => append ? [...prev, ...items] : items)
             }
-        })
-        const data = await res.json()
-        if (activeTab == "scene") setScenes(data.data)
-        else if (activeTab == "ambience") setAmbiences(data.data)
-        else if (activeTab == "oneshot") setOneshots(data.data)
+
+            // Update pagination state
+            pageStateRef.current[activeTab] = paginationData.page || page
+            totalPagesRef.current[activeTab] = paginationData.totalPages || 1
+        } catch (error) {
+            console.error("Failed to fetch sounds:", error)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     useEffect(() => {
-        fetchSounds()
-    }, [activeTab])
+        const currentData = activeTab === "scene" ? scenes : activeTab === "ambience" ? ambiences : oneshots
+        if (currentData.length === 0) {
+            fetchSounds(1, false)
+        }
+    }, [activeTab, scenes, ambiences, oneshots])
 
+    useEffect(() => {
+        const contentArea = contentAreaRef.current
+        if (!contentArea) return
+
+        const handleScroll = () => {
+            const { scrollTop, scrollHeight, clientHeight } = contentArea
+            const currentPageNum = pageStateRef.current[activeTab]
+            const totalPages = totalPagesRef.current[activeTab]
+
+            if (scrollHeight - scrollTop - clientHeight < 100 && !isLoading && currentPageNum < totalPages) {
+                const nextPage = currentPageNum + 1
+                pageStateRef.current[activeTab] = nextPage
+                fetchSounds(nextPage, true)
+            }
+        }
+
+        contentArea.addEventListener('scroll', handleScroll)
+        return () => contentArea.removeEventListener('scroll', handleScroll)
+    }, [activeTab, isLoading])
     useEffect(() => {
         if (selectedScene) {
             playScene(selectedScene, true)
@@ -236,7 +282,7 @@ function SoundBoard() {
                         </div>
                     </div>
 
-                    <div className='content-area'>
+                    <div className='content-area' ref={contentAreaRef}>
                         {activeTab == "scene" &&
                             <div className='scenes-list'>
                                 {scenes.map(scene => (

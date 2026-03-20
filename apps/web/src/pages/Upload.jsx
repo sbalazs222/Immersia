@@ -9,6 +9,10 @@ export default function Upload() {
     async function handleSubmit(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
+        if (formData.get("Title").length > 24) {
+            toast.error("Title must be 24 characters or less.");
+            return;
+        }
         try {
             const res = await fetch(`https://immersia.techtrove.cc/api/upload/sound`, {
                 method: 'POST',
@@ -35,7 +39,7 @@ export default function Upload() {
 
             <Form onSubmit={handleSubmit}>
                 <Form.Group>
-                    <Form.Label>Title</Form.Label>
+                    <Form.Label>Title- max length: 24 characters</Form.Label>
                     <Form.Control type='text' name='Title' />
                 </Form.Group>
                 {
