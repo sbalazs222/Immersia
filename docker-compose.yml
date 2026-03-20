@@ -7,7 +7,7 @@ services:
       dockerfile: apps/backend/Dockerfile
 
     volumes:
-      - data:/data
+      - /immersia/data:/immersia_data
 
     environment:
       NODE_ENV: ${NODE_ENV}
@@ -29,13 +29,14 @@ services:
     labels:
       - "traefik.enable=true"
 
-      - "traefik.http.routers.immersia-backend.rule=Host(`${HOSTNAME}`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.immersia-backend.rule=Host(`api.techtrove.cc`) && PathPrefix(`/immersia`)"
       - "traefik.http.routers.immersia-backend.entrypoints=websecure"
       - "traefik.http.routers.immersia-backend.tls.certresolver=letsencrypt"
       - "traefik.http.routers.immersia-backend.tls=true"
 
-      - "traefik.http.middlewares.strip-api.stripprefix.prefixes=/api"
-      - "traefik.http.routers.immersia-backend.middlewares=strip-api"
+      - "traefik.http.middlewares.immersia-strip.stripprefix.prefixes=/immersia"
+      - "traefik.http.routers.immersia-backend.middlewares=immersia-strip"
+      - "traefik.http.routers.immersia-backend.priority=100"
 
       - "traefik.http.services.immersia-backend.loadbalancer.server.port=${PORT}"
 
@@ -64,11 +65,7 @@ services:
       - "traefik.http.services.immersia-frontend.loadbalancer.server.port=80"
       - "traefik.docker.network=shared-proxy"
     volumes:
-      - data:/data:ro
-
-
-volumes:
-  data:
+      - /immersia/data:/immersia_data:ro
 
 networks:
   shared-proxy:

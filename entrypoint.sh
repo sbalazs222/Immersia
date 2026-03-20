@@ -1,8 +1,8 @@
 #!/bin/sh
 set -e
 
-mkdir -p /data/incoming /data/sounds /data/thumb /data/thumb
-chown -R 1000:1000 /data
+mkdir -p /immersia_data/incoming /immersia_data/sounds /immersia_data/thumb
+chown -R 1000:1000 /immersia_data
 
 apk add su-exec
 

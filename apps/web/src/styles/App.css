@@ -18,6 +18,7 @@ body {
   flex-direction: column;
   padding: 30px 20px;
   border-right: 1px solid #ddd;
+  border-right: 1px solid #ddd;
   flex-shrink: 0;
 }
 
@@ -128,4 +129,37 @@ body {
 .form-control:focus {
   border-color: #9CA3AF;
   box-shadow: 0 0 0 0.2rem rgba(156, 163, 175, 0.25);
+}
+
+.scene-item,
+.ambience-item,
+.oneshot-item {
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 10px 12px;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.scene-item:hover,
+.ambience-item:hover,
+.oneshot-item:hover {
+  background-color: #F9FAFB;
+  border-color: #D1D5DB;
+}
+
+.scene-item.selected,
+.ambience-item.selected,
+.oneshot-item.selected {
+  background-color: #E5E7EB;
+  border-color: #9CA3AF;
+}
+
+.scenes-list,
+.ambiences-list,
+.oneshots-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
 }
