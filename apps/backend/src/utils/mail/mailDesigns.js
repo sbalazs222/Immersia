@@ -1,32 +1,55 @@
 export function AddressConfirmMail(link) {
   return `
-<body style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: center; margin: 0; padding: 20px; background-color: #c2c2c2;">
-    
-    <div style="border-bottom: 1px solid #b6b6b6; padding-bottom: 40px; max-width: 600px; margin: 0 auto; background-color: white; border-radius: 20px;">
-    
-        <div style="background-color: #333333; padding: 20px 0; margin-bottom: 40px; border-radius: 20px 20px 0px 0px;">
-            <h1 style="font-size: 250%; margin: 0; color: #ffffff; font-family: 'Times New Roman', Times, serif;">Immersia</h1>
+    <body style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: center; margin: 0; padding: 20px; background-color: #c2c2c2;">
+
+        <div style="border-bottom: 1px solid #b6b6b6; padding-bottom: 40px; max-width: 600px; margin: 0 auto; background-color: white; border-radius: 20px;">
+
+            <div style="background-color: #333333; padding: 20px 0; margin-bottom: 40px; border-radius: 20px 20px 0px 0px;">
+                <h1 style="font-size: 250%; margin: 0; color: #ffffff; font-family: 'Times New Roman', Times, serif;">Immersia</h1>
+            </div>
+
+            <h4 style="color: #555555; margin-bottom: 30px;">Kattintson az alábbi gombra az email címének megerősítéséhez:</h4>
+
+            <a href='${link}'><button style="background-color: #333333; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 4px; font-size: 16px; font-weight: bold; display: inline-block; margin-bottom: 20px;" >Email cím megerősítése</button></a>
+
+            <p style="color: #555555">Ha nem ön kezdeményezte a regisztrációt nyugodtan figyelmen kívűl hagyhatja ezt a levelet.</p>
+            <p style="color: #b6b6b6; font-size: 12px; margin-top: 40px; margin-bottom: 0;">Ez egy automatikus email. Kérjük, ne válaszoljon rá.</p>
+            <p style="color: #555555">Üdvözlettel, az Immersia csapata</p>
+
         </div>
-
-        <h4 style="color: #555555; margin-bottom: 30px;">Kattintson az alábbi gombra az email címének megerősítéséhez:</h4>
-        
-        <a href='${link}'><button style="background-color: #333333; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 4px; font-size: 16px; font-weight: bold; display: inline-block; margin-bottom: 20px;" >Email cím megerősítése</button></a>
-
-        <p style="color: #555555">Ha nem ön kezdeményezte a regisztrációt nyugodtan figyelmen kívűl hagyhatja ezt a levelet.</p>
-        <p style="color: #b6b6b6; font-size: 12px; margin-top: 40px; margin-bottom: 0;">Ez egy automatikus email. Kérjük, ne válaszoljon rá.</p>
-        <p style="color: #555555">Üdvözlettel, az Immersia csapata</p>
-        
-    </div>
-
-</body>
+    </body>
   `;
 }
 
 export function PasswordResetMail(link) {
   return `
-    <h1> Immersia </h1>
-    <p>A következő linkre kattintva visszaállíthatja jelszavát</p>
-    <p>Ha nem ön kezdeményezte a regisztrációt nyugodtan figyelmen kívűl hagyhatja ezt a levelet.</p>
-    <a href='${link}'> Cím megerősítése </a>
+    <body
+        style="font-family:Georgia, 'Times New Roman', Times, serif; text-align: center; margin: 0; padding: 20px; background-color: #c2c2c2;">
+    
+        <div
+            style="border-bottom: 1px solid #b6b6b6; padding-bottom: 40px; max-width: 700px; margin: 0 auto; background-color: white; border-radius: 20px;">
+    
+            <div style="background-color: #333333; padding: 20px 0; margin-bottom: 40px; border-radius: 20px 20px 0px 0px;">
+                <h1 style="font-size: 250%; margin: 0; color: #ffffff; font-family: 'Times New Roman', Times, serif;">
+                    Immersia</h1>
+            </div>
+    
+            <h4 style="color: #555555; margin-bottom: 30px;">Kattintson az alábbi gombra az új jelszó készítéséhez:</h4>
+    
+            <a href='${link}'>
+              <button
+                  style="background-color: #333333; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 4px; font-size: 16px; font-weight: bold; display: inline-block; margin-bottom: 20px;">
+                  Új jelszó kérése
+              </button>
+            </a>
+    
+              <p style="color: #555555">Ha nem ön kezdeményezte a regisztrációt nyugodtan figyelmen kívül hagyhatja ezt a levelet.</p>
+            <p style="color: #b6b6b6; font-size: 12px; margin-top: 40px; margin-bottom: 0;">Ez egy automatikus email.
+                Kérjük, ne válaszoljon rá.</p>
+            <p style="color: #555555">Üdvözlettel, az Immersia csapata</p>
+    
+        </div>
+    
+    </body>
   `;
 }

@@ -2,13 +2,15 @@ WEB
   -adding archive uploader
   -creating player
   -admin manager
+  -player search
+  -soundboard buttons click area
+  -redirect after logout
 
 BACKEND
-mass upload hiba lista
-max 24 karakteres title
 content token auth
-content validáció
+content fetch validálás
 levél design
+keresés
 (cron törléshez)
 felhasználói adatok encodeolása--
 process limit feltöltéshez--
@@ -20,3 +22,6 @@ token refresh backenden--
 kedvenc logika--
 jelszó visszaállítás--
 durationt kivenni--
+max 24 karakteres title--
+content upload validáció--
+mass upload hiba lista--

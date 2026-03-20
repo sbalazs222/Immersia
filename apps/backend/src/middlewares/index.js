@@ -1,5 +1,6 @@
 import ValidateRegisterSchema from './validation/ValidateRegisterSchema.js';
 import ValidateRequiredFields from './validation/ValidateRequiredFields.js';
+import ValidateSingleUpload from './validation/ValidateSingleUpload.js';
 import AuthenticateToken from './AuthenticateToken.js';
 import UploadLimiter from './UploadLimiter.js';
 import ErrorHandler from './ErrorHandler.js';
@@ -12,4 +13,5 @@ export {
   ValidateRequiredFields,
   UploadLimiter,
   ErrorHandler,
+  ValidateSingleUpload,
 };
