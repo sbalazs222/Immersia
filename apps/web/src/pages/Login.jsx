@@ -63,7 +63,7 @@ export default function Login({ setIsLoggedIn, setIsAdmin }) {
                             <Form.Label>Password</Form.Label>
                             <Form.Control type='password' name='password' placeholder='Password' required />
                         </Form.Group>
-                        <Button type='submit' variant='secondary' className='w-100 mb-3' style={{ backgroundColor: '#9CA3AF', border: 'none' }}>Login</Button>
+                        <Button type='submit' variant='secondary' className='w-100 mb-3' style={{ backgroundColor: '#333333', border: 'none', padding: '10px'}}>Login</Button>
                     </Form>
                 </div>
             </div>
