@@ -14,7 +14,7 @@ export default function Login({ setIsLoggedIn, setIsAdmin }) {
         }
 
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, {
+            const res = await fetch(`https://immersia.techtrove.cc/api/auth/login`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
