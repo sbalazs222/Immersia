@@ -5,9 +5,7 @@ WEB
 
 BACKEND
 mass upload hiba lista
-max 24 karakteres title
 content token auth
-content validáció
 levél design
 (cron törléshez)
 felhasználói adatok encodeolása--
@@ -20,3 +18,5 @@ token refresh backenden--
 kedvenc logika--
 jelszó visszaállítás--
 durationt kivenni--
+max 24 karakteres title--
+content validáció--

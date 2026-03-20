@@ -1,42 +1,25 @@
-import { ApiError } from '../../utils/apiError.js';
 import path from 'path';
 import pool from '../../config/mysql.js';
 import sharp from 'sharp';
 import fse from 'fs-extra';
 
-export default async function UploadSingle(files, body) {
+export default async function UploadSingle(ImageFile, audioConfigs, body) {
   const { Title, Type } = body;
-  const incomingImageFile = files?.ImageFile?.[0];
-
-  if (!incomingImageFile) throw new ApiError(400, 'MISSING_FILES');
-  if (!Title || !Type) throw new ApiError(400, 'MISSING_FIELDS');
-  if (!['oneshot', 'ambience', 'scene'].includes(Type)) throw new ApiError(400, 'INVALID_TYPE');
-
-  const audioConfigs = Type === 'scene'
-    ? [{ file: files?.SoundFileExplore?.[0], prefix: 'explore' }, { file: files?.SoundFileCombat?.[0], prefix: 'combat' }]
-    : [{ file: files?.SoundFile?.[0], prefix: '' }];
-
-  if (audioConfigs.some(cfg => !cfg.file)) throw new ApiError(400, 'MISSING_AUDIO_FILES');
+  const incomingImageFile = ImageFile;
 
   const slugBase = `${Type}-${Title.toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, '-')}`;
   const randomSuffix = Math.random().toString(36).substring(2, 6);
   const uniqueSlug = `${slugBase}-${randomSuffix}`;
-  if (uniqueSlug.length > 100) throw new ApiError(400, 'TITLE_TOO_LONG');
 
   const finalImagePath = `/immersia_data/thumb/${uniqueSlug}.webp`;
-
 
   const createdFiles = [];
   const audioPaths = [];
 
   const conn = await pool.getConnection();
   try {
-
-    const imageMeta = await sharp(incomingImageFile.path).metadata();
-    if (imageMeta.width > 5000 || imageMeta.height > 5000) throw new ApiError(400, 'IMAGE_TOO_LARGE');
-
     if (Type == 'scene') {
       await sharp(incomingImageFile.path).resize(900, 550, { fit: 'cover' }).webp({ quality: 80 }).toFile(finalImagePath);
     } else {
