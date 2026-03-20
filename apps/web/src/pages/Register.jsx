@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify'
 import { Form, Button } from 'react-bootstrap'
+import '../styles/App.css'
 
 export default function Register() {
     async function handleSubmit(event) {

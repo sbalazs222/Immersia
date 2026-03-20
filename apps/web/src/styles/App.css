@@ -132,13 +132,13 @@ body {
   overflow-y: auto;
 }
 
-.form-control {
+.form-control, .form-select {
   border-radius: 8px;
   border: 1px solid #ddd;
   padding: 10px;
 }
 
-.form-control:focus {
+.form-control:focus, .form-select:focus {
   border-color: #9CA3AF;
   box-shadow: 0 0 0 0.2rem rgba(156, 163, 175, 0.25);
 }

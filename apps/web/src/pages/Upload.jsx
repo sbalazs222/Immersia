@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify'
 import { Form, Button } from 'react-bootstrap'
 import { useState } from 'react'
+import '../styles/App.css'
 
 export default function Upload() {
 
