@@ -1,8 +1,6 @@
 WEB
-  -fixing email verification
   -adding archive uploader
   -creating player
-  -outro intro for scenes
   -admin manager
 
 BACKEND
