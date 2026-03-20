@@ -6,7 +6,7 @@ module.exports = async ({ item, tempDir, slug, index }) => {
   const { Title, Type, ImageFile } = item;
   const ErrorList = [];
 
-  if(!slug) ErrorList.push('Error while creating slug, potentially empty title.')
+  if (!slug) ErrorList.push('Error while creating slug, potentially empty title.')
 
   if (!Title) ErrorList.push('No title');
   if (Title && Title.length > 24) ErrorList.push('Title too long');
@@ -38,6 +38,13 @@ module.exports = async ({ item, tempDir, slug, index }) => {
   if (audioConfigs.some(cfg => !cfg.fileName)) {
     ErrorList.push('Missing one or more sound files');;
   }
+
+  audioConfigs.forEach(element => {
+    const sourceAudioPath = path.join(tempDir, element.fileName);
+    if (!fse.pathExistsSync(sourceAudioPath)) {
+      ErrorList.push(`Missing file: ${element.fileName}`)
+    }
+  })
 
   if (ErrorList.length > 0) {
     return {

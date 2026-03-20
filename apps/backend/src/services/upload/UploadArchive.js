@@ -57,14 +57,16 @@ export default async function UploadArchive(zipPath) {
         errors: allErrors
       };
     }
-    const insertValues = results.map((r) => {
-      r.dbRow.slug,
+    const insertValues = results.map((r) => (
+      [
+        r.dbRow.slug,
         r.dbRow.title,
         r.dbRow.type,
         r.dbRow.sound_file_path,
         r.dbRow.sound_file_path_alt || null,
         r.dbRow.image_file_path
-    });
+      ]
+    ));
 
     try {
       await pool.query(
@@ -72,12 +74,9 @@ export default async function UploadArchive(zipPath) {
         [insertValues]
       );
     } catch (dbError) {
-      for (const filePath of allCreatedFiles) {
-        await fse.remove(filePath).catch(() => { });
-        throw dbError;
-      }
+      throw dbError;
     }
-    return { count: insertValues.length };
+    return { success: true, count: insertValues.length };
   } finally {
     await fse.remove(tempDir).catch(() => { });
     await fse.remove(zipPath).catch(() => { });
