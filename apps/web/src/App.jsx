@@ -3,6 +3,7 @@ import './styles/App.css'
 
 import { ToastContainer, toast } from 'react-toastify'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import './styles/App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -13,6 +14,7 @@ import NavbarComponent from './components/Navbar.jsx'
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
+  const navigate = useNavigate()
 
   async function handleLogout() {
         try {
@@ -24,6 +26,9 @@ function App() {
                 toast.success('Logged out successfully')
                 setIsLoggedIn(false)
                 setIsAdmin(false)
+                setTimeout(() => {
+                    navigate('/')
+                }, 1000)
             }
             else {
                 toast.error('Internal server error, ' + await res.json().message)
