@@ -2,7 +2,7 @@ import pool from '../../config/mysql.js';
 
 export default async function AddRemoveFavourite(userId, slug) {
   const [isFav] = await pool.query(
-    'SELECT * FROM favourites f WHERE user_id = ? AND s.slug = ? INNER JOIN sounds s ON f.sound_id = s.id;',
+    'SELECT * FROM favourites f WHERE f.user_id = ? AND s.slug = ? INNER JOIN sounds s ON f.sound_id = s.id;',
     [userId, slug]
   );
   if (isFav.length < 1) {
