@@ -3,7 +3,6 @@ import './styles/App.css'
 
 import { ToastContainer, toast } from 'react-toastify'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import './styles/App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -14,7 +13,6 @@ import NavbarComponent from './components/Navbar.jsx'
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
-  const navigate = useNavigate()
 
   async function handleLogout() {
         try {
@@ -27,7 +25,7 @@ function App() {
                 setIsLoggedIn(false)
                 setIsAdmin(false)
                 setTimeout(() => {
-                    navigate('/')
+                    window.location.href = '/'
                 }, 1000)
             }
             else {

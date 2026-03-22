@@ -29,6 +29,9 @@ export default function Register() {
 
             if (res.ok) {
                 toast.success('Registration successful')
+                setTimeout(() => {
+                    window.location.href = '/login'
+                }, 1000)
             }
             else {
                 try {
