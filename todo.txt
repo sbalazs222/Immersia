@@ -1,10 +1,8 @@
 WEB
   -adding archive uploader
-  -creating player
+  -creating player - ambience volumes
   -admin manager
   -player search
-  -redirect after logout
-  -favourites
 
 BACKEND
 content token auth
