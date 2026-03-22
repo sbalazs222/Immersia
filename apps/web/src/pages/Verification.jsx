@@ -7,16 +7,16 @@ export default function Verification() {
     const [isValidToken, setIsValidToken] = useState(true)
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
-    const code = searchParams.get("code")
+    const token = searchParams.get("token")
 
     useEffect(() => {
-        if (!code) {
+        if (!token) {
             navigate("/login")
             return
         }
 
         async function verifyEmail() {
-            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/verify?code=${code}`, {
+            const res = await fetch(`https://immersia.techtrove.cc/api/mail/verify?token=${token}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,15 +35,17 @@ export default function Verification() {
             }
             else {
                 toast.error("Failed to verify email");
-                navigate("/login");
+                setTimeout(() => {
+                    navigate("/login");
+                }, 3000);
             }
         }
 
         verifyEmail()
-    }, [code, navigate])
+    }, [token, navigate])
 
     async function resendVerificationEmail() {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/resend?code=${code}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/resend?token=${token}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -61,7 +63,7 @@ export default function Verification() {
     return (
         <>
             <h1>Email Verification</h1>
-            <p>Your verification code is: {code}</p>
+            <p>Your verification code is: {token}</p>
             {isValidToken === false && <Button variant="primary" onClick={resendVerificationEmail}>Resend Verification Email</Button>}
         </>
     )

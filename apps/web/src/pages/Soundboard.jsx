@@ -330,8 +330,8 @@ function SoundBoard() {
                                     <h2>Scene Player</h2>
                                     <Form.Range min={0} max={100} value={sceneVolume} onChange={(e) => setSceneVolume(parseFloat(e.target.value))} />
                                     {selectedScene ? (
-                                        <div className='scene-item selected'>
-                                            <div className='scene-name' onClick={() => playScene(selectedScene, false)}>{selectedScene.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${selectedScene.slug}`} alt={selectedScene.title} width={"50px"} height={"50px"}/></div>
+                                        <div className='scene-item selected' onClick={() => playScene(selectedScene, false)}>
+                                            <div className='scene-name'>{selectedScene.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${selectedScene.slug}`} alt={selectedScene.title} width={"50px"} height={"50px"}/></div>
                                             <Button onClick={() => setSceneMode("explore")}>Explore</Button>
                                             <Button onClick={() => setSceneMode("combat")}>Combat</Button>
                                         </div>
@@ -347,8 +347,8 @@ function SoundBoard() {
                                     <h2>Ambience Player</h2>
                                     {selectedAmbiences.length > 0 ? (
                                         selectedAmbiences.map(ambience => (
-                                            <div key={getItemKey(ambience)} className='ambience-item selected'>
-                                                <div className='ambience-name' onClick={() => toggleAmbiencePlayback(ambience)}>{ambience.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${ambience.slug}`} alt={ambience.title} width={"50px"} height={"50px"}/></div>
+                                            <div key={getItemKey(ambience)} className='ambience-item selected' onClick={() => toggleAmbiencePlayback(ambience)}>
+                                                <div className='ambience-name'>{ambience.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${ambience.slug}`} alt={ambience.title} width={"50px"} height={"50px"}/></div>
                                             </div>
                                         ))
                                     ) : (
@@ -363,8 +363,8 @@ function SoundBoard() {
                                     <h2>One-Shot Player</h2>
                                     {selectedOneShots.length > 0 ? (
                                         selectedOneShots.map(oneshot => (
-                                            <div key={getItemKey(oneshot)} className='oneshot-item selected'>
-                                                <div className='oneshot-name' onClick={() => playOneShot(oneshot)}>{oneshot.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${oneshot.slug}`} alt={oneshot.title} width={"50px"} height={"50px"}/></div>
+                                            <div key={getItemKey(oneshot)} className='oneshot-item selected' onClick={() => playOneShot(oneshot)}>
+                                                <div className='oneshot-name'>{oneshot.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${oneshot.slug}`} alt={oneshot.title} width={"50px"} height={"50px"}/></div>
                                             </div>
                                         ))
                                     ) : (
