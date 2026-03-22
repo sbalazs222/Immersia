@@ -148,10 +148,12 @@ body {
 .oneshot-item {
   border: 1px solid #E5E7EB;
   border-radius: 8px;
-  padding: 10px 12px;
   background-color: #FFFFFF;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .scene-item:hover,
@@ -166,6 +168,41 @@ body {
 .oneshot-item.selected {
   background-color: #E5E7EB;
   border-color: #9CA3AF;
+}
+
+.item-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 8px 0 0;
+  min-height: 28px;
+}
+
+.favourite-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #D1D5DB;
+  cursor: pointer;
+  padding: 2px 4px;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.favourite-btn:hover {
+  color: #FF6B6B;
+}
+
+.favourite-btn.favourited {
+  color: #FF6B6B;
+}
+
+.scene-name,
+.ambience-name,
+.oneshot-name {
+  padding: 0 12px 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .scenes-list,
