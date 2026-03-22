@@ -3,7 +3,6 @@ WEB
   -creating player
   -admin manager
   -player search
-  -soundboard buttons click area
   -redirect after logout
 
 BACKEND
