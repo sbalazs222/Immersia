@@ -2,7 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/App.css'
 
 import { ToastContainer, toast } from 'react-toastify'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import './styles/App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -13,6 +14,7 @@ import { AuthContext, AuthProvider } from './context/AuthContext.jsx'
 
 function AppContent() {
   const { isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin, isLoading } = useContext(AuthContext)
+  const navigate = useNavigate()
 
   async function handleLogout() {
         try {
@@ -25,7 +27,7 @@ function AppContent() {
                 setIsLoggedIn(false)
                 setIsAdmin(false)
                 setTimeout(() => {
-                    window.location.href = '/'
+                    navigate('/')
                 }, 1000)
             }
             else {

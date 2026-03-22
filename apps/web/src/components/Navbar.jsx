@@ -1,4 +1,4 @@
-import { NavLink, Route, Routes, BrowserRouter } from 'react-router-dom'
+import { NavLink, Route, Routes } from 'react-router-dom'
 
 import Login from '../pages/Login'
 import Register from '../pages/Register'
@@ -10,8 +10,7 @@ import Verification from '../pages/Verification'
 
 export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin, handleLogout }) {
     return (
-        <BrowserRouter>
-            <div className='app-container'>
+        <div className='app-container'>
                 {/* SIDEBAR */}
                 <div className='sidebar'>
                     <h4 className='fw-bold mb-5 ps-2'>Immersia</h4>
@@ -85,6 +84,5 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin,
                     </Routes>
                 </div>
             </div>
-        </BrowserRouter>
     )
 }

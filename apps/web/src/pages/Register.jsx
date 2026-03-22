@@ -1,8 +1,10 @@
 import { toast } from 'react-toastify'
 import { Form, Button } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import '../styles/App.css'
 
 export default function Register() {
+    const navigate = useNavigate()
     async function handleSubmit(event) {
         event.preventDefault()
         const formdata = new FormData(event.target)
@@ -30,7 +32,7 @@ export default function Register() {
             if (res.ok) {
                 toast.success('Registration successful')
                 setTimeout(() => {
-                    window.location.href = '/login'
+                    navigate('/login')
                 }, 1000)
             }
             else {

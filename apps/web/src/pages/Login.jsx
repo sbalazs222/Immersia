@@ -1,9 +1,11 @@
 import { toast } from 'react-toastify'
 import { Form, Button } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import '../styles/App.css'
 
 
 export default function Login({ setIsLoggedIn, setIsAdmin }) {
+    const navigate = useNavigate()
     async function handleSubmit(event) {
         event.preventDefault()
 
@@ -34,7 +36,7 @@ export default function Login({ setIsLoggedIn, setIsAdmin }) {
                 }
                 toast.success('Login successful')
                 setTimeout(() => {
-                    window.location.href = '/'
+                    navigate('/')
                 }, 1000)
             }
             else if (res.message == 'ACCOUNT_NOT_VERIFIED') {
