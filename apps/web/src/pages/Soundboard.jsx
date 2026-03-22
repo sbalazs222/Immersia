@@ -343,6 +343,7 @@ function SoundBoard() {
                                     <div
                                         key={scene.slug ?? scene._id}
                                         className={`scene-item ${selectedScene && getItemKey(selectedScene) === getItemKey(scene) ? "selected" : ""}`}
+                                        onClick={() => playScene(scene, false)}
                                     >
                                         <div className='item-header'>
                                             <button 
@@ -353,7 +354,7 @@ function SoundBoard() {
                                                 ★
                                             </button>
                                         </div>
-                                        <div className='scene-name' onClick={() => playScene(scene)}>{scene.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${scene.slug}`} alt={scene.title} width={"50px"} height={"50px"}/></div>
+                                        <div className='scene-name'>{scene.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${scene.slug}`} alt={scene.title} width={"50px"} height={"50px"}/></div>
                                     </div>
                                 ))}
                             </div>
@@ -364,6 +365,7 @@ function SoundBoard() {
                                     <div
                                         key={ambience.slug ?? ambience._id}
                                         className={`ambience-item ${isItemSelected(selectedAmbiences, ambience) ? "selected" : ""}`}
+                                        onClick={() => toggleAmbiencePlayback(ambience)}
                                     >
                                         <div className='item-header'>
                                             <button 
@@ -374,7 +376,7 @@ function SoundBoard() {
                                                 ★
                                             </button>
                                         </div>
-                                        <div className='ambience-name' onClick={() => toggleAmbiencePlayback(ambience)}>{ambience.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${ambience.slug}`} alt={ambience.title} width={"50px"} height={"50px"}/></div>
+                                        <div className='ambience-name'>{ambience.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${ambience.slug}`} alt={ambience.title} width={"50px"} height={"50px"}/></div>
                                     </div>
                                 ))}
                             </div>
@@ -385,6 +387,7 @@ function SoundBoard() {
                                     <div
                                         key={oneshot.slug ?? oneshot._id}
                                         className={`oneshot-item ${isItemSelected(selectedOneShots, oneshot) ? "selected" : ""}`}
+                                        onClick={() => toggleOneShotSelection(oneshot)}
                                     >
                                         <div className='item-header'>
                                             <button 
@@ -395,7 +398,7 @@ function SoundBoard() {
                                                 ★
                                             </button>
                                         </div>
-                                        <div className='oneshot-name' onClick={() => toggleOneShotSelection(oneshot)}>{oneshot.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${oneshot.slug}`} alt={oneshot.title} width={"50px"} height={"50px"}/></div>
+                                        <div className='oneshot-name'>{oneshot.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${oneshot.slug}`} alt={oneshot.title} width={"50px"} height={"50px"}/></div>
                                     </div>
                                 ))}
                             </div>
