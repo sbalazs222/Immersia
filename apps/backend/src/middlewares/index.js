@@ -5,6 +5,7 @@ import AuthenticateToken from './AuthenticateToken.js';
 import UploadLimiter from './UploadLimiter.js';
 import ErrorHandler from './ErrorHandler.js';
 import OptionalAuthenticateToken from './OptionalAuthenticateToken.js';
+import IsAdmin from './IsAdmin.js';
 
 export {
   ValidateRegisterSchema,
@@ -14,4 +15,5 @@ export {
   UploadLimiter,
   ErrorHandler,
   ValidateSingleUpload,
+  IsAdmin
 };
