@@ -6,12 +6,12 @@ export default async function AddRemoveFavourite(userId, slug) {
     [userId, slug]
   );
   if (isFav.length < 1) {
-    await pool.query('INSERT INTO favourites (user_id, sound_id) VALUES (?, (SELECT id FROM sounds WHERE slug = ?;));', [
+    await pool.query('INSERT INTO favourites (user_id, sound_id) VALUES (?, (SELECT id FROM sounds WHERE slug = ?));', [
       userId,
       slug,
     ]);
   } else {
-    await pool.query('DELETE FROM favourites WHERE user_id = ? AND sound_id = (SELECT id FROM sounds WHERE slug = ?;));', [
+    await pool.query('DELETE FROM favourites WHERE user_id = ? AND sound_id = (SELECT id FROM sounds WHERE slug = ?));', [
       userId,
       slug,
     ]);
