@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
 
   const checkAuthStatus = async () => {
     try {
-      const response = await fetch("https://immersia.techtrove.cc/auth/me", {
+      const response = await fetch("https://immersia.techtrove.cc/api/auth/me", {
         method: 'GET',
         credentials: 'include',
       })
