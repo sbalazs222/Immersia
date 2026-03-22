@@ -117,6 +117,12 @@ export function useAudioPlayer() {
 
   const toggleOneShotSelection = (oneshot) => {
     setSelectedOneShots(prev => toggleSelection(prev, oneshot))
+    oneshotAudioSetRef.current.forEach(audio => {
+      if (audio.src.includes(getItemKey(oneshot))) {
+        stopAudio(audio)
+        oneshotAudioSetRef.current.delete(audio)
+      }
+    })
   }
 
   const playOneShot = (oneshot) => {
