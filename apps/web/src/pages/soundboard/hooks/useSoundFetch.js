@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { apiClient } from '../utils/apiClient'
 import { SCROLL_THRESHOLD } from '../utils/constants'
 
@@ -13,7 +13,7 @@ export function useSoundFetch() {
   const pageStateRef = useRef({ scene: 1, ambience: 1, oneshot: 1 })
   const totalPagesRef = useRef({ scene: 1, ambience: 1, oneshot: 1 })
 
-  const fetchSounds = async (page = 1, append = false) => {
+  const fetchSounds = useCallback(async (page = 1, append = false) => {
     setIsLoading(true)
     try {
       const { items, pagination } = await apiClient.fetchSounds(activeTab, page, append)
@@ -57,7 +57,7 @@ export function useSoundFetch() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [activeTab])
 
   // Fetch sounds when tab changes
   useEffect(() => {
@@ -65,7 +65,30 @@ export function useSoundFetch() {
     if (currentData.length === 0) {
       fetchSounds(1, false)
     }
-  }, [activeTab, scenes, ambiences, oneshots])
+  }, [activeTab, fetchSounds, scenes, ambiences, oneshots])
+
+  const checkAndLoadMore = useCallback(() => {
+    const contentArea = contentAreaRef.current
+    if (!contentArea || isLoading) return
+
+    const { scrollHeight, clientHeight } = contentArea
+    const currentPageNum = pageStateRef.current[activeTab]
+    const totalPages = totalPagesRef.current[activeTab]
+
+    // If content doesn't fill viewport and there are more pages, load more
+    if (scrollHeight < clientHeight + 100 && currentPageNum < totalPages) {
+      const nextPage = currentPageNum + 1
+      pageStateRef.current[activeTab] = nextPage
+      fetchSounds(nextPage, true)
+    }
+  }, [activeTab, isLoading, fetchSounds])
+
+  // Check if more content is needed after data loads
+  useEffect(() => {
+    // Use a small delay to ensure DOM has updated with new items
+    const timer = setTimeout(checkAndLoadMore, 100)
+    return () => clearTimeout(timer)
+  }, [scenes, ambiences, oneshots, activeTab, isLoading, checkAndLoadMore])
 
   // Infinite scroll
   useEffect(() => {
@@ -86,7 +109,7 @@ export function useSoundFetch() {
 
     contentArea.addEventListener('scroll', handleScroll)
     return () => contentArea.removeEventListener('scroll', handleScroll)
-  }, [activeTab, isLoading])
+  }, [activeTab, isLoading, fetchSounds])
 
   return {
     activeTab,
