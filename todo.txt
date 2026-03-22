@@ -4,6 +4,7 @@ WEB
   -admin manager
   -player search
   -redirect after logout
+  -favourites
 
 BACKEND
 content token auth
