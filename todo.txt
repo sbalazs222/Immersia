@@ -3,6 +3,8 @@ WEB
   -creating player - ambience volumes
   -admin manager
   -player search
+  -display favs
+  -saving preset
 
 BACKEND
 content token auth
