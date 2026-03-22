@@ -3,7 +3,7 @@ import { FavouriteControllers } from '../controllers/index.js';
 import { AuthenticateToken } from '../middlewares/index.js';
 const FavouriteRouter = Router();
 
-FavouriteRouter.post('/', AuthenticateToken, FavouriteControllers.AddRemoveFavourite);
-FavouriteRouter.get('/', AuthenticateToken, FavouriteControllers.GetFavourites);
+FavouriteRouter.post('/', FavouriteControllers.AddRemoveFavourite);
+FavouriteRouter.get('/', FavouriteControllers.GetFavourites);
 
 export default FavouriteRouter;
