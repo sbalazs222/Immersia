@@ -13,6 +13,7 @@ function SoundBoard() {
     const [sceneMode, setSceneMode] = useState("explore")
     const [sceneVolume, setSceneVolume] = useState(50)
     const [isLoading, setIsLoading] = useState(false)
+    const [favourites, setFavourites] = useState([])
     const sceneAudioRef = useRef(null)
     const ambienceAudioMapRef = useRef(new Map())
     const oneshotAudioSetRef = useRef(new Set())
@@ -21,6 +22,55 @@ function SoundBoard() {
     const totalPagesRef = useRef({ scene: 1, ambience: 1, oneshot: 1 })
 
     const getItemKey = item => item?.slug ?? item?.title
+
+    const isFavourite = (item) => {
+        const itemKey = getItemKey(item)
+        if (!itemKey) return false
+        return favourites.some(fav => fav.slug == itemKey)
+    }
+
+    const toggleFavourite = async (e, item) => {
+        e.stopPropagation()
+        const slug = item?.slug
+        if (!slug) return
+
+        try {
+            const response = await fetch('https://immersia.techtrove.cc/api/fav', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({ slug })
+            })
+            
+            if (response.ok) {
+                // Refresh favourites after toggle
+                fetchFavourites()
+            }
+        } catch (error) {
+            console.error("Failed to toggle favourite:", error)
+        }
+    }
+
+    const fetchFavourites = async () => {
+        try {
+            const response = await fetch('https://immersia.techtrove.cc/api/fav', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            })
+            
+            if (response.ok) {
+                const data = await response.json()
+                setFavourites(data.data || [])
+            }
+        } catch (error) {
+            console.error("Failed to fetch favourites:", error)
+        }
+    }
 
     const isItemSelected = (selectedItems, item) => {
         const itemKey = getItemKey(item)
@@ -224,6 +274,10 @@ function SoundBoard() {
     }, [activeTab, scenes, ambiences, oneshots])
 
     useEffect(() => {
+        fetchFavourites()
+    }, [])
+
+    useEffect(() => {
         const contentArea = contentAreaRef.current
         if (!contentArea) return
 
@@ -290,6 +344,15 @@ function SoundBoard() {
                                         key={scene.slug ?? scene._id}
                                         className={`scene-item ${selectedScene && getItemKey(selectedScene) === getItemKey(scene) ? "selected" : ""}`}
                                     >
+                                        <div className='item-header'>
+                                            <button 
+                                                className={`favourite-btn ${isFavourite(scene) ? "favourited" : ""}`}
+                                                onClick={(e) => toggleFavourite(e, scene)}
+                                                title={isFavourite(scene) ? "Remove from favourites" : "Add to favourites"}
+                                            >
+                                                ★
+                                            </button>
+                                        </div>
                                         <div className='scene-name' onClick={() => playScene(scene)}>{scene.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${scene.slug}`} alt={scene.title} width={"50px"} height={"50px"}/></div>
                                     </div>
                                 ))}
@@ -302,6 +365,15 @@ function SoundBoard() {
                                         key={ambience.slug ?? ambience._id}
                                         className={`ambience-item ${isItemSelected(selectedAmbiences, ambience) ? "selected" : ""}`}
                                     >
+                                        <div className='item-header'>
+                                            <button 
+                                                className={`favourite-btn ${isFavourite(ambience) ? "favourited" : ""}`}
+                                                onClick={(e) => toggleFavourite(e, ambience)}
+                                                title={isFavourite(ambience) ? "Remove from favourites" : "Add to favourites"}
+                                            >
+                                                ★
+                                            </button>
+                                        </div>
                                         <div className='ambience-name' onClick={() => toggleAmbiencePlayback(ambience)}>{ambience.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${ambience.slug}`} alt={ambience.title} width={"50px"} height={"50px"}/></div>
                                     </div>
                                 ))}
@@ -314,6 +386,15 @@ function SoundBoard() {
                                         key={oneshot.slug ?? oneshot._id}
                                         className={`oneshot-item ${isItemSelected(selectedOneShots, oneshot) ? "selected" : ""}`}
                                     >
+                                        <div className='item-header'>
+                                            <button 
+                                                className={`favourite-btn ${isFavourite(oneshot) ? "favourited" : ""}`}
+                                                onClick={(e) => toggleFavourite(e, oneshot)}
+                                                title={isFavourite(oneshot) ? "Remove from favourites" : "Add to favourites"}
+                                            >
+                                                ★
+                                            </button>
+                                        </div>
                                         <div className='oneshot-name' onClick={() => toggleOneShotSelection(oneshot)}>{oneshot.title} <img src={`https://immersia.techtrove.cc/api/content/thumb/${oneshot.slug}`} alt={oneshot.title} width={"50px"} height={"50px"}/></div>
                                     </div>
                                 ))}
