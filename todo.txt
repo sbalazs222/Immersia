@@ -5,7 +5,6 @@ WEB
   -player search
   -display favs
   -saving preset
-  -fix scroll
 
 BACKEND
 content token auth
