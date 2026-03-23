@@ -17,6 +17,7 @@
   'message': string
   'data': {
     'role': number
+    'last_session': json
   }
 }
 ```
@@ -27,8 +28,8 @@ ACCOUNT_DISABLED > Account is disabled\
 ACCOUNT_NOT_VERIFIED > Account email verification did not happen
 
 ### Role
-0 > Admin\
-1 > User
+0 > User\
+1 > Admin
 
 ## POST /register
 
@@ -61,13 +62,17 @@ Protected
 
 ### Request: 
 ```
-{ }
+{ 
+  'last_session': json
+}
 ```
 
 ### Response:
 
 ```
-{ }
+{
+  'message': string
+}
 ```
 ### Message
 SUCCESS > Successful logout\
