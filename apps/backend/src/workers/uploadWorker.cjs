@@ -34,15 +34,19 @@ module.exports = async ({ item, tempDir, slug, index }) => {
     : [
       { fileName: item.SoundFile, suffix: '' }
     ];
-
-  if (audioConfigs.some(cfg => !cfg.fileName)) {
-    ErrorList.push('Missing one or more sound files');;
+  console.log(audioConfigs)
+  if (audioConfigs.some(cfg => !cfg.fileName) || audioConfigs.some(cfg => cfg.fileName == undefined)) {
+    ErrorList.push('Missing one or more sound files');
   }
 
   audioConfigs.forEach(element => {
-    const sourceAudioPath = path.join(tempDir, element.fileName);
-    if (!fse.pathExistsSync(sourceAudioPath)) {
-      ErrorList.push(`Missing file: ${element.fileName}`)
+    try {
+      const sourceAudioPath = path.join(tempDir, element.fileName);
+      if (!fse.pathExistsSync(sourceAudioPath)) {
+        ErrorList.push(`Missing file: ${element.fileName}`)
+      }
+    } catch (error) {
+      ErrorList.push('Missing one or more sound files')
     }
   })
 
