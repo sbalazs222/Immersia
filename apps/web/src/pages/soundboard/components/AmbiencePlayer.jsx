@@ -29,7 +29,7 @@ export function AmbiencePlayer({
                 </div>
                 <Form.Range
                   min={0}
-                  max={100}
+                  max={50}
                   value={volume}
                   onChange={(e) => onAmbienceVolumeChange(ambienceKey, parseFloat(e.target.value))}
                   onClick={(e) => e.stopPropagation()}

@@ -28,7 +28,7 @@ export function ScenePlayer({
             </div>
             <Form.Range
               min={0}
-              max={100}
+              max={50}
               value={sceneVolume}
               onChange={(e) => onVolumeChange(parseFloat(e.target.value))}
             />
