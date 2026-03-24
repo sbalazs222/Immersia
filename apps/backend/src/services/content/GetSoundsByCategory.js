@@ -16,8 +16,7 @@ export default async function GetSoundsByCategory(category, page, limit, search,
       WHERE s.type = ? 
       AND (? = "" OR s.title LIKE ?)
       ORDER BY
-        is_favourite ASC,
-        is_favourite ASC,
+        is_favourite DESC,
         f.created_at DESC,
         s.title ASC 
       LIMIT ? OFFSET ?;`,
