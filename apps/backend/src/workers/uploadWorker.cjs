@@ -20,7 +20,7 @@ module.exports = async ({ item, tempDir, slug, index }) => {
     try {
       const sourceImagePath = path.join(tempDir, ImageFile);
       const imageMeta = await sharp(sourceImagePath).metadata();
-      if (imageMeta.width > 1500 || imageMeta.height > 1500) ErrorList.push('Image size too large (max 1500x1500)');
+      if (imageMeta.width > 5000 || imageMeta.height > 5000) ErrorList.push('Image size too large (max 1500x1500)');
     } catch (error) {
       ErrorList.push('Could not read image metadata');
     }
