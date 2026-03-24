@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { NavLink, Route, Routes } from 'react-router-dom'
 
 import Login from '../pages/Login'
@@ -9,50 +10,65 @@ import SoundBoard from '../pages/Soundboard'
 import Verification from '../pages/Verification'
 
 export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin, handleLogout }) {
+    const [isOpen, setIsOpen] = useState(true);
     return (
         <div className='app-container'>
                 {/* SIDEBAR */}
-                <div className='sidebar'>
-                    <h4 className='fw-bold mb-5 ps-2'>Immersia</h4>
+                <div className={isOpen ? 'sidebar' : 'sidebar sidebar-closed'}>
+                    <div className='d-flex align-items-center mb-5'>
+                        <button className='btn btn-light border-0 me-2 px-2 py-1' onClick={() => setIsOpen(!isOpen)}>
+                        <i className='bi bi-list fs-4 text-secondary'></i>
+                        </button>
+                        {isOpen && <h4 className='fw-bold mb-0 ps-2'>Immersia</h4>}
+                    </div>
+
                     <nav className='d-flex flex-column h-100'>
 
                         {isLoggedIn ? (
                             /* LOGGED IN VIEW */
                             <>
-                                <NavLink to="/soundboard" className="nav-item">
-                                    <i className='bi bi-grid-1x2-fill me-3'></i>Soundboard
+                                <NavLink to="/soundboard" className={`nav-item ${!isOpen ? 'justify-content-center' : ''}`}>
+                                <i className='bi bi-grid-1x2-fill'></i>
+                                {isOpen && <span className='ms-3'>Soundboard</span>}
                                 </NavLink>
-                                <NavLink to="/profile" className="nav-item">
-                                    <i className="bi bi-person me-3"></i>Profile
+
+                                <NavLink to="/profile" className={`nav-item ${!isOpen ? 'justify-content-center' : ''}`}>
+                                <i className="bi bi-person fs-5"></i>
+                                {isOpen && <span className='ms-3'>Profile</span>}
                                 </NavLink>
 
                                 {isAdmin && (
-                                    <NavLink to="/admin" className="nav-item">
-                                        <i className="bi bi-gear me-3"></i>Admin
+                                    <NavLink to="/admin" className={`nav-item ${!isOpen ? 'justify-content-center' : ""}`}>
+                                        <i className="bi bi-gear fs-5"></i>
+                                        {isOpen && <span className='ms-3'>Admin</span>}
                                     </NavLink>
                                 )}
 
-                                <NavLink to="/upload" className="nav-item">
-                                    <i className="bi bi-cloud-upload me-3"></i>Upload
+                                <NavLink to="/upload" className={`nav-item ${!isOpen ? 'justify-content-center' : ''}`}>
+                                    <i className="bi bi-cloud-upload fs-5"></i>
+                                    {isOpen && <span className='ms-3'>Upload</span>}
                                 </NavLink>
 
                                 <div className='mt-auto'>
                                     <button
-                                        className='btn btn-dark w-100'
+                                        className='btn btn-dark w-100 d-flex justify-content-center align-items-center'
                                         onClick={handleLogout}
                                     >
-                                        Logout
+                                        <i className='bi bi-box-arrow-left'></i>
+                                        {isOpen && <span className='ms-2'>Logout</span>}
                                     </button>
                                 </div>
                             </>
                         ) : (
                             /* LOGGED OUT VIEW */
                             <div className='mt-4 border-top pt-4'>
-                                <NavLink to="/login" className="nav-item">
-                                    <i className='bi bi-box-arrow-in-right me-3'></i>Login
+                                <NavLink to="/login" className={`nav-item ${!isOpen ? 'justify-content-center' : ""}`}>
+                                    <i className='bi bi-box-arrow-in-right fs-5'></i>
+                                    {isOpen && <span className='ms-3'>Login</span>}
                                 </NavLink>
-                                <NavLink to="/register" className="nav-item">
-                                    <i className="bi bi-person-add me-3"></i>Register
+                                <NavLink to="/register" className={`nav-item ${!isOpen ? 'justify-content-center': ''}`}>
+                                    <i className="bi bi-person-add fs-5"></i>
+                                    {isOpen && <span className='ms-3'>Register</span>}
                                 </NavLink>
                             </div>
                         )}
