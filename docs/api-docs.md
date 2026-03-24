@@ -183,6 +183,21 @@ SOUND_NOT_FOUND > Invalid slug
 { }
 ```
 
+## DELETE /:slug
+
+### Request: 
+```
+{ }
+```
+
+### Response:
+
+```
+{ 
+  'message': string
+}
+```
+SUCCESS > successful delete
 
 # /fav
 ## POST /
