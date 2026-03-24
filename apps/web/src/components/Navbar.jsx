@@ -15,15 +15,16 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin,
         <div className='app-container'>
                 {/* SIDEBAR */}
                 <div className={isOpen ? 'sidebar' : 'sidebar sidebar-closed'}>
-                    <div className='d-flex align-items-center mb-5'>
-                        <button className='btn btn-light border-0 me-2 px-2 py-1' onClick={() => setIsOpen(!isOpen)}>
+                    <div className={`d-flex align-items-center ${isOpen ? 'justify-content-start' : 'justify-content-center'}`}>
+                        <button className='btn btn-light border-0 px-2 py-1' onClick={() => setIsOpen(!isOpen)}>
                         <i className='bi bi-list fs-4 text-secondary'></i>
                         </button>
-                        {isOpen && <h4 className='fw-bold mb-0 ps-2'>Immersia</h4>}
+                        {isOpen && <h4 className='fw-bold mb-0 ms-2'>Immersia</h4>}
                     </div>
 
-                    <nav className='d-flex flex-column h-100'>
+                <hr className="text-muted mt-4 mb-4" style={{ opacity: 0.15 }} />
 
+                    <nav className='d-flex flex-column h-100'>
                         {isLoggedIn ? (
                             /* LOGGED IN VIEW */
                             <>
