@@ -3,7 +3,6 @@ import pool from '../../config/mysql.js';
 export default async function GetSoundsByCategory(category, page, limit, search, userId) {
 
   const offset = (page - 1) * limit;
-  console.log(category, page, limit, search, userId)
 
   const [countPromise, dataPromise] = [
     pool.query('SELECT COUNT(*) as total FROM sounds WHERE type = ? AND (? = "" OR title LIKE ?);', [category, search, `%${search}%`]),
