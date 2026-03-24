@@ -3,9 +3,10 @@ import pool from '../../config/mysql.js';
 export default async function GetSoundsByCategory(category, page, limit, search, userId) {
 
   const offset = (page - 1) * limit;
+  console.log(category, page, limit, search, userId)
 
   const [countPromise, dataPromise] = [
-    pool.query('SELECT COUNT(*) as total FROM sounds WHERE type = ? AND title LIKE ?;', [category, `%${search}%`]),
+    pool.query('SELECT COUNT(*) as total FROM sounds WHERE type = ? AND (? = "" OR title LIKE ?);', [category, search, `%${search}%`]),
     pool.query(
       `SELECT
         s.title, 
@@ -14,12 +15,13 @@ export default async function GetSoundsByCategory(category, page, limit, search,
       FROM sounds s
       LEFT JOIN favourites f ON s.id = f.sound_id AND f.user_id = ?
       WHERE s.type = ? 
-      AND s.title LIKE ?
+      AND (? = "" OR s.title LIKE ?)
       ORDER BY
+        is_favourite ASC,
         f.created_at DESC,
         s.title ASC 
       LIMIT ? OFFSET ?;`,
-      [userId, category, `%${search}%`, limit, offset]
+      [userId, category, search || '', `%${search}%`, limit, offset]
     ),
   ];
 
