@@ -2,7 +2,7 @@ import { ApiError } from "../../utils/apiError.js";
 
 export default function ValidateContentRequest(req, res, next) {
   const category = req.params.category;
-  const { page, limit } = req.query;
+  let { page, limit } = req.query;
 
   if (!category) throw new ApiError(400, 'MISSING_CATEGORY');
   if (!['oneshot', 'ambience', 'scene'].includes(category)) throw new ApiError(400, 'INVALID_CATEGORY');
