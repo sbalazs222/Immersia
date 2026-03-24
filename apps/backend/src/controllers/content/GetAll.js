@@ -5,6 +5,7 @@ export default async function GetAll(req, res) {
     req.data.category,
     req.data.page,
     req.data.limit,
+    req.data.search,
     req.user?.id
   );
 
