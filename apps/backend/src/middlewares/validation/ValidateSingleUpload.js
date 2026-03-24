@@ -19,7 +19,7 @@ export default async function ValidateSingleUpload(req, res, next) {
   if (Title.length > 24) throw new ApiError(400, 'TITLE_TOO_LONG');
 
   const imageMeta = await sharp(files.ImageFile[0].path).metadata();
-  if (imageMeta.width > 1500 || imageMeta.height > 1500) throw new ApiError(400, 'IMAGE_TOO_LARGE');
+  if (imageMeta.width > 5000 || imageMeta.height > 5000) throw new ApiError(400, 'IMAGE_TOO_LARGE');
 
   req.imageFile = files.ImageFile[0];
   req.audioConfigs = audioConfigs;
