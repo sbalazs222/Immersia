@@ -4,34 +4,58 @@ import { getItemKey, toggleSelection } from '../utils/itemUtils'
 import { API_BASE_URL } from '../utils/constants'
 
 export function useAudioPlayer() {
-  const [selectedScene, setSelectedScene] = useState(null)
-  const [selectedAmbiences, setSelectedAmbiences] = useState([])
-  const [selectedOneShots, setSelectedOneShots] = useState([])
-  const [sceneMode, setSceneMode] = useState('explore')
-  const [sceneVolume, setSceneVolume] = useState(50)
+  const [selectedScene, setSelectedScene] = useState(null) // Track selected scene for UI purposes
+  const [selectedAmbiences, setSelectedAmbiences] = useState([]) // Track selected ambiences for UI purposes
+  const [selectedOneShots, setSelectedOneShots] = useState([]) // Track selected one-shots for UI purposes
+  const [sceneMode, setSceneMode] = useState('explore') // 'explore' or 'combat'
+  const [sceneVolume, setSceneVolume] = useState(50) // Default volume at 50%
+  const [isScenePaused, setIsScenePaused] = useState(true) // Track if the current scene is paused
 
-  const sceneAudioRef = useRef(null)
-  const ambienceAudioMapRef = useRef(new Map())
-  const oneshotAudioSetRef = useRef(new Set())
+  const sceneAudioRef = useRef(null) // Ref to hold the current scene audio element
+  const ambienceAudioMapRef = useRef(new Map()) // Map to track ambience audios by their keys
+  const oneshotAudioSetRef = useRef(new Set()) // Using a Set to track one-shot audios for easy cleanup
   const scenePlayingRef = useRef(null) // Track what's currently playing
   const isPlayingSceneRef = useRef(false) // Track if a play operation is in progress
 
+  const togglePauseScene = useCallback(async () => {
+    // If no scene is currently loaded, do nothing
+    if (!sceneAudioRef.current) return
+
+    // If currently paused, try to resume playback
+    if (isScenePaused) {
+      try {
+        await sceneAudioRef.current.play()
+        await fadeInAudio(sceneAudioRef.current, sceneVolume / 100)
+        setIsScenePaused(false)
+      } catch (err) {
+        console.error('Failed to resume scene:', err)
+      }
+    } else {
+      // If currently playing, pause
+      sceneAudioRef.current.pause()
+      setIsScenePaused(true)
+    }
+  }, [isScenePaused, sceneVolume])
+
   const playScene = useCallback(async (scene, isChangingMode) => {
+    // Prevent multiple rapid clicks from causing issues
     const slug = scene?.slug
     if (!slug) return
 
-    // Wait for any in-flight play operation to complete
+    // Wait for any play operation to complete
     while (isPlayingSceneRef.current) {
       await new Promise(resolve => setTimeout(resolve, 10))
     }
 
-    // For user clicks (not mode changes), prevent rapid successive plays
+    // For user clicks (not mode changes), prevent rapid plays
     if (!isChangingMode && isPlayingSceneRef.current) {
       return
     }
-
+    
+    // Mark that we're starting the play operation
     isPlayingSceneRef.current = true
     
+    // If changing mode, we want to keep the same scene but update the audio source
     try {
       const currentPlayingKey = scenePlayingRef.current
       const nextSceneKey = getItemKey(scene)
@@ -45,6 +69,7 @@ export function useAudioPlayer() {
         sceneAudioRef.current = null
         scenePlayingRef.current = null
         setSelectedScene(null)
+        setIsScenePaused(true)
         setSceneMode('explore')
         return
       }
@@ -70,10 +95,10 @@ export function useAudioPlayer() {
 
       scenePlayingRef.current = nextSceneKey
       setSelectedScene(scene)
+      setIsScenePaused(true)
 
-      // Play and fade in
-      await sceneAudio.play()
-      await fadeInAudio(sceneAudio, sceneVolume / 100)
+      // Load audio but don't play automatically
+      sceneAudio.volume = sceneVolume / 100
     } catch (err) {
       console.error('Failed to play scene:', err)
       // Cleanup on error
@@ -83,6 +108,7 @@ export function useAudioPlayer() {
       }
       scenePlayingRef.current = null
       setSelectedScene(null)
+      setIsScenePaused(false)
     } finally {
       isPlayingSceneRef.current = false
     }
@@ -93,9 +119,11 @@ export function useAudioPlayer() {
     const slug = ambience?.slug
     if (!ambienceKey || !slug) return
 
+    // Check if this ambience is already playing
     const ambienceAudioMap = ambienceAudioMapRef.current
     const existingAudio = ambienceAudioMap.get(ambienceKey)
 
+    // If it's already playing, stop it and remove from selected
     if (existingAudio) {
       stopAudio(existingAudio)
       ambienceAudioMap.delete(ambienceKey)
@@ -103,10 +131,12 @@ export function useAudioPlayer() {
       return
     }
 
+    // Otherwise, create new audio and play
     const ambienceAudio = new Audio(`${API_BASE_URL}/content/play/${slug}`)
     ambienceAudio.loop = true
     ambienceAudioMap.set(ambienceKey, ambienceAudio)
 
+    // Handle cleanup on end or error
     setSelectedAmbiences(prev => toggleSelection(prev, ambience))
     ambienceAudio.play().catch(err => {
       console.error('Failed to play ambience:', err)
@@ -116,8 +146,11 @@ export function useAudioPlayer() {
   }
 
   const toggleOneShotSelection = (oneshot) => {
+    // Toggle selection in UI
     setSelectedOneShots(prev => toggleSelection(prev, oneshot))
     oneshotAudioSetRef.current.forEach(audio => {
+      // If the audio is for the one-shot being toggled off, stop it
+      // Using foreach since we need to check each audio's source against the oneshot key
       if (audio.src.includes(getItemKey(oneshot))) {
         stopAudio(audio)
         oneshotAudioSetRef.current.delete(audio)
@@ -129,13 +162,15 @@ export function useAudioPlayer() {
     const slug = oneshot?.slug
     if (!slug) return
 
+    // Create and play one-shot audio
     const oneshotAudio = new Audio(`${API_BASE_URL}/content/play/${slug}`)
     oneshotAudioSetRef.current.add(oneshotAudio)
 
     const clearOneShot = () => {
       oneshotAudioSetRef.current.delete(oneshotAudio)
     }
-
+    
+    // Handle cleanup on end or error
     oneshotAudio.addEventListener('ended', clearOneShot, { once: true })
     oneshotAudio.addEventListener('error', clearOneShot, { once: true })
 
@@ -152,12 +187,33 @@ export function useAudioPlayer() {
     }
   }, [sceneVolume])
 
-  // Re-play scene when mode changes
+  // Update audio URL when mode changes (if audio is loaded)
   useEffect(() => {
-    if (selectedScene) {
-      playScene(selectedScene, true)
+    if (selectedScene && sceneAudioRef.current && !isScenePaused) {
+      // Only update if scene is currently playing
+      const slug = selectedScene.slug
+      const audioUrl = `${API_BASE_URL}/content/play/${slug}${
+        sceneMode === 'combat' ? '?state=0' : ''
+      }`
+      
+      // Preserve current time and play state when switching modes
+      const currentTime = sceneAudioRef.current.currentTime
+      const wasPlaying = !sceneAudioRef.current.paused
+      
+      stopAudio(sceneAudioRef.current)
+      
+      const sceneAudio = new Audio(audioUrl)
+      sceneAudio.loop = true
+      sceneAudio.volume = sceneVolume / 100
+      sceneAudio.currentTime = currentTime
+      sceneAudioRef.current = sceneAudio
+      
+      if (wasPlaying) {
+        sceneAudio.play().catch(err => {
+          console.error('Failed to resume scene with new mode:', err)
+        })
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sceneMode])
 
   // Cleanup on unmount
@@ -176,6 +232,8 @@ export function useAudioPlayer() {
         stopAudio(audio)
       })
       oneshotAudioSetRef.current.clear()
+
+      setIsScenePaused(false)
     }
   }, [])
 
@@ -187,7 +245,9 @@ export function useAudioPlayer() {
     setSceneMode,
     sceneVolume,
     setSceneVolume,
+    isScenePaused,
     playScene,
+    togglePauseScene,
     toggleAmbiencePlayback,
     toggleOneShotSelection,
     playOneShot

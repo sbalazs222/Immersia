@@ -7,7 +7,9 @@ export function ScenePlayer({
   onVolumeChange,
   sceneMode,
   onSceneModeChange,
-  onPlayScene
+  onPlayScene,
+  isScenePaused,
+  onTogglePause
 }) {
   return (
     <div className='scenePlayer mb-4'>
@@ -30,6 +32,9 @@ export function ScenePlayer({
                 height="50px"
               />
             </div>
+            <Button onClick={(e) => { e.stopPropagation(); onTogglePause() }} variant={isScenePaused ? 'secondary' : 'warning'}>
+              {isScenePaused ? '▶ Play' : '⏸ Pause'}
+            </Button>
             <Button onClick={(e) => { e.stopPropagation(); sceneMode !== 'explore' && onSceneModeChange('explore') }}>Explore</Button>
             <Button onClick={(e) => { e.stopPropagation(); sceneMode !== 'combat' && onSceneModeChange('combat') }}>Combat</Button>
           </div>
