@@ -20,6 +20,13 @@ body {
   border-right: 1px solid #ddd;
   border-right: 1px solid #ddd;
   flex-shrink: 0;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+}
+
+.sidebar-closed {
+  width: 80px;
+  padding: 30px 10px;
 }
 
 .nav-item {
@@ -32,6 +39,7 @@ body {
   display: flex;
   align-items: center;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .nav-item:hover {
@@ -53,6 +61,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow-y: auto;
 }
 
 .smalltext {
