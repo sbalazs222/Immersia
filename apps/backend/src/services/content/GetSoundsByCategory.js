@@ -1,15 +1,11 @@
-import { ApiError } from '../../utils/apiError.js';
 import pool from '../../config/mysql.js';
 
-export default async function GetSoundsByCategory(category, page, limit, userId) {
-  const CATEGORIES = ['oneshot', 'ambience', 'scene'];
-
-  if (!CATEGORIES.includes(category)) throw new ApiError(400, 'INVALID_CATEGORY');
+export default async function GetSoundsByCategory(category, page, limit, search, userId) {
 
   const offset = (page - 1) * limit;
 
   const [countPromise, dataPromise] = [
-    pool.query('SELECT COUNT(*) as total FROM sounds WHERE type = ?;', [category]),
+    pool.query('SELECT COUNT(*) as total FROM sounds WHERE type = ? AND (? = "" OR title LIKE ?);', [category, search, `%${search}%`]),
     pool.query(
       `SELECT
         s.title, 
@@ -18,11 +14,13 @@ export default async function GetSoundsByCategory(category, page, limit, userId)
       FROM sounds s
       LEFT JOIN favourites f ON s.id = f.sound_id AND f.user_id = ?
       WHERE s.type = ? 
+      AND (? = "" OR s.title LIKE ?)
       ORDER BY
+        is_favourite ASC,
         f.created_at DESC,
         s.title ASC 
       LIMIT ? OFFSET ?;`,
-      [userId, category, limit, offset]
+      [userId, category, search || '', `%${search}%`, limit, offset]
     ),
   ];
 

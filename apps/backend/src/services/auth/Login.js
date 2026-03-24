@@ -6,7 +6,7 @@ import pool from '../../config/mysql.js';
 
 export default async function Login(email, password) {
   const [users] = await pool.query(
-    'SELECT id, CAST(AES_DECRYPT(email, ?) AS CHAR) as email, role, password, is_active, is_verified, token_version FROM users WHERE email_blind_index = ?',
+    'SELECT id, CAST(AES_DECRYPT(email, ?) AS CHAR) as email, role, password, is_active, is_verified, token_version, last_session FROM users WHERE email_blind_index = ?',
     [env.DB_ENCRYPT_SECRET, getBlindIndex(email)]
   );
   const user = users[0];
