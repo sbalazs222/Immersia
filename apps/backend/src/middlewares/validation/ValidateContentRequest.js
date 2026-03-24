@@ -1,4 +1,4 @@
-import { ApiError } from "../../utils/apiError";
+import { ApiError } from "../../utils/apiError.js";
 
 export default function ValidateContentRequest(req, res, next) {
   const category = req.params.category;
