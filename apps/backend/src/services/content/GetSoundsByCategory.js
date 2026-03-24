@@ -2,9 +2,6 @@ import { ApiError } from '../../utils/apiError.js';
 import pool from '../../config/mysql.js';
 
 export default async function GetSoundsByCategory(category, page, limit, userId) {
-  const CATEGORIES = ['oneshot', 'ambience', 'scene'];
-
-  if (!CATEGORIES.includes(category)) throw new ApiError(400, 'INVALID_CATEGORY');
 
   const offset = (page - 1) * limit;
 

@@ -1,5 +1,5 @@
 import { ConsoleColor as cc } from 'psgutil';
-import { env } from '../config/config.js';
+import { env } from '../../config/config.js';
 
 const ErrorHandler = (err, req, res, next) => {
   const statusCode = err.statusCode || 500;
