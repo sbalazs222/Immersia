@@ -1,10 +1,10 @@
 WEB
-  -adding archive uploader
   -creating player - ambience volumes
   -admin manager
   -player search
   -display favs
   -saving preset
+  -scene play button
 
 BACKEND
 content token auth

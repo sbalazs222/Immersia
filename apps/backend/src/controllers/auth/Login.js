@@ -26,5 +26,5 @@ export default async function Login(req, res) {
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 
-  return res.status(200).json({ message: 'SUCCESS', data: { role: user.role } });
+  return res.status(200).json({ message: 'SUCCESS', data: { role: user.role, last_session: user.last_session} });
 }

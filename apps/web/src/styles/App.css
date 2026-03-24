@@ -20,6 +20,21 @@ body {
   border-right: 1px solid #ddd;
   border-right: 1px solid #ddd;
   flex-shrink: 0;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+}
+
+.sidebar-closed {
+  width: 80px;
+  padding: 30px 10px;
+}
+
+.sidebar-closed .nav-item {
+  padding: 12px 0;
+}
+
+.sidebar-closed .mt-auto .btn i {
+  margin: 0 !important;
 }
 
 .nav-item {
@@ -32,6 +47,7 @@ body {
   display: flex;
   align-items: center;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .nav-item:hover {
@@ -46,6 +62,11 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.nav-item i {
+  min-width: 24px; 
+  text-align: center;
+}
+
 .main-content {
   flex-grow: 1;
   background-color: #E5E5E5;
@@ -53,6 +74,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow-y: auto;
 }
 
 .smalltext {

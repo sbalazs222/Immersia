@@ -11,7 +11,7 @@ export default async function AddRemoveFavourite(userId, slug) {
       slug,
     ]);
   } else {
-    await pool.query('DELETE FROM favourites WHERE user_id = ? AND sound_id = (SELECT id FROM sounds WHERE slug = ?));', [
+    await pool.query('DELETE FROM favourites WHERE user_id = ? AND sound_id = (SELECT id FROM sounds WHERE slug = ?);', [
       userId,
       slug,
     ]);

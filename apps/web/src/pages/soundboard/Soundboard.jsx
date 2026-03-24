@@ -27,7 +27,9 @@ function SoundBoard() {
     setSceneMode,
     sceneVolume,
     setSceneVolume,
+    isScenePaused,
     playScene,
+    togglePauseScene,
     toggleAmbiencePlayback,
     toggleOneShotSelection,
     playOneShot
@@ -111,6 +113,8 @@ function SoundBoard() {
                 sceneMode={sceneMode}
                 onSceneModeChange={setSceneMode}
                 onPlayScene={playScene}
+                isScenePaused={isScenePaused}
+                onTogglePause={togglePauseScene}
               />
             </Col>
             <Col>
