@@ -62,7 +62,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin,
                             </>
                         ) : (
                             /* LOGGED OUT VIEW */
-                            <div className='mt-4 border-top pt-4'>
+                            <div className='d-flex flex-column'>
                                 <NavLink to="/login" className={`nav-item ${!isOpen ? 'justify-content-center' : ""}`}>
                                     <i className='bi bi-box-arrow-in-right fs-5'></i>
                                     {isOpen && <span className='ms-3'>Login</span>}

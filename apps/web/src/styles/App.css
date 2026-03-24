@@ -29,6 +29,14 @@ body {
   padding: 30px 10px;
 }
 
+.sidebar-closed .nav-item {
+  padding: 12px 0;
+}
+
+.sidebar-closed .mt-auto .btn i {
+  margin: 0 !important;
+}
+
 .nav-item {
   color: #666;
   text-decoration: none;
@@ -52,6 +60,11 @@ body {
   color: white;
   font-weight: 600;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item i {
+  min-width: 24px; 
+  text-align: center;
 }
 
 .main-content {
