@@ -9,6 +9,7 @@ export function useAudioPlayer() {
   const [selectedOneShots, setSelectedOneShots] = useState([]) // Track selected one-shots for UI purposes
   const [sceneMode, setSceneMode] = useState('explore') // 'explore' or 'combat'
   const [sceneVolume, setSceneVolume] = useState(50) // Default volume at 50%
+  const [ambienceVolumes, setAmbienceVolumes] = useState({}) // Default ambience volume at 50%
   const [isScenePaused, setIsScenePaused] = useState(true) // Track if the current scene is paused
 
   const sceneAudioRef = useRef(null) // Ref to hold the current scene audio element
@@ -24,9 +25,9 @@ export function useAudioPlayer() {
     // If currently paused, try to resume playback
     if (isScenePaused) {
       try {
+        setIsScenePaused(false)
         await sceneAudioRef.current.play()
         await fadeInAudio(sceneAudioRef.current, sceneVolume / 100)
-        setIsScenePaused(false)
       } catch (err) {
         console.error('Failed to resume scene:', err)
       }
@@ -95,10 +96,24 @@ export function useAudioPlayer() {
 
       scenePlayingRef.current = nextSceneKey
       setSelectedScene(scene)
-      setIsScenePaused(true)
-
-      // Load audio but don't play automatically
+      
+      // Set initial volume
       sceneAudio.volume = sceneVolume / 100
+      
+      // If switching to a different scene while one was playing, start playing the new scene
+      if (!isChangingMode && scenePlayingRef.current && currentPlayingKey) {
+        try {
+          setIsScenePaused(false)
+          await sceneAudio.play()
+          await fadeInAudio(sceneAudio, sceneVolume / 100)
+        } catch (err) {
+          setIsScenePaused(true)
+          console.error('Failed to play new scene:', err)
+        }
+      } else {
+        // Load audio but don't play automatically
+        setIsScenePaused(true)
+      }
     } catch (err) {
       console.error('Failed to play scene:', err)
       // Cleanup on error
@@ -114,6 +129,17 @@ export function useAudioPlayer() {
     }
   }, [sceneMode, sceneVolume])
 
+  const setAmbienceVolume = useCallback((ambienceKey, volume) => {
+    // Update the volume state for this ambience
+    setAmbienceVolumes(prev => ({ ...prev, [ambienceKey]: volume }))
+    
+    // Update the audio element's volume in real-time
+    const ambienceAudio = ambienceAudioMapRef.current.get(ambienceKey)
+    if (ambienceAudio) {
+      ambienceAudio.volume = volume / 100
+    }
+  }, [])
+
   const toggleAmbiencePlayback = (ambience) => {
     const ambienceKey = getItemKey(ambience)
     const slug = ambience?.slug
@@ -128,6 +154,12 @@ export function useAudioPlayer() {
       stopAudio(existingAudio)
       ambienceAudioMap.delete(ambienceKey)
       setSelectedAmbiences(prev => prev.filter(item => getItemKey(item) !== ambienceKey))
+      // Clean up volume tracking
+      setAmbienceVolumes(prev => {
+        const updated = { ...prev }
+        delete updated[ambienceKey]
+        return updated
+      })
       return
     }
 
@@ -136,12 +168,22 @@ export function useAudioPlayer() {
     ambienceAudio.loop = true
     ambienceAudioMap.set(ambienceKey, ambienceAudio)
 
+    // Initialize volume for this ambience (default: 0)
+    const initialVolume = 0
+    setAmbienceVolumes(prev => ({ ...prev, [ambienceKey]: initialVolume }))
+    ambienceAudio.volume = initialVolume / 100
+
     // Handle cleanup on end or error
     setSelectedAmbiences(prev => toggleSelection(prev, ambience))
     ambienceAudio.play().catch(err => {
       console.error('Failed to play ambience:', err)
       ambienceAudioMap.delete(ambienceKey)
       setSelectedAmbiences(prev => prev.filter(item => getItemKey(item) !== ambienceKey))
+      setAmbienceVolumes(prev => {
+        const updated = { ...prev }
+        delete updated[ambienceKey]
+        return updated
+      })
     })
   }
 
@@ -191,30 +233,45 @@ export function useAudioPlayer() {
   useEffect(() => {
     if (selectedScene && sceneAudioRef.current && !isScenePaused) {
       // Only update if scene is currently playing
-      const slug = selectedScene.slug
-      const audioUrl = `${API_BASE_URL}/content/play/${slug}${
-        sceneMode === 'combat' ? '?state=0' : ''
-      }`
-      
-      // Preserve current time and play state when switching modes
-      const currentTime = sceneAudioRef.current.currentTime
-      const wasPlaying = !sceneAudioRef.current.paused
-      
-      stopAudio(sceneAudioRef.current)
-      
-      const sceneAudio = new Audio(audioUrl)
-      sceneAudio.loop = true
-      sceneAudio.volume = sceneVolume / 100
-      sceneAudio.currentTime = currentTime
-      sceneAudioRef.current = sceneAudio
-      
-      if (wasPlaying) {
-        sceneAudio.play().catch(err => {
-          console.error('Failed to resume scene with new mode:', err)
-        })
+      const handleModeChange = async () => {
+        const slug = selectedScene.slug
+        const audioUrl = `${API_BASE_URL}/content/play/${slug}${
+          sceneMode === 'combat' ? '?state=0' : ''
+        }`
+        
+        // Preserve play state when switching modes
+        const wasPlaying = !sceneAudioRef.current.paused
+        
+        // Fade out old audio
+        await fadeOutAudio(sceneAudioRef.current)
+        stopAudio(sceneAudioRef.current)
+        
+        const sceneAudio = new Audio(audioUrl)
+        sceneAudio.loop = true
+        sceneAudio.volume = sceneVolume / 100
+        sceneAudioRef.current = sceneAudio
+        
+        if (wasPlaying) {
+          try {
+            await sceneAudio.play()
+            await fadeInAudio(sceneAudio, sceneVolume / 100)
+          } catch (err) {
+            console.error('Failed to resume scene with new mode:', err)
+          }
+        }
       }
+      
+      handleModeChange()
     }
   }, [sceneMode])
+
+  // Update ambience volumes when ambienceVolumes state changes
+  useEffect(() => {
+    ambienceAudioMapRef.current.forEach((audio, ambienceKey) => {
+      const volume = ambienceVolumes[ambienceKey] ?? 50
+      audio.volume = volume / 100
+    })
+  }, [ambienceVolumes])
 
   // Cleanup on unmount
   useEffect(() => {
@@ -245,6 +302,8 @@ export function useAudioPlayer() {
     setSceneMode,
     sceneVolume,
     setSceneVolume,
+    ambienceVolumes,
+    setAmbienceVolume,
     isScenePaused,
     playScene,
     togglePauseScene,
