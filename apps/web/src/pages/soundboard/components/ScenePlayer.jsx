@@ -15,14 +15,8 @@ export function ScenePlayer({
     <div className='scenePlayer mb-4'>
       <div className='scenePlayer-content'>
         <h2>Scene Player</h2>
-        <Form.Range
-          min={0}
-          max={100}
-          value={sceneVolume}
-          onChange={(e) => onVolumeChange(parseFloat(e.target.value))}
-        />
         {selectedScene ? (
-          <div className='scene-item selected' onClick={() => onPlayScene(selectedScene, false)}>
+          <div className='scene-item selected'>
             <div className='scene-name'>
               {selectedScene.title}
               <img
@@ -32,6 +26,12 @@ export function ScenePlayer({
                 height="50px"
               />
             </div>
+            <Form.Range
+              min={0}
+              max={100}
+              value={sceneVolume}
+              onChange={(e) => onVolumeChange(parseFloat(e.target.value))}
+            />
             <Button onClick={(e) => { e.stopPropagation(); onTogglePause() }} variant={isScenePaused ? 'secondary' : 'warning'}>
               {isScenePaused ? '▶ Play' : '⏸ Pause'}
             </Button>

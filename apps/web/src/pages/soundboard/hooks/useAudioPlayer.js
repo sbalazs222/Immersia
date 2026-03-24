@@ -9,6 +9,7 @@ export function useAudioPlayer() {
   const [selectedOneShots, setSelectedOneShots] = useState([]) // Track selected one-shots for UI purposes
   const [sceneMode, setSceneMode] = useState('explore') // 'explore' or 'combat'
   const [sceneVolume, setSceneVolume] = useState(50) // Default volume at 50%
+  const [ambienceVolumes, setAmbienceVolumes] = useState({}) // Default ambience volume at 50%
   const [isScenePaused, setIsScenePaused] = useState(true) // Track if the current scene is paused
 
   const sceneAudioRef = useRef(null) // Ref to hold the current scene audio element
@@ -114,6 +115,17 @@ export function useAudioPlayer() {
     }
   }, [sceneMode, sceneVolume])
 
+  const setAmbienceVolume = useCallback((ambienceKey, volume) => {
+    // Update the volume state for this ambience
+    setAmbienceVolumes(prev => ({ ...prev, [ambienceKey]: volume }))
+    
+    // Update the audio element's volume in real-time
+    const ambienceAudio = ambienceAudioMapRef.current.get(ambienceKey)
+    if (ambienceAudio) {
+      ambienceAudio.volume = volume / 100
+    }
+  }, [])
+
   const toggleAmbiencePlayback = (ambience) => {
     const ambienceKey = getItemKey(ambience)
     const slug = ambience?.slug
@@ -128,6 +140,12 @@ export function useAudioPlayer() {
       stopAudio(existingAudio)
       ambienceAudioMap.delete(ambienceKey)
       setSelectedAmbiences(prev => prev.filter(item => getItemKey(item) !== ambienceKey))
+      // Clean up volume tracking
+      setAmbienceVolumes(prev => {
+        const updated = { ...prev }
+        delete updated[ambienceKey]
+        return updated
+      })
       return
     }
 
@@ -136,12 +154,22 @@ export function useAudioPlayer() {
     ambienceAudio.loop = true
     ambienceAudioMap.set(ambienceKey, ambienceAudio)
 
+    // Initialize volume for this ambience (default: 0)
+    const initialVolume = 0
+    setAmbienceVolumes(prev => ({ ...prev, [ambienceKey]: initialVolume }))
+    ambienceAudio.volume = initialVolume / 100
+
     // Handle cleanup on end or error
     setSelectedAmbiences(prev => toggleSelection(prev, ambience))
     ambienceAudio.play().catch(err => {
       console.error('Failed to play ambience:', err)
       ambienceAudioMap.delete(ambienceKey)
       setSelectedAmbiences(prev => prev.filter(item => getItemKey(item) !== ambienceKey))
+      setAmbienceVolumes(prev => {
+        const updated = { ...prev }
+        delete updated[ambienceKey]
+        return updated
+      })
     })
   }
 
@@ -216,6 +244,14 @@ export function useAudioPlayer() {
     }
   }, [sceneMode])
 
+  // Update ambience volumes when ambienceVolumes state changes
+  useEffect(() => {
+    ambienceAudioMapRef.current.forEach((audio, ambienceKey) => {
+      const volume = ambienceVolumes[ambienceKey] ?? 50
+      audio.volume = volume / 100
+    })
+  }, [ambienceVolumes])
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -245,6 +281,8 @@ export function useAudioPlayer() {
     setSceneMode,
     sceneVolume,
     setSceneVolume,
+    ambienceVolumes,
+    setAmbienceVolume,
     isScenePaused,
     playScene,
     togglePauseScene,

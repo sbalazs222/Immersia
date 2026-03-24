@@ -27,6 +27,8 @@ function SoundBoard() {
     setSceneMode,
     sceneVolume,
     setSceneVolume,
+    ambienceVolumes,
+    setAmbienceVolume,
     isScenePaused,
     playScene,
     togglePauseScene,
@@ -121,6 +123,8 @@ function SoundBoard() {
               <AmbiencePlayer
                 selectedAmbiences={selectedAmbiences}
                 onAmbienceClick={toggleAmbiencePlayback}
+                ambienceVolumes={ambienceVolumes}
+                onAmbienceVolumeChange={setAmbienceVolume}
               />
             </Col>
             <Col>
