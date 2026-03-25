@@ -277,6 +277,14 @@ export function useAudioPlayer() {
     })
   }, [ambienceVolumes])
 
+  // Update one-shot volume when oneshotVolume state changes
+  useEffect(() => {
+    oneshotAudioSetRef.current.forEach(audio => {
+      audio.volume = oneshotVolume / 100
+    })
+  }, [oneshotVolume])
+  
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
