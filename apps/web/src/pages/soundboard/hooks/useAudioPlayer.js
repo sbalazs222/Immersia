@@ -8,8 +8,9 @@ export function useAudioPlayer() {
   const [selectedAmbiences, setSelectedAmbiences] = useState([]) // Track selected ambiences for UI purposes
   const [selectedOneShots, setSelectedOneShots] = useState([]) // Track selected one-shots for UI purposes
   const [sceneMode, setSceneMode] = useState('explore') // 'explore' or 'combat'
-  const [sceneVolume, setSceneVolume] = useState(25) // Default volume at 25%
+  const [sceneVolume, setSceneVolume] = useState(25) // Default volume at 50%
   const [ambienceVolumes, setAmbienceVolumes] = useState({}) // Default ambience volume at 50%
+  const [oneshotVolume, setOneShotVolume] = useState(25) // Default one-shot volume at 50%
   const [isScenePaused, setIsScenePaused] = useState(true) // Track if the current scene is paused
 
   const sceneAudioRef = useRef(null) // Ref to hold the current scene audio element
@@ -209,6 +210,7 @@ export function useAudioPlayer() {
     // Create and play one-shot audio
     const oneshotAudio = new Audio(`${API_BASE_URL}/content/play/${slug}`)
     oneshotAudioSetRef.current.add(oneshotAudio)
+    oneshotAudio.volume = oneshotVolume / 100
 
     const clearOneShot = () => {
       oneshotAudioSetRef.current.delete(oneshotAudio)
@@ -306,6 +308,8 @@ export function useAudioPlayer() {
     setSceneVolume,
     ambienceVolumes,
     setAmbienceVolume,
+    oneshotVolume,
+    setOneShotVolume,
     isScenePaused,
     playScene,
     togglePauseScene,
