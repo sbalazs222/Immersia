@@ -61,13 +61,13 @@ export default function Upload() {
 
                     <Form onSubmit={handleSubmitSingle}>
                         <Form.Group>
-                            <Form.Label className='smalltext'>Title - max length: 24 characters</Form.Label>
+                            <Form.Label className='mediumtext'>Title - max length: 24 characters</Form.Label>
                             <Form.Control type='text' name='Title' />
                         </Form.Group>
                         {
                             uploadType !== "scene" ? (
                                 <Form.Group controlId="formAudio" className="mb-3">
-                                    <Form.Label className='smalltext'>Supported audio formats: .WAW, .MP3, .OGG</Form.Label>
+                                    <Form.Label className='mediumtext'>Supported audio formats: .WAW, .MP3, .OGG</Form.Label>
                                     <Form.Control type="file" name="SoundFile" accept='.mp3, .ogg, .waw' />
                                 </Form.Group>
                             ) : (
@@ -81,7 +81,7 @@ export default function Upload() {
                         }
 
                         <Form.Group controlId='formImage'>
-                            <Form.Label className='smalltext'>Image for the effect</Form.Label>
+                            <Form.Label className='mediumtext'>Image for the effect</Form.Label>
                             <Form.Control type="file" name="ImageFile" accept='image/*' />
                         </Form.Group>
                         <Form.Group>
@@ -101,7 +101,7 @@ export default function Upload() {
                         <hr className='my-4' />
                         <h2 className='mb-4 fw-bold'>Bulk Upload (Zip Archive)</h2>
                         <Form.Group controlId="formArchive" className="mb-3">
-                            <Form.Label className='smalltext'>Upload a zip file containing multiple sounds. The zip should have a specific structure. Refer to the documentation for details.</Form.Label>
+                            <Form.Label className='mediumtext'>Upload a zip file containing multiple sounds. The zip should have a specific structure. Refer to the documentation for details.</Form.Label>
                             <Form.Control type="file" name="Archive" accept='.zip' />
                         </Form.Group>
                         <Button variant="dark" type='submit' className="w-100" style={{ backgroundColor: "#333333", border: "none", padding: "10px", marginTop: "15px" }}>
