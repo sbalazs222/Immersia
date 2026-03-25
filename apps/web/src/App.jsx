@@ -13,19 +13,28 @@ import NavbarComponent from './components/Navbar.jsx'
 import { AuthContext, AuthProvider } from './context/AuthContext.jsx'
 
 function AppContent() {
-  const { isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin, isLoading } = useContext(AuthContext)
+  const { isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin, isLoading, lastSession, setLastSession } = useContext(AuthContext)
   const navigate = useNavigate()
 
   async function handleLogout() {
         try {
             const res = await fetch("https://immersia.techtrove.cc/api/auth/logout", {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 credentials: 'include',
+                body: JSON.stringify(
+                    {
+                    last_session: lastSession
+                    }
+                )
             });
             if (res.ok) {
                 toast.success('Logged out successfully')
                 setIsLoggedIn(false)
                 setIsAdmin(false)
+                setLastSession(null)
                 setTimeout(() => {
                     navigate('/')
                 }, 1000)

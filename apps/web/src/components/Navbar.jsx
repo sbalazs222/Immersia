@@ -79,7 +79,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin,
                 <div className='main-content content-container'>
                     <Routes>
                         {!isLoggedIn ? (
-                            <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} />
+                            <Route path="/" element={<Login />} />
                         ) : (
                             <Route path="/" element={<SoundBoard />} />
                         )}
@@ -87,7 +87,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin,
                         {/* Auth Routes */}
                         {!isLoggedIn && (
                             <>
-                                <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} />
+                                <Route path="/login" element={<Login />} />
                                 <Route path="/register" element={<Register isLoggedIn={isLoggedIn} />} />
                             </>
                         )}

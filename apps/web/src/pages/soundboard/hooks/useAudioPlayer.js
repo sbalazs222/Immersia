@@ -1,24 +1,40 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, useContext } from 'react'
 import { stopAudio, fadeOutAudio, fadeInAudio } from '../utils/audioUtils'
 import { getItemKey, toggleSelection } from '../utils/itemUtils'
 import { API_BASE_URL } from '../utils/constants'
+import { AuthContext } from '../../../context/AuthContext'
+
+const DEFAULT_AUDIO_SESSION = {
+  selectedScene: null,
+  selectedAmbiences: [],
+  selectedOneShots: [],
+  sceneMode: 'explore',
+  sceneVolume: 25,
+  ambienceVolumes: {},
+  oneshotVolume: 25,
+  isScenePaused: true
+}
 
 export function useAudioPlayer() {
-  const [selectedScene, setSelectedScene] = useState(null) // Track selected scene for UI purposes
-  const [selectedAmbiences, setSelectedAmbiences] = useState([]) // Track selected ambiences for UI purposes
-  const [selectedOneShots, setSelectedOneShots] = useState([]) // Track selected one-shots for UI purposes
-  const [sceneMode, setSceneMode] = useState('explore') // 'explore' or 'combat'
-  const [sceneVolume, setSceneVolume] = useState(25) // Default volume at 50%
-  const [ambienceVolumes, setAmbienceVolumes] = useState({}) // Default ambience volume at 50%
-  const [oneshotVolume, setOneShotVolume] = useState(25) // Default one-shot volume at 50%
-  const [isScenePaused, setIsScenePaused] = useState(true) // Track if the current scene is paused
+  const { lastSession, setLastSession } = useContext(AuthContext)
+  const initialSession = lastSession ?? DEFAULT_AUDIO_SESSION
+
+  const [selectedScene, setSelectedScene] = useState(initialSession.selectedScene ?? null) // Track selected scene for UI purposes
+  const [selectedAmbiences, setSelectedAmbiences] = useState(initialSession.selectedAmbiences ?? []) // Track selected ambiences for UI purposes
+  const [selectedOneShots, setSelectedOneShots] = useState(initialSession.selectedOneShots ?? []) // Track selected one-shots for UI purposes
+  const [sceneMode, setSceneMode] = useState(initialSession.sceneMode ?? 'explore') // 'explore' or 'combat'
+  const [sceneVolume, setSceneVolume] = useState(initialSession.sceneVolume ?? 25) // Default volume at 50%
+  const [ambienceVolumes, setAmbienceVolumes] = useState(initialSession.ambienceVolumes ?? {}) // Default ambience volume at 50%
+  const [oneshotVolume, setOneShotVolume] = useState(initialSession.oneshotVolume ?? 25) // Default one-shot volume at 50%
+  const [isScenePaused, setIsScenePaused] = useState(initialSession.isScenePaused ?? true) // Track if the current scene is paused
 
   const sceneAudioRef = useRef(null) // Ref to hold the current scene audio element
   const ambienceAudioMapRef = useRef(new Map()) // Map to track ambience audios by their keys
   const oneshotAudioSetRef = useRef(new Set()) // Using a Set to track one-shot audios for easy cleanup
   const scenePlayingRef = useRef(null) // Track what's currently playing
   const isPlayingSceneRef = useRef(false) // Track if a play operation is in progress
-
+  const hasHydratedRef = useRef(false) // To ensure we only hydrate from lastSession once on mount
+  
   const togglePauseScene = useCallback(async () => {
     // If no scene is currently loaded, do nothing
     if (!sceneAudioRef.current) return
@@ -233,6 +249,46 @@ export function useAudioPlayer() {
     }
   }, [sceneVolume])
 
+  // Build audio objects from persisted last_session once per mount.
+  useEffect(() => {
+    if (hasHydratedRef.current) return
+    hasHydratedRef.current = true
+
+    if (selectedScene?.slug && !sceneAudioRef.current) {
+      const audioUrl = `${API_BASE_URL}/content/play/${selectedScene.slug}${
+        sceneMode === 'combat' ? '?state=0' : ''
+      }`
+      const sceneAudio = new Audio(audioUrl)
+      sceneAudio.loop = true
+      sceneAudio.volume = sceneVolume / 100
+      sceneAudioRef.current = sceneAudio
+      scenePlayingRef.current = getItemKey(selectedScene)
+
+      if (!isScenePaused) {
+        sceneAudio.play().catch(err => {
+          console.error('Failed to restore scene playback:', err)
+          setIsScenePaused(true)
+        })
+      }
+    }
+
+    selectedAmbiences.forEach(ambience => {
+      const ambienceKey = getItemKey(ambience)
+      const slug = ambience?.slug
+      if (!ambienceKey || !slug || ambienceAudioMapRef.current.has(ambienceKey)) return
+
+      const ambienceAudio = new Audio(`${API_BASE_URL}/content/play/${slug}`)
+      ambienceAudio.loop = true
+      ambienceAudio.volume = (ambienceVolumes[ambienceKey] ?? 0) / 100
+      ambienceAudioMapRef.current.set(ambienceKey, ambienceAudio)
+
+      ambienceAudio.play().catch(err => {
+        console.error('Failed to restore ambience playback:', err)
+        ambienceAudioMapRef.current.delete(ambienceKey)
+      })
+    })
+  }, [selectedScene, selectedAmbiences, ambienceVolumes, sceneMode, sceneVolume, isScenePaused])
+
   // Update audio URL when mode changes (if audio is loaded)
   useEffect(() => {
     if (selectedScene && sceneAudioRef.current && !isScenePaused) {
@@ -283,6 +339,20 @@ export function useAudioPlayer() {
       audio.volume = oneshotVolume / 100
     })
   }, [oneshotVolume])
+
+  // Keep last_session synced so logout can persist current audio state.
+  useEffect(() => {
+    setLastSession({
+      selectedScene,
+      selectedAmbiences,
+      selectedOneShots,
+      sceneMode,
+      sceneVolume,
+      ambienceVolumes,
+      oneshotVolume,
+      isScenePaused
+    })
+  }, [selectedScene, selectedAmbiences, selectedOneShots, sceneMode, sceneVolume, ambienceVolumes, oneshotVolume, isScenePaused, setLastSession])
   
 
   // Cleanup on unmount
