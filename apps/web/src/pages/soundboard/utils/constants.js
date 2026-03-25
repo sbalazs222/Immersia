@@ -7,4 +7,4 @@ export const SOUND_TYPES = {
 export const FADE_DURATION = 500
 export const INITIAL_PAGE_LIMIT = 30
 export const APPEND_PAGE_LIMIT = 10
-export const SCROLL_THRESHOLD = 100
+export const SCROLL_THRESHOLD = 200
