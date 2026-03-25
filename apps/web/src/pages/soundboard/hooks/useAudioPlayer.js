@@ -60,6 +60,7 @@ export function useAudioPlayer() {
     try {
       const currentPlayingKey = scenePlayingRef.current
       const nextSceneKey = getItemKey(scene)
+      const wasPlaying = Boolean(sceneAudioRef.current && !sceneAudioRef.current.paused)
 
       // If clicking the same scene (not changing mode), toggle it off
       if (currentPlayingKey === nextSceneKey && !isChangingMode) {
@@ -100,8 +101,9 @@ export function useAudioPlayer() {
       // Set initial volume
       sceneAudio.volume = sceneVolume / 100
       
-      // If switching to a different scene while one was playing, start playing the new scene
-      if (!isChangingMode && scenePlayingRef.current && currentPlayingKey) {
+      // Preserve transport state when changing scenes.
+      // Only autoplay the next scene if the previous one was actively playing.
+      if (!isChangingMode && currentPlayingKey && wasPlaying) {
         try {
           setIsScenePaused(false)
           await sceneAudio.play()
