@@ -1,8 +1,10 @@
-import { API_BASE_URL, INITIAL_PAGE_LIMIT, APPEND_PAGE_LIMIT } from './constants'
+import { API_BASE_URL, INITIAL_PAGE_LIMIT } from './constants'
 
 export const apiClient = {
   async fetchSounds(category, page = 1, append = false) {
-    const limit = append ? APPEND_PAGE_LIMIT : INITIAL_PAGE_LIMIT
+    // Keep page size stable for page-based pagination.
+    // Changing limit between page 1 and later pages can cause overlap/gaps.
+    const limit = INITIAL_PAGE_LIMIT
     const response = await fetch(
       `${API_BASE_URL}/content/all/${category}?page=${page}&limit=${limit}`,
       {

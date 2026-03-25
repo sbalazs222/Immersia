@@ -10,16 +10,20 @@ export function useSoundFetch() {
   const [isLoading, setIsLoading] = useState(false)
   
   const contentAreaRef = useRef(null)
+  const isFetchingRef = useRef(false)
   const pageStateRef = useRef({ scene: 1, ambience: 1, oneshot: 1 })
   const totalPagesRef = useRef({ scene: 1, ambience: 1, oneshot: 1 })
 
-  const fetchSounds = useCallback(async (page = 1, append = false) => {
+  const fetchSounds = useCallback(async (page = 1, append = false, tab = activeTab) => {
+    if (isFetchingRef.current) return
+
+    isFetchingRef.current = true
     setIsLoading(true)
     try {
-      const { items, pagination } = await apiClient.fetchSounds(activeTab, page, append)
+      const { items, pagination } = await apiClient.fetchSounds(tab, page, append)
 
       // Update the appropriate state based on activeTab
-      if (activeTab === 'scene') {
+      if (tab === 'scene') {
         setScenes(prev => {
           if (append) {
             // Deduplicate items when appending
@@ -29,7 +33,7 @@ export function useSoundFetch() {
           }
           return items
         })
-      } else if (activeTab === 'ambience') {
+      } else if (tab === 'ambience') {
         setAmbiences(prev => {
           if (append) {
             const existingKeys = new Set(prev.map(item => item.slug || item._id))
@@ -38,7 +42,7 @@ export function useSoundFetch() {
           }
           return items
         })
-      } else if (activeTab === 'oneshot') {
+      } else if (tab === 'oneshot') {
         setOneshots(prev => {
           if (append) {
             const existingKeys = new Set(prev.map(item => item.slug || item._id))
@@ -50,11 +54,12 @@ export function useSoundFetch() {
       }
 
       // Update pagination state
-      pageStateRef.current[activeTab] = pagination.page || page
-      totalPagesRef.current[activeTab] = pagination.totalPages || 1
+      pageStateRef.current[tab] = pagination.page || page
+      totalPagesRef.current[tab] = pagination.totalPages || 1
     } catch (error) {
       console.error('Failed to fetch sounds:', error)
     } finally {
+      isFetchingRef.current = false
       setIsLoading(false)
     }
   }, [activeTab])
@@ -63,7 +68,7 @@ export function useSoundFetch() {
   useEffect(() => {
     const currentData = activeTab === 'scene' ? scenes : activeTab === 'ambience' ? ambiences : oneshots
     if (currentData.length === 0) {
-      fetchSounds(1, false)
+      fetchSounds(1, false, activeTab)
     }
   }, [activeTab, fetchSounds, scenes, ambiences, oneshots])
 
@@ -79,7 +84,7 @@ export function useSoundFetch() {
     if (scrollHeight < clientHeight + 100 && currentPageNum < totalPages) {
       const nextPage = currentPageNum + 1
       pageStateRef.current[activeTab] = nextPage
-      fetchSounds(nextPage, true)
+      fetchSounds(nextPage, true, activeTab)
     }
   }, [activeTab, isLoading, fetchSounds])
 
@@ -103,7 +108,7 @@ export function useSoundFetch() {
       if (scrollHeight - scrollTop - clientHeight < SCROLL_THRESHOLD && !isLoading && currentPageNum < totalPages) {
         const nextPage = currentPageNum + 1
         pageStateRef.current[activeTab] = nextPage
-        fetchSounds(nextPage, true)
+        fetchSounds(nextPage, true, activeTab)
       }
     }
 
