@@ -8,7 +8,7 @@ export function useAudioPlayer() {
   const [selectedAmbiences, setSelectedAmbiences] = useState([]) // Track selected ambiences for UI purposes
   const [selectedOneShots, setSelectedOneShots] = useState([]) // Track selected one-shots for UI purposes
   const [sceneMode, setSceneMode] = useState('explore') // 'explore' or 'combat'
-  const [sceneVolume, setSceneVolume] = useState(50) // Default volume at 50%
+  const [sceneVolume, setSceneVolume] = useState(25) // Default volume at 25%
   const [ambienceVolumes, setAmbienceVolumes] = useState({}) // Default ambience volume at 50%
   const [isScenePaused, setIsScenePaused] = useState(true) // Track if the current scene is paused
 
