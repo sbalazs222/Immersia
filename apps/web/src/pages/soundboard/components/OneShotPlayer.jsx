@@ -3,14 +3,22 @@ import { API_BASE_URL } from '../utils/constants'
 
 export function OneShotPlayer({
   selectedOneShots,
-  onOneShotClick
+  onOneShotClick,
+  oneshotVolume,
+  onOneShotVolumeChange
 }) {
   return (
     <div className='oneshotPlayer mb-4'>
       <div className='oneshotPlayer-content'>
         <h2>One-Shot Player</h2>
         {selectedOneShots.length > 0 ? (
-          selectedOneShots.map(oneshot => (
+          <Form.Range
+              min={0}
+              max={50}
+              value={oneshotVolume}
+              onChange={(e) => onOneShotVolumeChange(parseFloat(e.target.value))}
+            />,
+          (selectedOneShots.map(oneshot => (
             <div
               key={getItemKey(oneshot)}
               className='oneshot-item selected'
@@ -26,7 +34,7 @@ export function OneShotPlayer({
                 />
               </div>
             </div>
-          ))
+          )))
         ) : (
           <div>No oneshot selected</div>
         )}
