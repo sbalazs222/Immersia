@@ -1,7 +1,6 @@
 WEB
   -admin manager
   -player search
-  -display favs
   -saving preset
 
 BACKEND
