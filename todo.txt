@@ -6,20 +6,3 @@ WEB
 
 BACKEND
 content token auth
-(cron törléshez)
-felhasználói adatok encodeolása--
-process limit feltöltéshez--
-levelezés--
-hiba kód homogenizálás--
-struktúra felülvizsgálat--
-pagination limit not updating--
-token refresh backenden--
-kedvenc logika--
-jelszó visszaállítás--
-durationt kivenni--
-max 24 karakteres title--
-content upload validáció--
-mass upload hiba lista--
-levél design--
-content fetch validálás--
-keresés--
