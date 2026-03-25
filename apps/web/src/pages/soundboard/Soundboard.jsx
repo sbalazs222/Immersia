@@ -29,6 +29,8 @@ function SoundBoard() {
     setSceneVolume,
     ambienceVolumes,
     setAmbienceVolume,
+    oneshotVolume,
+    setOneShotVolume,
     isScenePaused,
     playScene,
     togglePauseScene,
@@ -131,6 +133,8 @@ function SoundBoard() {
               <OneShotPlayer
                 selectedOneShots={selectedOneShots}
                 onOneShotClick={playOneShot}
+                oneshotVolume={oneshotVolume}
+                onOneShotVolumeChange={setOneShotVolume}
               />
             </Col>
           </Row>
