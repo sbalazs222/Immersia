@@ -26,11 +26,11 @@ body {
 
 .sidebar-closed {
   width: 80px;
-  padding: 30px 10px;
+  padding: 30px 20px;
 }
 
 .sidebar-closed .nav-item {
-  padding: 12px 0;
+  padding: 12px 8px;
 }
 
 .sidebar-closed .mt-auto .btn i {
@@ -65,6 +65,16 @@ body {
 .nav-item i {
   min-width: 24px; 
   text-align: center;
+}
+
+.logout-btn {
+  padding: 10px 15px;
+}
+
+.sidebar-closed .logout-btn {
+  padding-left: 0;
+  padding-right: 0;
+  justify-content: center;
 }
 
 .main-content {
