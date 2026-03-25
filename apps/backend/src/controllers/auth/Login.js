@@ -6,6 +6,15 @@ export default async function Login(req, res) {
   const { email, password } = req.body;
 
   const { user, tokenVersion } = await AuthService.Login(email, password);
+  let lastSession = user.last_session;
+
+  if (typeof lastSession === 'string') {
+    try {
+      lastSession = JSON.parse(lastSession);
+    } catch {
+      lastSession = null;
+    }
+  }
 
   const accessToken = generateAccessToken({
     id: user.id,
@@ -26,5 +35,5 @@ export default async function Login(req, res) {
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 
-  return res.status(200).json({ message: 'SUCCESS', data: { role: user.role, last_session: user.last_session} });
+  return res.status(200).json({ message: 'SUCCESS', data: { role: user.role, last_session: lastSession } });
 }
