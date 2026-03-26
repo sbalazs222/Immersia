@@ -1,10 +1,13 @@
 import { toast } from 'react-toastify'
 import { Form, Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { AuthContext } from '../context/AuthContext'
 import '../styles/App.css'
 
 
-export default function Login({ setIsLoggedIn, setIsAdmin }) {
+export default function Login() {
+    const { login, setIsLoggedIn, setIsAdmin } = useContext(AuthContext)
     const navigate = useNavigate()
     async function handleSubmit(event) {
         event.preventDefault()
@@ -16,39 +19,19 @@ export default function Login({ setIsLoggedIn, setIsAdmin }) {
         }
 
         try {
-            const res = await fetch(`https://immersia.techtrove.cc/api/auth/login`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: formdata.get('email'),
-                    password: formdata.get('password')
-                })
-            })
+            const result = await login(formdata.get('email'), formdata.get('password'))
 
-            if (res.ok) {
-                const result = await res.json()
-                setIsLoggedIn(true)
-                if (result.isAdmin) {
-                    setIsAdmin(true)
-                }
+            if (result.ok) {
                 toast.success('Login successful')
                 setTimeout(() => {
                     navigate('/')
                 }, 1000)
             }
-            else if (res.message == 'ACCOUNT_NOT_VERIFIED') {
+            else if (result.data?.message === 'ACCOUNT_NOT_VERIFIED') {
                 toast.error('Email not verified, please check your inbox for the verification email');
             }
             else {
-                try {
-                    const result = await res.json()
-                    toast.error('Login failed: ' + (result.message || 'Unknown error'))
-                } catch (jsonError) {
-                    toast.error('Login failed with status: ' + res.status)
-                }
+                toast.error('Login failed: ' + (result.data?.message || `HTTP ${result.status}`))
             }
         } catch (error) {
             toast.error('Network error, please try again later')
