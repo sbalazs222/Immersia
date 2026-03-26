@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink, Route, Routes } from 'react-router-dom'
+import { Navigate, NavLink, Route, Routes } from 'react-router-dom'
 
 import Login from '../pages/Login'
 import Register from '../pages/Register'
@@ -9,8 +9,9 @@ import Upload from '../pages/Upload'
 import SoundBoard from '../pages/Soundboard'
 import Verification from '../pages/Verification'
 
-export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin, handleLogout }) {
+export default function Navbar({ isLoggedIn, isAdmin, handleLogout }) {
     const [isOpen, setIsOpen] = useState(true);
+
     return (
         <div className='app-container'>
             {/* SIDEBAR */}
@@ -80,7 +81,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin,
                 <div className='main-content content-container'>
                     <Routes>
                         {!isLoggedIn ? (
-                            <Route path="/" element={<Login />} />
+                            <Route path="/" element={<Navigate to="/login" replace />} />
                         ) : (
                             <Route path="/" element={<SoundBoard />} />
                         )}

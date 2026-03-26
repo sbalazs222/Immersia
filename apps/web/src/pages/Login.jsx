@@ -24,7 +24,7 @@ export default function Login() {
             if (result.ok) {
                 toast.success('Login successful')
                 setTimeout(() => {
-                    navigate('/')
+                    navigate('/soundboard')
                 }, 1000)
             }
             else if (result.data?.message === 'ACCOUNT_NOT_VERIFIED') {
