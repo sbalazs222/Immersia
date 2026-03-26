@@ -25,9 +25,7 @@ export default function Verification() {
             });
             if (res.ok) {
                 toast.success("Email verified successfully, you can now log in")
-                setTimeout(() => {
-                    navigate("/login");
-                }, 3000);
+                navigate("/login")
             }
             else if (res.status === 410) {
                 toast.error("Verification code has expired");

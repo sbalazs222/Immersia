@@ -31,9 +31,7 @@ export default function Register() {
 
             if (res.ok) {
                 toast.success('Registration successful')
-                setTimeout(() => {
-                    navigate('/login')
-                }, 1000)
+                navigate('/login')
             }
             else {
                 try {
