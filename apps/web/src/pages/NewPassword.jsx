@@ -1,7 +1,6 @@
 import { useSearchParams, useNavigate } from "react-router-dom"
-import { useState } from "react"
 import { toast } from "react-toastify"
-import { Button } from "react-bootstrap"
+import { Button, Form } from "react-bootstrap"
 
 export default async function NewPassword() {
     const [searchParams] = useSearchParams()
