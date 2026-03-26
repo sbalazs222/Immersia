@@ -2,7 +2,7 @@ import { useSearchParams, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { Button, Form } from "react-bootstrap"
 
-export default async function NewPassword() {
+export default function NewPassword() {
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
     const token = searchParams.get("token")
