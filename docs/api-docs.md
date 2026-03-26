@@ -300,38 +300,42 @@ token: token received in email
 
 ### Request: 
 ```
+{ }
+```
+
+### Response:
+
+```
 { 
-  
+  'message': string
+}
+```
+### Message
+SUCCESS > Successfully sent email \
+MISSING_FIELDS > no email and id\
+NO_ACCOUNT > no account
+
+## POST /pwreset
+
+### Request: 
+```
+{
+  'password': string
 }
 ```
 
 ### Response:
 
 ```
-{ }
+{
+  'message': string
+}
 ```
 ### Message
-SUCCESS > Successful \
-
-
-## POST /pwreset
-
-### Request: 
-```
-{ }
-```
-
-### Response:
-
-```
-{ }
-```
-### Message
-SUCCESS > Successful \
-
-
-
-
+SUCCESS > Successful password reset \
+NO_TOKEN > no token provided \
+INVALID_TOKEN > invalid token \
+MISSING_FIELD > no new password provided \
 
 
 # példa
