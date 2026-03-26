@@ -239,7 +239,7 @@ SUCCESS > successful add or remove
 SUCCESS > successful retrieval
 
 # /mail
-## /verify
+## POST /verify
 
 ### Query
 ```
@@ -264,7 +264,7 @@ NO_TOKEN > token not sent in query params\
 INVALID_TOKEN > token invalid\
 EXPIRED_TOKEN > token expired
 
-## /resend
+## POST /resend
 
 ### Query
 ```
@@ -286,14 +286,23 @@ token: token received in email
 
 ### Message
 SUCCESS > Successful \
-INVALID_TOKEN > token not valid
+INVALID_TOKEN > token not valid \
+INVALID_EMAIL > email does not exist, impossible
 
 
-## /pwreset/sendmail
+## POST /pwreset/sendmail
+
+### Query
+```
+token: token received in email
+
+```
 
 ### Request: 
 ```
-{ }
+{ 
+  
+}
 ```
 
 ### Response:
@@ -305,7 +314,7 @@ INVALID_TOKEN > token not valid
 SUCCESS > Successful \
 
 
-## /pwrese
+## POST /pwreset
 
 ### Request: 
 ```

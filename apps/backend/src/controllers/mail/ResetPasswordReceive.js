@@ -6,6 +6,6 @@ export default async function ResetPasswordReceive(req, res) {
   const newPassword = req.body.password;
   if (!token) throw new ApiError(400, 'NO_TOKEN');
   if (!newPassword) throw new ApiError(400, 'MISSING_FIELD');
-  await MailService.ResetPasswordReceive(token);
+  await MailService.ResetPasswordReceive(token, newPassword);
   return res.status(200).json({ message: 'SUCCESS' });
 }
