@@ -33,10 +33,6 @@ body {
   padding: 12px 8px;
 }
 
-.sidebar-closed .mt-auto .btn i {
-  margin: 0 !important;
-}
-
 .nav-item {
   color: #666;
   text-decoration: none;
@@ -69,12 +65,13 @@ body {
 
 .logout-btn {
   padding: 10px 15px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .sidebar-closed .logout-btn {
-  padding-left: 0;
-  padding-right: 0;
-  justify-content: center;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 .main-content {
@@ -85,6 +82,22 @@ body {
   flex-direction: column;
   height: 100vh;
   overflow-y: auto;
+}
+
+.logout-btn i {
+  min-width: 24px; 
+  text-align: center;
+}
+
+.sidebar span, 
+.sidebar h4 {
+  opacity: 1;
+  transition: opacity 0.1s ease;
+}
+
+.sidebar-closed span, 
+.sidebar-closed h4 {
+  opacity: 0;
 }
 
 .smalltext {

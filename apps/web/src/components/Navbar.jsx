@@ -31,24 +31,24 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin,
                         <>
                             <NavLink to="/soundboard" className="nav-item">
                                 <i className='bi bi-grid-1x2-fill'></i>
-                                {isOpen && <span className='ms-3'>Soundboard</span>}
+                                <span className='ms-3'>Soundboard</span>
                             </NavLink>
 
                             <NavLink to="/profile" className="nav-item">
                                 <i className="bi bi-person fs-5"></i>
-                                {isOpen && <span className='ms-3'>Profile</span>}
+                                <span className='ms-3'>Profile</span>
                             </NavLink>
 
                             {isAdmin && (
                                 <NavLink to="/admin" className="nav-item">
                                     <i className="bi bi-gear fs-5"></i>
-                                    {isOpen && <span className='ms-3'>Admin</span>}
+                                    <span className='ms-3'>Admin</span>
                                 </NavLink>
                             )}
 
                             <NavLink to="/upload" className="nav-item">
                                 <i className="bi bi-cloud-upload fs-5"></i>
-                                {isOpen && <span className='ms-3'>Upload</span>}
+                                <span className='ms-3'>Upload</span>
                             </NavLink>
 
                             <div className='mt-auto'>
@@ -57,7 +57,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin,
                                     onClick={handleLogout}
                                 >
                                     <i className='bi bi-box-arrow-left'></i>
-                                    {isOpen && <span className='ms-2'>Logout</span>}
+                                    <span className='ms-2'>Logout</span>
                                 </button>
                             </div>
                         </>
@@ -66,11 +66,11 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin,
                         <div className='d-flex flex-column'>
                             <NavLink to="/login" className="nav-item">
                                 <i className='bi bi-box-arrow-in-right fs-5'></i>
-                                {isOpen && <span className='ms-3'>Login</span>}
+                                <span className='ms-3'>Login</span>
                             </NavLink>
                             <NavLink to="/register" className="nav-item">
                                 <i className="bi bi-person-add fs-5"></i>
-                                {isOpen && <span className='ms-3'>Register</span>}
+                                <span className='ms-3'>Register</span>
                             </NavLink>
                         </div>
                     )}
