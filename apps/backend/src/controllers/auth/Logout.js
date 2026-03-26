@@ -2,7 +2,7 @@ import { AuthService } from '../../services/index.js';
 
 export default async function Logout(req, res) {
   if (req.user) {
-    await AuthService.Logout(req.user?.id);
+    await AuthService.Logout(req.user?.id, req.body.last_session);
   }
 
   res.clearCookie('accessToken');

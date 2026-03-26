@@ -1,7 +1,10 @@
 import { toast } from 'react-toastify'
 import { Form, Button } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import '../styles/App.css'
 
 export default function Register() {
+    const navigate = useNavigate()
     async function handleSubmit(event) {
         event.preventDefault()
         const formdata = new FormData(event.target)
@@ -15,7 +18,7 @@ export default function Register() {
         }
 
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/register`, {
+            const res = await fetch(`https://immersia.techtrove.cc/api/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,6 +31,9 @@ export default function Register() {
 
             if (res.ok) {
                 toast.success('Registration successful')
+                setTimeout(() => {
+                    navigate('/login')
+                }, 1000)
             }
             else {
                 try {

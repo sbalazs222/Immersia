@@ -1,6 +1,6 @@
-import { verifyAccessToken, generateAccessToken } from '../utils/jwt.js';
-import { AuthService } from '../services/index.js';
-import COOKIE_CONFIG from '../config/CookieConfig.js';
+import { verifyAccessToken, generateAccessToken } from '../../utils/jwt.js';
+import { AuthService } from '../../services/index.js';
+import COOKIE_CONFIG from '../../config/CookieConfig.js';
 
 export default async function OptionalAuthenticateToken(req, res, next) {
   const accessToken = req.cookies.accessToken;

@@ -1,11 +1,11 @@
 import { ContentService } from '../../services/index.js';
 
 export default async function GetAll(req, res) {
-  //TODO: input validation
   const result = await ContentService.GetSoundsByCategory(
-    req.params.category,
-    parseInt(req.query.page) || 1,
-    parseInt(req.query.limit) || 10,
+    req.data.category,
+    req.data.page,
+    req.data.limit,
+    req.data.search,
     req.user?.id
   );
 

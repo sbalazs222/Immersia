@@ -1,0 +1,32 @@
+{
+    "scenes": [
+        "slug1",
+        "slug2",
+        "etc."
+    ],
+    "ambieces": [
+        "slug1",
+        "slug2",
+        "etc."
+    ],
+    "oneshots": [
+        "slug1",
+        "slug2",
+        "etc."
+    ],
+    "volumes": [
+        {
+            "scene": "x%"
+        },
+        {
+            "ambiences": [
+                "x%",
+                "y%",
+                "etc."
+            ]
+        },
+        {
+            "oneshots": "x%"
+        }
+    ]
+}

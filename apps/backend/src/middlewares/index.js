@@ -1,15 +1,21 @@
 import ValidateRegisterSchema from './validation/ValidateRegisterSchema.js';
 import ValidateRequiredFields from './validation/ValidateRequiredFields.js';
-import AuthenticateToken from './AuthenticateToken.js';
-import UploadLimiter from './UploadLimiter.js';
-import ErrorHandler from './ErrorHandler.js';
-import OptionalAuthenticateToken from './OptionalAuthenticateToken.js';
+import ValidateSingleUpload from './validation/ValidateSingleUpload.js';
+import ValidateContentRequest from './validation/ValidateContentRequest.js';
+import AuthenticateToken from './authentication/AuthenticateToken.js';
+import UploadLimiter from './util/UploadLimiter.js';
+import ErrorHandler from './util/ErrorHandler.js';
+import OptionalAuthenticateToken from './authentication/OptionalAuthenticateToken.js';
+import IsAdmin from './authentication/IsAdmin.js';
 
 export {
   ValidateRegisterSchema,
+  ValidateSingleUpload,
+  ValidateRequiredFields,
+  ValidateContentRequest,
   AuthenticateToken,
   OptionalAuthenticateToken,
-  ValidateRequiredFields,
   UploadLimiter,
   ErrorHandler,
+  IsAdmin
 };

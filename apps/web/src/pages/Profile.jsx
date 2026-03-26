@@ -64,9 +64,9 @@ function Profile() {
                     <p>Email: {userData.email}</p>
                 </div>
             )}
-            <h3>With the button below you can change your password via email.</h3>
+            <h3>Change your password by email using the button below.</h3>
             <Form onSubmit={handleUpdatePassword}>
-                <Button type="submit">Send</Button>
+                <Button type="submit" variant='dark' className='w-100' style={{backgroundColor: '#333333', border: 'none', padding: '10px', marginTop: '10px'}}>Send</Button>
             </Form>
             </div>
             </div>
