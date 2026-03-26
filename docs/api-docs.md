@@ -141,16 +141,12 @@ Protected
   'data': {
     'slug': string
     'title': string
-    'duration_seconds': number
-    'loopable': bool
     'type': string
   }
 }
 ```
 slug > unique identifier of the object, used for requests\
 title > name of the object\
-duration_seconds > duration of given sound object\
-loopable > is the media loopable\
 type > type of the sound ['oneshot', 'ambience', 'scene']
 
 ### Message
@@ -233,7 +229,7 @@ SUCCESS > successful add or remove
 {
   'message': string
   'data': [
-    'slug': string,
+    'slug': string
     'title': string
   ]
 }
@@ -241,6 +237,93 @@ SUCCESS > successful add or remove
 ### Message
 
 SUCCESS > successful retrieval
+
+# /mail
+## /verify
+
+### Query
+```
+token: token received in email
+
+```
+
+### Request: 
+```
+{ }
+```
+
+### Response:
+```
+{ 
+  message: string
+}
+```
+### Message
+SUCCESS > Successful \
+NO_TOKEN > token not sent in query params\
+INVALID_TOKEN > token invalid\
+EXPIRED_TOKEN > token expired
+
+## /resend
+
+### Query
+```
+token: token received in email
+
+```
+
+### Request: 
+```
+{ }
+```
+
+### Response:
+```
+{ 
+  message: string
+}
+```
+
+### Message
+SUCCESS > Successful \
+INVALID_TOKEN > token not valid
+
+
+## /pwreset/sendmail
+
+### Request: 
+```
+{ }
+```
+
+### Response:
+
+```
+{ }
+```
+### Message
+SUCCESS > Successful \
+
+
+## /pwrese
+
+### Request: 
+```
+{ }
+```
+
+### Response:
+
+```
+{ }
+```
+### Message
+SUCCESS > Successful \
+
+
+
+
+
 
 # példa
 ## /
