@@ -12,14 +12,14 @@ export default async function ConfirmEmailResend(token) {
     [tokenHashOld]
   );
 
-  if (exists.length < 1) throw new ApiError(404, 'INVALID_TOKEN');
+  if (exists.length < 1) throw new ApiError(400, 'INVALID_TOKEN');
 
   const [email] = await pool.query('SELECT AES_DECRYPT(email, ?) as email FROM users WHERE id = ?', [
     env.DB_ENCRYPT_SECRET,
     exists[0].user_id,
   ]);
 
-  if (exists.length < 1) throw new ApiError(400, 'INVALID_CONFIRM_TOKEN');
+  if (email.length < 1) throw new ApiError(400, 'INVALID_EMAIL');
 
   const newToken = await createMailToken('confirm', exists[0].user_id);
   const link = `${env.FRONTEND_URL}/verify?token=${newToken}`;
