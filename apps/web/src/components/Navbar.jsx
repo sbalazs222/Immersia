@@ -8,6 +8,7 @@ import Profile from '../pages/Profile'
 import Upload from '../pages/Upload'
 import SoundBoard from '../pages/Soundboard'
 import Verification from '../pages/Verification'
+import NewPassword from '../pages/NewPassword'
 
 export default function Navbar({ isLoggedIn, isAdmin, handleLogout }) {
     const [isOpen, setIsOpen] = useState(true);
@@ -100,6 +101,7 @@ export default function Navbar({ isLoggedIn, isAdmin, handleLogout }) {
                     {isLoggedIn && <Route path="/profile" element={<Profile />} />}
                     {isLoggedIn && <Route path='/upload' element={<Upload />} />}
                     <Route path='/verify' element={<Verification />} />
+                    <Route path='/reset-password' element={<NewPassword />} />
                 </Routes>
             </div>
         </div>
