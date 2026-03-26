@@ -9,37 +9,39 @@ export function OneShotPlayer({
   onOneShotVolumeChange
 }) {
   return (
-    <div className='oneshotPlayer mb-4'>
+    <div className='oneshotPlayer'>
       <div className='oneshotPlayer-content'>
-        <h2>One-Shot Player</h2>
         {selectedOneShots.length > 0 ? (
           <>
             <Form.Range
               min={0}
               max={50}
-              value={oneshotVolume} 
+              value={oneshotVolume}
               onChange={(e) => onOneShotVolumeChange(parseFloat(e.target.value))}
+              className='mb-3'
             />
-            {selectedOneShots.map(oneshot => (
-              <div
-                key={getItemKey(oneshot)}
-                className='oneshot-item selected'
-                onClick={() => onOneShotClick(oneshot)}
-              >
-                <div className='oneshot-name'>
-                  {oneshot.title}
-                  <img
-                    src={`${API_BASE_URL}/content/thumb/${oneshot.slug}`}
-                    alt={oneshot.title}
-                    width="50px"
-                    height="50px"
-                  />
+            <div className='oneshot-player-grid'>
+              {selectedOneShots.map(oneshot => (
+                <div
+                  key={getItemKey(oneshot)}
+                  className='oneshot-item selected'
+                  onClick={() => onOneShotClick(oneshot)}
+                >
+                  <div className='oneshot-name'>
+                    <img
+                      src={`${API_BASE_URL}/content/thumb/${oneshot.slug}`}
+                      alt={oneshot.title}
+                      width="40px"
+                      height="40px"
+                    />
+                    {oneshot.title}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </>
         ) : (
-          <div>No oneshot selected</div>
+          <div className='text-muted'>No oneshot selected</div>
         )}
       </div>
     </div>

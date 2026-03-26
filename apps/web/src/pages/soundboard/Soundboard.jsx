@@ -47,8 +47,8 @@ function SoundBoard() {
   return (
     <>
       <div className='soundboard-dsgn'>
-        <div className='soundboard-section'>
-          <div className='tabs-dsgn'>
+        <div className='soundboard-section top-section'>
+          <div className='top-bar-controls'>
             <div className='tabs-container'>
               <button
                 className={activeTab === 'scene' ? 'tab-btn active' : 'tab-btn'}
@@ -68,6 +68,10 @@ function SoundBoard() {
               >
                 One-Shots
               </button>
+            </div>
+            <div className='search-bar-container'>
+              <input type='text' className='form-control rounded-pill bg-light border-0' placeholder=''/>
+              <i className='bi bi-search fs-5'></i>
             </div>
           </div>
 
@@ -107,9 +111,10 @@ function SoundBoard() {
           </div>
         </div>
 
-        <div className='soundboard-section'>
-          <Row>
-            <Col>
+        <div className='soundboard-section bottom-section'>
+          <Row className='h-100'>
+            <Col md={4}>
+            <div className='player-header-title'>Scene Player</div>
               <ScenePlayer
                 selectedScene={selectedScene}
                 sceneVolume={sceneVolume}
@@ -121,7 +126,8 @@ function SoundBoard() {
                 onTogglePause={togglePauseScene}
               />
             </Col>
-            <Col>
+            <Col md={4} className='border-start border-end'>
+            <div className='player-header-title'>Ambiences</div>
               <AmbiencePlayer
                 selectedAmbiences={selectedAmbiences}
                 onAmbienceClick={toggleAmbiencePlayback}
@@ -129,7 +135,8 @@ function SoundBoard() {
                 onAmbienceVolumeChange={setAmbienceVolume}
               />
             </Col>
-            <Col>
+            <Col md={4}>
+            <div className='player-header-title'>One-Shots</div>
               <OneShotPlayer
                 selectedOneShots={selectedOneShots}
                 onOneShotClick={playOneShot}
