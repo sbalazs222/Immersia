@@ -17,7 +17,7 @@ export default function NewPassword() {
         const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/pwreset?token=${token}`, {
             method: 'POST',
             body: JSON.stringify({
-                newPassword: formdata.get('password')
+                password: formdata.get('password')
             }),
             headers: {
                 'Content-Type': 'application/json',
