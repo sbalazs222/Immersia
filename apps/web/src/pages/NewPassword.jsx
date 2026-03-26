@@ -25,8 +25,7 @@ export default function NewPassword() {
             credentials: 'include'
         });
         if (res.ok) {
-            toast.success("Password reset successfully, you can now log in")
-            navigate("/login");
+            toast.success("Password reset successfully")
         }
         else  {
             toast.error("Failed to reset password");
