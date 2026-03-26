@@ -6,8 +6,8 @@ import { Button } from "react-bootstrap"
 export default async function NewPassword() {
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
-    const code = searchParams.get("code")
-    if (!code) {
+    const token = searchParams.get("token")
+    if (!token) {
         navigate("/login")
         return null
     }
@@ -15,7 +15,7 @@ export default async function NewPassword() {
     async function resetPassword(e) {
         e.preventDefault();
         const formdata = new FormData(e.target);
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/pwreset?code=${code}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/pwreset?token=${token}`, {
             method: 'POST',
             body: JSON.stringify({
                 newPassword: formdata.get('password')
@@ -27,7 +27,6 @@ export default async function NewPassword() {
         });
         if (res.ok) {
             toast.success("Password reset successfully, you can now log in")
-            setTimeout(() => {}, 3000);
             navigate("/login");
         }
         else  {
