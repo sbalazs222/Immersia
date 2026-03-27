@@ -31,8 +31,8 @@ export function OneShotPlayer({
                     <img
                       src={`${API_BASE_URL}/content/thumb/${oneshot.slug}`}
                       alt={oneshot.title}
-                      width="40px"
-                      height="40px"
+                      width="50px"
+                      height="50px"
                     />
                     {oneshot.title}
                   </div>

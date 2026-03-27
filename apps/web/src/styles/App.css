@@ -431,12 +431,30 @@ body {
 input[type=range][orient=vertical] {
   writing-mode: bt-lr;
   -webkit-appearance: slider-vertical;
-  width: 8px;
+  width: 14px;
   flex-grow: 1;
   height: 100px;
   margin-bottom: 15px;
-  padding: 0 5px;
+  padding: 0;
   cursor: pointer;
+  accent-color: #555;
+}
+
+.form-range::-webkit-slider-thumb {
+  background-color: #555;
+  width: 18px;
+  height: 18px;
+  margin-top: -5px;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  background-color: #E5E5E5;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.form-range:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(85, 85, 85, 0.25);
 }
 
 .play-circle-btn {
@@ -467,16 +485,16 @@ input[type=range][orient=vertical] {
 .ambience-pill {
   background-color: #C4C4C4;
   border-radius: 30px;
-  padding: 5px 15px 5px 5px;
+  padding: 8px 15px 8px 8px;
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 10px;
+  gap: 18px;
+  margin-bottom: 12px;
 }
 
 .ambience-pill img {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background-color: #777;
   object-fit: contain;
@@ -490,7 +508,7 @@ input[type=range][orient=vertical] {
 
 .ambience-pill-info span {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 /* OneShot player */
