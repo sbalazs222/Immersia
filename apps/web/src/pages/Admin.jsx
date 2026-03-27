@@ -1,5 +1,6 @@
 import '../styles/App.css'
 import { useSoundFetch } from './soundboard/hooks/useSoundFetch'
+import { AdminSoundList } from '../components/AdminSoundList';
 
 function Admin() {
 
@@ -41,7 +42,33 @@ function Admin() {
                     </div>
                     <div ref={contentAreaRef}>
                         <p>This is the admin page. Here you can manage your soundboard content.</p>
-                        <p>{scenes.length} {ambiences.length} {oneshots.length}</p>
+                        {
+                            activeTab === 'scene' ? (
+                                <div>
+                                    <h2>Scenes</h2>
+                                    <AdminSoundList 
+                                        type='scene'
+                                        items={scenes}
+                                    />
+                                </div>
+                            ) : activeTab === 'ambience' ? (
+                                <div>
+                                    <h2>Ambiences</h2>
+                                    <AdminSoundList 
+                                        type='ambience'
+                                        items={ambiences}
+                                    />
+                                </div>
+                            ) : (
+                                <div>
+                                    <h2>One-Shots</h2>
+                                    <AdminSoundList 
+                                        type='oneshot'
+                                        items={oneshots}
+                                    />
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </div>
