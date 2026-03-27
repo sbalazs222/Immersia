@@ -440,21 +440,10 @@ input[type=range][orient=vertical] {
   accent-color: #555;
 }
 
-.form-range::-webkit-slider-thumb {
-  background-color: #555;
-  width: 18px;
-  height: 18px;
-  margin-top: -5px;
-}
-
-.form-range::-webkit-slider-runnable-track {
-  background-color: #E5E5E5;
-  height: 8px;
-  border-radius: 4px;
-}
-
-.form-range:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(85, 85, 85, 0.25);
+.custom-slider {
+  width: 100%;
+  accent-color: #555;
+  cursor: pointer;
 }
 
 .play-circle-btn {
@@ -546,6 +535,8 @@ input[type=range][orient=vertical] {
   flex-grow: 1;
   max-width: 400px;
   position: relative;
+  border: 1px #666 solid;
+  border-radius: 25px;
 }
 
 .search-bar-container i {

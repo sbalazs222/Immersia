@@ -24,7 +24,9 @@ export function AmbiencePlayer({
                 <div className='ambience-pill-info'>
                   <span>{ambience.title}</span>
                 </div>
-                <Form.Range
+                <input
+                type='range'
+                className='custom-slider'
                   min={0}
                   max={50}
                   value={volume}

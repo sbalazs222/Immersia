@@ -13,12 +13,13 @@ export function OneShotPlayer({
       <div className='oneshotPlayer-content'>
         {selectedOneShots.length > 0 ? (
           <>
-            <Form.Range
+            <input
+            type='range'
               min={0}
               max={50}
               value={oneshotVolume}
               onChange={(e) => onOneShotVolumeChange(parseFloat(e.target.value))}
-              className='mb-3'
+              className='custom-slider mb-3'
             />
             <div className='oneshot-player-grid'>
               {selectedOneShots.map(oneshot => (
