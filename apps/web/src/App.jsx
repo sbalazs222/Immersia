@@ -35,9 +35,7 @@ function AppContent() {
                 setIsLoggedIn(false)
                 setIsAdmin(false)
                 setLastSession(null)
-                setTimeout(() => {
-                    navigate('/')
-                }, 1000)
+                navigate('/')
             }
             else {
                 toast.error('Internal server error, ' + await res.json().message)

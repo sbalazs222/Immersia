@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink, Route, Routes } from 'react-router-dom'
+import { Navigate, NavLink, Route, Routes } from 'react-router-dom'
 
 import Login from '../pages/Login'
 import Register from '../pages/Register'
@@ -8,9 +8,11 @@ import Profile from '../pages/Profile'
 import Upload from '../pages/Upload'
 import SoundBoard from '../pages/Soundboard'
 import Verification from '../pages/Verification'
+import NewPassword from '../pages/NewPassword'
 
-export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin, handleLogout }) {
+export default function Navbar({ isLoggedIn, isAdmin, handleLogout }) {
     const [isOpen, setIsOpen] = useState(true);
+
     return (
         <div className='app-container'>
             {/* SIDEBAR */}
@@ -77,13 +79,13 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin,
                 </nav>
             </div>
 
-            <div className='main-content content-container'>
-                <Routes>
-                    {!isLoggedIn ? (
-                        <Route path="/" element={<Login />} />
-                    ) : (
-                        <Route path="/" element={<SoundBoard />} />
-                    )}
+                <div className='main-content content-container'>
+                    <Routes>
+                        {!isLoggedIn ? (
+                            <Route path="/" element={<Navigate to="/login" replace />} />
+                        ) : (
+                            <Route path="/" element={<SoundBoard />} />
+                        )}
 
                     {/* Auth Routes */}
                     {!isLoggedIn && (
@@ -99,6 +101,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin,
                     {isLoggedIn && <Route path="/profile" element={<Profile />} />}
                     {isLoggedIn && <Route path='/upload' element={<Upload />} />}
                     <Route path='/verify' element={<Verification />} />
+                    <Route path='/reset-password' element={<NewPassword />} />
                 </Routes>
             </div>
         </div>

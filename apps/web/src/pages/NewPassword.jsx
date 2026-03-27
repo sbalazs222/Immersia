@@ -1,13 +1,12 @@
 import { useSearchParams, useNavigate } from "react-router-dom"
-import { useState } from "react"
 import { toast } from "react-toastify"
-import { Button } from "react-bootstrap"
+import { Button, Form } from "react-bootstrap"
 
-export default async function NewPassword() {
+export default function NewPassword() {
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
-    const code = searchParams.get("code")
-    if (!code) {
+    const token = searchParams.get("token")
+    if (!token) {
         navigate("/login")
         return null
     }
@@ -15,10 +14,10 @@ export default async function NewPassword() {
     async function resetPassword(e) {
         e.preventDefault();
         const formdata = new FormData(e.target);
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/pwreset?code=${code}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/pwreset?token=${token}`, {
             method: 'POST',
             body: JSON.stringify({
-                newPassword: formdata.get('password')
+                password: formdata.get('password')
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -26,9 +25,7 @@ export default async function NewPassword() {
             credentials: 'include'
         });
         if (res.ok) {
-            toast.success("Password reset successfully, you can now log in")
-            setTimeout(() => {}, 3000);
-            navigate("/login");
+            toast.success("Password reset successfully")
         }
         else  {
             toast.error("Failed to reset password");

@@ -1,56 +1,22 @@
-import { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 import { Form, Button } from 'react-bootstrap';
 
 function Profile() {
-    const [userData, setUserData] = useState(null);
 
-    useEffect(() => {
-        fetchUserData();
-    }, []);
-    
-    async function fetchUserData() {
-        try {
-            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/user/profile`, {
-                method: 'GET',
-                credentials: 'include',
-            });
-            if (res.ok) {
-                const data = await res.json();
-                setUserData(data);
-                toast.success('User data fetched successfully');
-            } else {
-                toast.error('Failed to fetch user data: ' + await res.text());
-            }
-        } catch (error) {
-            toast.error('Failed to fetch user data: ' + error.message);
+    async function resetPassword(e) {
+        e.preventDefault();
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/pwreset/sendmail`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include'
+        });
+        if (res.ok) {
+            toast.success("Password reset email sent. Please check your inbox.")
         }
-    }
-
-    async function handleUpdatePassword(event) {
-        event.preventDefault();
-        const formdata = new FormData(event.target);
-        try {
-            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/user/password`, {
-                method: 'PATCH',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    currentPassword: formdata.get('currentPassword'),
-                    newPassword: formdata.get('password'),
-                }),
-            });
-            if (res.ok) {
-                const data = await res.json();
-                setUserData(data);
-                toast.success('Password updated successfully');
-            } else {
-                toast.error('Failed to update password: ' + await res.text());
-            }
-        } catch (error) {
-            toast.error('Failed to update password: ' + error.message);
+        else  {
+            toast.error("Failed to send password reset email");
         }
     }
 
@@ -58,15 +24,10 @@ function Profile() {
         <>
         <div className='soundboard-dsgn d-flex align-items-center justify-content-center'>
             <div className='soundboard-section p-5' style={{ maxWidth: '450px', flex: 'none' }}>
-            <h1 className="mb-4 fw-bold">User Profile</h1>
-            {userData && (
-                <div>
-                    <p>Email: {userData.email}</p>
-                </div>
-            )}
+            <h1 className="mb-4 fw-bold">User Data</h1>
             <h3>Change your password by email using the button below.</h3>
-            <Form onSubmit={handleUpdatePassword}>
-                <Button type="submit" variant='dark' className='w-100' style={{backgroundColor: '#333333', border: 'none', padding: '10px', marginTop: '10px'}}>Send</Button>
+            <Form onSubmit={resetPassword}>
+                <Button type="submit" variant='dark' className='w-100' style={{backgroundColor: '#333333', border: 'none', padding: '10px', marginTop: '10px'}}>Send Reset Email</Button>
             </Form>
             </div>
             </div>
