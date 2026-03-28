@@ -41,5 +41,16 @@ export const apiClient = {
     
     if (!response.ok) throw new Error('Failed to toggle favourite')
     return response.json()
+  },
+
+  async searchSounds(type, title) {
+    const response = await fetch(`${API_BASE_URL}/content/all/?type=${type}&search=${encodeURIComponent(title)}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include'
+    })
+
+    if (!response.ok) throw new Error('Search request failed')
+    return response.json()
   }
 }

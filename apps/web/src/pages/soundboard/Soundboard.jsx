@@ -1,4 +1,4 @@
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Form } from 'react-bootstrap'
 import '../../styles/App.css'
 import { useSoundFetch } from './hooks/useSoundFetch'
 import { useAudioPlayer } from './hooks/useAudioPlayer'
@@ -70,7 +70,11 @@ function SoundBoard() {
               </button>
             </div>
             <div className='search-bar-container'>
-              <input type='text' className='form-control rounded-pill bg-light border-0' placeholder=''/>
+              <Form.Control
+                type='text'
+                className='form-control rounded-pill bg-light border-0'
+                placeholder='Search sounds...'
+              />
               <i className='bi bi-search fs-5'></i>
             </div>
           </div>
