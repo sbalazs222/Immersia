@@ -50,32 +50,35 @@ export default function Register() {
     return (
         <>
             <div className='soundboard-dsgn d-flex align-items-center justify-content-center'>
-            <div className='soundboard-section p-5' style={{ maxWidth: '450px', flex: 'none' }}>
-            <h2 className="mb-4 fw-bold">Register</h2>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className='mb-3' controlId='formEmail'>
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type='email' name='email' placeholder='Email' required />
-                </Form.Group>
-                <Form.Group className='mb-3' controlId='formPassword'>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control onChange={(e) => setPassword(e.target.value)} type='password' name='password' placeholder='Password' required />
-                </Form.Group>
-                <Form.Group className='mb-4' controlId='formConfirmPassword'>
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control type='password' name='confirmPassword' placeholder='Confirm Password' required />
-                </Form.Group>
-                <p>
-                    Password requirements:<br />
-                    - Minimum 8 characters {password.length >= 8 ? '✓' : '✗'}<br />
-                    - At least one uppercase letter {/[A-Z]/.test(password) ? '✓' : '✗'}<br />
-                    - At least one lowercase letter {/[a-z]/.test(password) ? '✓' : '✗'}<br />
-                    - At least one number {/[0-9]/.test(password) ? '✓' : '✗'}<br />
-                    - At least one special character {/[!@#$%^&*]/.test(password) ? '✓' : '✗'}<br />
-                </p>
-                <Button type='submit' variant='dark' className='w-100' style={{backgroundColor: '#333333', border: 'none', padding: '10px'}}>Register</Button>
-            </Form>
-            </div>
+                <div className='soundboard-section p-5' style={{ maxWidth: '450px', flex: 'none' }}>
+                    <h2 className="mb-4 fw-bold">Register</h2>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className='mb-3' controlId='formEmail'>
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type='email' name='email' placeholder='Email' required />
+                        </Form.Group>
+                        <Form.Group className='mb-3' controlId='formPassword'>
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control onChange={(e) => setPassword(e.target.value)} type='password' name='password' placeholder='Password' required />
+                        </Form.Group>
+                        <Form.Group className='mb-4' controlId='formConfirmPassword'>
+                            <Form.Label>Confirm Password</Form.Label>
+                            <Form.Control type='password' name='confirmPassword' placeholder='Confirm Password' required />
+                        </Form.Group>
+                        {
+                            password.length > 0 && <p>
+                                Password requirements:<br />
+                                - Minimum 8 characters {password.length >= 8 ? '✓' : '✗'}<br />
+                                - At least one uppercase letter {/[A-Z]/.test(password) ? '✓' : '✗'}<br />
+                                - At least one lowercase letter {/[a-z]/.test(password) ? '✓' : '✗'}<br />
+                                - At least one number {/[0-9]/.test(password) ? '✓' : '✗'}<br />
+                                - At least one special character {/[!@#$%^&*]/.test(password) ? '✓' : '✗'}<br />
+                            </p>
+                        }
+
+                        <Button type='submit' variant='dark' className='w-100' style={{ backgroundColor: '#333333', border: 'none', padding: '10px' }}>Register</Button>
+                    </Form>
+                </div>
             </div>
         </>
     )
