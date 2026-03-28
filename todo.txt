@@ -1,5 +1,5 @@
 WEB
-  -admin manager
+  -search in admin
 
 WEB/DESIGN
   -pw reset
