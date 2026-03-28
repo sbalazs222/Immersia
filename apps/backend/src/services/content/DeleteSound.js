@@ -3,19 +3,17 @@ import fse from 'fs-extra';
 import path from 'path';
 import { ApiError } from '../../utils/apiError.js';
 
-export default async function DeleteSound(slug) {
+export default async function DeleteSound(slugs) {
   const conn = await pool.getConnection();
 
-  const [result] = await conn.query('SELECT * FROM sounds WHERE slug = ?', [slug]);
 
-  if (result.length < 1) throw new ApiError(404, 'NOT_FOUND');
-  const sound = result[0];
+  const [sounds] = await conn.query('SELECT sound_file_path, sound_file_path_alt, image_file_path FROM sounds WHERE slug IN (?)', [slugs]);
 
-  console.log(sound);
+  const files = sounds.flatMap(item => [item.sound_file_path, item.sound_file_path_alt || undefined, item.image_file_path]).filter(item=> item != undefined)
+  console.log(files)
 
-  await conn.query('DELETE FROM sounds WHERE slug = ?', [slug]);
+  await conn.query('DELETE FROM sounds WHERE slug = (?)', [slugs]);
 
-  const files = [sound.sound_file_path || '', sound.sound_file_path_alt || undefined, sound.image_file_path || ''];
   for (const f of files) {
     if (f) await fse.unlink(path.join('/immersia_data', f)).catch(() => { });
   }
