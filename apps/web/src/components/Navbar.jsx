@@ -47,7 +47,7 @@ export default function Navbar({ isLoggedIn, isAdmin, handleLogout }) {
                                     <span className='ms-3'>Admin</span>
                                 </NavLink>
                             )}
-                            
+
                             {isAdmin && (
                                 <NavLink to="/upload" className="nav-item">
                                     <i className="bi bi-cloud-upload fs-5"></i>
@@ -81,13 +81,23 @@ export default function Navbar({ isLoggedIn, isAdmin, handleLogout }) {
                 </nav>
             </div>
 
-                <div className='main-content content-container'>
-                    <Routes>
-                        {!isLoggedIn ? (
+            <div className='main-content content-container'>
+                <Routes>
+                    {!isLoggedIn ? (
+                        <>
                             <Route path="/" element={<Navigate to="/login" replace />} />
-                        ) : (
-                            <Route path="/" element={<SoundBoard />} />
-                        )}
+                            <Route path="/soundboard" element={<Navigate to="/login" replace />} />
+                            <Route path="/profile" element={<Navigate to="/login" replace />} />
+                            <Route path="/admin" element={<Navigate to="/login" replace />} />
+                            <Route path="/upload" element={<Navigate to="/login" replace />} />
+                        </>
+                    ) : (
+                        <>
+                            <Route path="/" element={<Navigate to="/soundboard" replace />} />
+                            <Route path="/login" element={<Navigate to="/soundboard" replace />} />
+                            <Route path="/register" element={<Navigate to="/soundboard" replace />} />
+                        </>
+                    )}
 
                     {/* Auth Routes */}
                     {!isLoggedIn && (
