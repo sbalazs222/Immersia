@@ -1,5 +1,6 @@
 import '../styles/App.css'
 import { useSoundFetch } from './soundboard/hooks/useSoundFetch'
+import { API_BASE_URL } from './soundboard/utils/constants'
 import { AdminSoundList } from '../components/AdminSoundList';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -34,7 +35,7 @@ function Admin() {
 
         if (itemsToDelete.length > 0) {
             try {
-                const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/content`, {
+                const res = await fetch(`${API_BASE_URL}/content`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
