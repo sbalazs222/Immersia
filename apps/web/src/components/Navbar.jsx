@@ -47,11 +47,13 @@ export default function Navbar({ isLoggedIn, isAdmin, handleLogout }) {
                                     <span className='ms-3'>Admin</span>
                                 </NavLink>
                             )}
-
-                            <NavLink to="/upload" className="nav-item">
-                                <i className="bi bi-cloud-upload fs-5"></i>
-                                <span className='ms-3'>Upload</span>
-                            </NavLink>
+                            
+                            {isAdmin && (
+                                <NavLink to="/upload" className="nav-item">
+                                    <i className="bi bi-cloud-upload fs-5"></i>
+                                    <span className='ms-3'>Upload</span>
+                                </NavLink>
+                            )}
 
                             <div className='mt-auto'>
                                 <button
