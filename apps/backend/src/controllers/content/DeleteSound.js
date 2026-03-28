@@ -1,9 +1,9 @@
 import { ContentService } from '../../services/index.js';
 
 export default async function DeleteSound(req, res) {
-  const slug = req.params.slug;
+  const slugs = req.body.slugs;
 
-  const result = await ContentService.DeleteSound(slug);
+  const result = await ContentService.DeleteSound(slugs);
   
   return res.status(200).json({ message: 'SUCCESS', data: result });
 }
