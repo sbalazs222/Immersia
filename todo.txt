@@ -1,6 +1,12 @@
 WEB
   -admin manager
-  -player search
+
+WEB/DESIGN
+  -pw reset
+  -upload pill
+  -make play button a circle
+  -admin
+  -search bar more visible
 
 BACKEND
   -👺

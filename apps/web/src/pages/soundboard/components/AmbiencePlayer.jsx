@@ -9,25 +9,24 @@ export function AmbiencePlayer({
   onAmbienceVolumeChange
 }) {
   return (
-    <div className='ambiencePlayer mb-4'>
+    <div className='ambiencePlayer'>
       <div className='ambiencePlayer-content'>
-        <h2>Ambience Player</h2>
         {selectedAmbiences.length > 0 ? (
           selectedAmbiences.map(ambience => {
             const ambienceKey = getItemKey(ambience)
             const volume = ambienceVolumes[ambienceKey] ?? 1
             return (
-              <div key={ambienceKey} className='ambience-item selected'>
-                <div className='ambience-name'>
-                  {ambience.title}
-                  <img
-                    src={`${API_BASE_URL}/content/thumb/${ambience.slug}`}
-                    alt={ambience.title}
-                    width="50px"
-                    height="50px"
-                  />
+              <div key={ambienceKey} className='ambience-pill'>
+                <img
+                  src={`${API_BASE_URL}/content/thumb/${ambience.slug}`}
+                  alt={ambience.title}
+                />
+                <div className='ambience-pill-info'>
+                  <span>{ambience.title}</span>
                 </div>
-                <Form.Range
+                <input
+                type='range'
+                className='custom-slider'
                   min={0}
                   max={50}
                   value={volume}
@@ -38,7 +37,7 @@ export function AmbiencePlayer({
             )
           })
         ) : (
-          <div>No ambience selected</div>
+          <div className='text-muted'>No ambience selected</div>
         )}
       </div>
     </div>

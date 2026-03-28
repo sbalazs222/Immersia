@@ -1,8 +1,9 @@
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Form } from 'react-bootstrap'
 import '../../styles/App.css'
 import { useSoundFetch } from './hooks/useSoundFetch'
 import { useAudioPlayer } from './hooks/useAudioPlayer'
 import { useFavourites } from './hooks/useFavourites'
+import { useSearch } from './hooks/useSearch'
 import { SoundList } from './components/SoundList'
 import { ScenePlayer } from './components/ScenePlayer'
 import { AmbiencePlayer } from './components/AmbiencePlayer'
@@ -44,30 +45,49 @@ function SoundBoard() {
     toggleFavourite
   } = useFavourites()
 
+  const {
+    searchTerm,
+    searchResults,
+    searchType,
+    setSearchType,
+    isSearching,
+    handleInputChange
+  } = useSearch()
+
   return (
     <>
       <div className='soundboard-dsgn'>
-        <div className='soundboard-section'>
-          <div className='tabs-dsgn'>
+        <div className='soundboard-section top-section'>
+          <div className='top-bar-controls'>
             <div className='tabs-container'>
               <button
                 className={activeTab === 'scene' ? 'tab-btn active' : 'tab-btn'}
-                onClick={() => setActiveTab('scene')}
+                onClick={() => {!isSearching && setActiveTab('scene'); !isSearching && setSearchType('scene')}}
               >
                 Scenes
               </button>
               <button
                 className={activeTab === 'ambience' ? 'tab-btn active' : 'tab-btn'}
-                onClick={() => setActiveTab('ambience')}
+                onClick={() => {!isSearching && setActiveTab('ambience'); !isSearching && setSearchType('ambience')}}
               >
                 Ambiences
               </button>
               <button
                 className={activeTab === 'oneshot' ? 'tab-btn active' : 'tab-btn'}
-                onClick={() => setActiveTab('oneshot')}
+                onClick={() => {!isSearching && setActiveTab('oneshot'); !isSearching && setSearchType('oneshot')}}
               >
                 One-Shots
               </button>
+            </div>
+            <div className='search-bar-container'>
+              <Form.Control
+                type='text'
+                className='form-control rounded-pill bg-light border-0'
+                placeholder='Search sounds...'
+                value={searchTerm}
+                onChange={(e) => handleInputChange(e)}
+              />
+              <i className='bi bi-search fs-5'></i>
             </div>
           </div>
 
@@ -80,6 +100,7 @@ function SoundBoard() {
                 onItemClick={(scene) => playScene(scene, false)}
                 isFavourite={isFavourite}
                 onFavouriteClick={toggleFavourite}
+                searchResults={searchType === 'scene' ? searchResults : []}
               />
             )}
 
@@ -91,6 +112,7 @@ function SoundBoard() {
                 onItemClick={toggleAmbiencePlayback}
                 isFavourite={isFavourite}
                 onFavouriteClick={toggleFavourite}
+                searchResults={searchType === 'ambience' ? searchResults : []}
               />
             )}
 
@@ -102,14 +124,16 @@ function SoundBoard() {
                 onItemClick={toggleOneShotSelection}
                 isFavourite={isFavourite}
                 onFavouriteClick={toggleFavourite}
+                searchResults={searchType === 'oneshot' ? searchResults : []}
               />
             )}
           </div>
         </div>
 
-        <div className='soundboard-section'>
-          <Row>
-            <Col>
+        <div className='soundboard-section bottom-section'>
+          <Row className='h-100'>
+            <Col md={4}>
+            <div className='player-header-title'>Scene Player</div>
               <ScenePlayer
                 selectedScene={selectedScene}
                 sceneVolume={sceneVolume}
@@ -121,7 +145,8 @@ function SoundBoard() {
                 onTogglePause={togglePauseScene}
               />
             </Col>
-            <Col>
+            <Col md={4} className='border-start border-end'>
+            <div className='player-header-title'>Ambiences</div>
               <AmbiencePlayer
                 selectedAmbiences={selectedAmbiences}
                 onAmbienceClick={toggleAmbiencePlayback}
@@ -129,7 +154,8 @@ function SoundBoard() {
                 onAmbienceVolumeChange={setAmbienceVolume}
               />
             </Col>
-            <Col>
+            <Col md={4}>
+            <div className='player-header-title'>One-Shots</div>
               <OneShotPlayer
                 selectedOneShots={selectedOneShots}
                 onOneShotClick={playOneShot}

@@ -22,7 +22,7 @@ export default function Navbar({ isLoggedIn, isAdmin, handleLogout }) {
                         style={{ width: '40px', height: '40px', flexShrink: 0 }} onClick={() => setIsOpen(!isOpen)}>
                         <i className='bi bi-list fs-4 text-secondary'></i>
                     </button>
-                    {isOpen && <h4 className='fw-bold mb-0 ms-2'>Immersia</h4>}
+                    <h4 className='fw-bold mb-0 ms-2'>Immersia</h4>
                 </div>
 
                 <hr className="text-muted mt-4 mb-4" style={{ opacity: 0.15 }} />
@@ -87,13 +87,13 @@ export default function Navbar({ isLoggedIn, isAdmin, handleLogout }) {
                             <Route path="/" element={<SoundBoard />} />
                         )}
 
-                        {/* Auth Routes */}
-                        {!isLoggedIn && (
-                            <>
-                                <Route path="/login" element={<Login />} />
-                                <Route path="/register" element={<Register isLoggedIn={isLoggedIn} />} />
-                            </>
-                        )}
+                    {/* Auth Routes */}
+                    {!isLoggedIn && (
+                        <>
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<Register isLoggedIn={isLoggedIn} />} />
+                        </>
+                    )}
 
                     {/* Protected Routes */}
                     {isAdmin && <Route path="/admin" element={<Admin />} />}

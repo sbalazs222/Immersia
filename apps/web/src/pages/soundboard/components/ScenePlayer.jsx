@@ -12,36 +12,39 @@ export function ScenePlayer({
   onTogglePause
 }) {
   return (
-    <div className='scenePlayer mb-4'>
+    <div className='scenePlayer'>
       <div className='scenePlayer-content'>
-        <h2>Scene Player</h2>
         {selectedScene ? (
-          <div className='scene-item selected'>
-            <div className='scene-name'>
-              {selectedScene.title}
+          <div className='scene-player-card'>
+            <div className='scene-main-content'>
               <img
                 src={`${API_BASE_URL}/content/thumb/${selectedScene.slug}`}
                 alt={selectedScene.title}
-                width="50px"
-                height="50px"
               />
+              <div className='scene-title-box'>
+                {selectedScene.title}
+              </div>
+              <button className={`scene-btn ${sceneMode === 'explore' ? 'active' : ''}`} onClick={(e) => { e.stopPropagation(); sceneMode !== 'explore' && onSceneModeChange('explore') }}>Explore</button>
+              <button className={`scene-btn ${sceneMode === 'combat' ? 'active' : ''}`} onClick={(e) => { e.stopPropagation(); sceneMode !== 'combat' && onSceneModeChange('combat') }}>Combat</button>
             </div>
-            <Form.Range
-              min={0}
-              max={50}
-              value={sceneVolume}
-              onChange={(e) => onVolumeChange(parseFloat(e.target.value))}
-            />
-            <Button onClick={(e) => { e.stopPropagation(); onTogglePause() }} variant={isScenePaused ? 'secondary' : 'warning'}>
-              {isScenePaused ? '▶ Play' : '⏸ Pause'}
-            </Button>
-            <Button onClick={(e) => { e.stopPropagation(); sceneMode !== 'explore' && onSceneModeChange('explore') }}>Explore</Button>
-            <Button onClick={(e) => { e.stopPropagation(); sceneMode !== 'combat' && onSceneModeChange('combat') }}>Combat</Button>
-          </div>
-        ) : (
-          <div>No scene selected</div>
+            <div className='scene-controls'>
+              <input
+                type="range"
+                orient="vertical"
+                min={0}
+                max={50}
+                value={sceneVolume}
+                onChange={(e) => onVolumeChange(parseFloat(e.target.value))}
+              />
+              <button className='play-circle-btn' onClick={(e) => { e.stopPropagation(); onTogglePause() }}>
+                {isScenePaused ? <i className="bi bi-play-fill" style={{marginLeft: '3px'}}></i> : <i className="bi bi-pause-fill"></i>}
+              </button>
+            </div>
+            </div>
+            ) : (
+            <div className='text-muted'>No scene selected</div>
         )}
-      </div>
+          </div>
     </div>
-  )
+      )
 }
