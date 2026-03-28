@@ -3,6 +3,7 @@ import '../../styles/App.css'
 import { useSoundFetch } from './hooks/useSoundFetch'
 import { useAudioPlayer } from './hooks/useAudioPlayer'
 import { useFavourites } from './hooks/useFavourites'
+import { useSearch } from './hooks/useSearch'
 import { SoundList } from './components/SoundList'
 import { ScenePlayer } from './components/ScenePlayer'
 import { AmbiencePlayer } from './components/AmbiencePlayer'
@@ -44,6 +45,15 @@ function SoundBoard() {
     toggleFavourite
   } = useFavourites()
 
+  const {
+    searchTerm,
+    searchResults,
+    searchType,
+    setSearchType,
+    isSearching,
+    handleInputChange
+  } = useSearch()
+
   return (
     <>
       <div className='soundboard-dsgn'>
@@ -52,19 +62,19 @@ function SoundBoard() {
             <div className='tabs-container'>
               <button
                 className={activeTab === 'scene' ? 'tab-btn active' : 'tab-btn'}
-                onClick={() => setActiveTab('scene')}
+                onClick={() => {!isSearching && setActiveTab('scene'); !isSearching && setSearchType('scene')}}
               >
                 Scenes
               </button>
               <button
                 className={activeTab === 'ambience' ? 'tab-btn active' : 'tab-btn'}
-                onClick={() => setActiveTab('ambience')}
+                onClick={() => {!isSearching && setActiveTab('ambience'); !isSearching && setSearchType('ambience')}}
               >
                 Ambiences
               </button>
               <button
                 className={activeTab === 'oneshot' ? 'tab-btn active' : 'tab-btn'}
-                onClick={() => setActiveTab('oneshot')}
+                onClick={() => {!isSearching && setActiveTab('oneshot'); !isSearching && setSearchType('oneshot')}}
               >
                 One-Shots
               </button>
@@ -74,6 +84,8 @@ function SoundBoard() {
                 type='text'
                 className='form-control rounded-pill bg-light border-0'
                 placeholder='Search sounds...'
+                value={searchTerm}
+                onChange={(e) => handleInputChange(e)}
               />
               <i className='bi bi-search fs-5'></i>
             </div>
@@ -88,6 +100,7 @@ function SoundBoard() {
                 onItemClick={(scene) => playScene(scene, false)}
                 isFavourite={isFavourite}
                 onFavouriteClick={toggleFavourite}
+                searchResults={searchType === 'scene' ? searchResults : []}
               />
             )}
 
@@ -99,6 +112,7 @@ function SoundBoard() {
                 onItemClick={toggleAmbiencePlayback}
                 isFavourite={isFavourite}
                 onFavouriteClick={toggleFavourite}
+                searchResults={searchType === 'ambience' ? searchResults : []}
               />
             )}
 
@@ -110,6 +124,7 @@ function SoundBoard() {
                 onItemClick={toggleOneShotSelection}
                 isFavourite={isFavourite}
                 onFavouriteClick={toggleFavourite}
+                searchResults={searchType === 'oneshot' ? searchResults : []}
               />
             )}
           </div>
