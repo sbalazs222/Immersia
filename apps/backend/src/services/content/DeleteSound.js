@@ -10,7 +10,6 @@ export default async function DeleteSound(slugs) {
   const [sounds] = await conn.query('SELECT sound_file_path, sound_file_path_alt, image_file_path FROM sounds WHERE slug IN (?)', [slugs]);
 
   const files = sounds.flatMap(item => [item.sound_file_path, item.sound_file_path_alt || undefined, item.image_file_path]).filter(item=> item != undefined)
-  console.log(files)
 
   await conn.query('DELETE FROM sounds WHERE slug = (?)', [slugs]);
 
