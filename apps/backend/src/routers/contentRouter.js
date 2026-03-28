@@ -10,6 +10,6 @@ ContentRouter.get('/sounds/:slug', /*AuthenticateToken,*/ ContentControllers.Get
 ContentRouter.get('/play/:slug', /*AuthenticateToken,*/ ContentControllers.GetSound);
 ContentRouter.get('/thumb/:slug', /*AuthenticateToken,*/ ContentControllers.GetThumbnail);
 
-ContentRouter.delete('/:slug', /*AuthenticateToken*/, IsAdmin, ContentControllers.DeleteSound );
+ContentRouter.delete('/:slug', /*AuthenticateToken, IsAdmin,*/ ContentControllers.DeleteSound );
 
 export default ContentRouter;
