@@ -1,10 +1,12 @@
 import { toast } from 'react-toastify'
 import { Form, Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import '../styles/App.css'
 
 export default function Register() {
     const navigate = useNavigate()
+    const [password, setPassword] = useState('')
     async function handleSubmit(event) {
         event.preventDefault()
         const formdata = new FormData(event.target)
@@ -57,12 +59,20 @@ export default function Register() {
                 </Form.Group>
                 <Form.Group className='mb-3' controlId='formPassword'>
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type='password' name='password' placeholder='Password' required />
+                    <Form.Control onChange={(e) => setPassword(e.target.value)} type='password' name='password' placeholder='Password' required />
                 </Form.Group>
                 <Form.Group className='mb-4' controlId='formConfirmPassword'>
                     <Form.Label>Confirm Password</Form.Label>
                     <Form.Control type='password' name='confirmPassword' placeholder='Confirm Password' required />
                 </Form.Group>
+                <p>
+                    Password requirements:<br />
+                    - Minimum 8 characters {password.length >= 8 ? '✓' : '✗'}<br />
+                    - At least one uppercase letter {/[A-Z]/.test(password) ? '✓' : '✗'}<br />
+                    - At least one lowercase letter {/[a-z]/.test(password) ? '✓' : '✗'}<br />
+                    - At least one number {/[0-9]/.test(password) ? '✓' : '✗'}<br />
+                    - At least one special character {/[!@#$%^&*]/.test(password) ? '✓' : '✗'}<br />
+                </p>
                 <Button type='submit' variant='dark' className='w-100' style={{backgroundColor: '#333333', border: 'none', padding: '10px'}}>Register</Button>
             </Form>
             </div>
