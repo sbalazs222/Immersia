@@ -257,3 +257,21 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 12px;
 }
+
+.admin-sound-list.scenes-list,
+.admin-sound-list.ambiences-list,
+.admin-sound-list.oneshots-list {
+  display: block;
+  width: 100%;
+}
+
+.admin-sound-list .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.admin-sound-list .scene-item,
+.admin-sound-list .ambience-item,
+.admin-sound-list .oneshot-item {
+  width: 100%;
+}

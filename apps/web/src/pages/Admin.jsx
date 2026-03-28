@@ -1,6 +1,7 @@
 import '../styles/App.css'
 import { useSoundFetch } from './soundboard/hooks/useSoundFetch'
 import { AdminSoundList } from '../components/AdminSoundList';
+import { Button } from 'react-bootstrap';
 
 function Admin() {
 
@@ -12,6 +13,12 @@ function Admin() {
         oneshots,
         contentAreaRef
     } = useSoundFetch()
+
+    async function handleFormSubmit(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const itemsToDelete = [];
+    }
 
     return (
         <>
@@ -42,6 +49,8 @@ function Admin() {
                     </div>
                     <div ref={contentAreaRef}>
                         <p>This is the admin page. Here you can manage your soundboard content.</p>
+                        <Button variant="outline-primary">Edit</Button>
+                        <Button variant="outline-danger">Delete</Button>  
                         {
                             activeTab === 'scene' ? (
                                 <div>
@@ -49,6 +58,7 @@ function Admin() {
                                     <AdminSoundList 
                                         type='scene'
                                         items={scenes}
+                                        formSubmitHandler={handleFormSubmit}
                                     />
                                 </div>
                             ) : activeTab === 'ambience' ? (
@@ -57,6 +67,7 @@ function Admin() {
                                     <AdminSoundList 
                                         type='ambience'
                                         items={ambiences}
+                                        formSubmitHandler={handleFormSubmit}
                                     />
                                 </div>
                             ) : (
@@ -65,6 +76,7 @@ function Admin() {
                                     <AdminSoundList 
                                         type='oneshot'
                                         items={oneshots}
+                                        formSubmitHandler={handleFormSubmit}
                                     />
                                 </div>
                             )
