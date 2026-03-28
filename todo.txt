@@ -1,5 +1,6 @@
 WEB
   -search in admin
+  -forgot pw
 
 WEB/DESIGN
   -pw reset
