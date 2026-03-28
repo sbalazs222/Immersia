@@ -86,7 +86,7 @@ function Admin() {
                             </button>
                         </div>
                     </div>
-                    <div ref={contentAreaRef}>
+                    <div className='content-area' ref={contentAreaRef}>
                         <p>This is the admin page. Here you can manage your soundboard content.</p>
                         <Button type="submit" form={activeFormId} variant="outline-danger">Delete</Button>
                         {
