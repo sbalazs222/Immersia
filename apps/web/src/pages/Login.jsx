@@ -1,13 +1,16 @@
 import { toast } from 'react-toastify'
 import { Form, Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
+import ForgotPasswordModal from '../modals/ForgotPasswordModal'
 import '../styles/App.css'
 
 
 export default function Login() {
     const { login, setIsLoggedIn, setIsAdmin } = useContext(AuthContext)
+    const [showForgotPassword, setShowForgotPassword] = useState(false)
+
     const navigate = useNavigate()
     async function handleSubmit(event) {
         event.preventDefault()
@@ -49,13 +52,14 @@ export default function Login() {
                             <Form.Label>Password</Form.Label>
                             <Form.Control type='password' name='password' placeholder='Password' required />
                         </Form.Group>
-                        <Button type='submit' variant='secondary' className='w-100 mb-3' style={{ backgroundColor: '#333333', border: 'none', padding: '10px'}}>Login</Button>
+                        <Button type='submit' variant='secondary' className='w-100 mb-3' style={{ backgroundColor: '#333333', border: 'none', padding: '10px' }}>Login</Button>
+                        <Button type='button' onClick={() => setShowForgotPassword(true)}>Forgot Password?</Button>
                     </Form>
                 </div>
             </div>
+            {showForgotPassword && <ForgotPasswordModal onClose={() => setShowForgotPassword(false)} />}
             {/* For testing purposes, remove this in production */}
             {import.meta.env.DEV == true ? <Button onClick={() => { setIsLoggedIn(true); setIsAdmin(true); }}>Login as Admin (for testing)</Button> : null}
-
         </>
     )
 }
