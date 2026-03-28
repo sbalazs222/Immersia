@@ -1,6 +1,5 @@
 WEB
   -admin manager
-  -player search
 
 WEB/DESIGN
   -pw reset
