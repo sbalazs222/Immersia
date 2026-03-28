@@ -1,10 +1,10 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { apiClient } from '../utils/apiClient'
 
 export function useSearch() {
     const [searchTerm, setSearchTerm] = useState('')
     const [searchResults, setSearchResults] = useState([])
-    const [searchType, setSearchType] = useState('scene') // 'scene', 'ambience', 'oneshot'
+    const [searchType, setSearchType] = useState('scene')
     const [isSearching, setIsSearching] = useState(false)
 
     const handleSearch = useCallback(async () => {
@@ -24,6 +24,18 @@ export function useSearch() {
         }
     }, [searchTerm, searchType])
 
+    const handleInputChange = (e) => {
+        setSearchTerm(e.target.value)
+    }
+
+    useEffect(() => {
+        const delayDebounce = setTimeout(() => {
+            handleSearch()
+        }, 500) // Debounce search by 500ms
+
+        return () => clearTimeout(delayDebounce)
+    }, [searchTerm, searchType])
+
     return {
         searchTerm,
         setSearchTerm,
@@ -31,6 +43,7 @@ export function useSearch() {
         searchType,
         setSearchType,
         isSearching,
-        handleSearch
+        handleSearch,
+        handleInputChange
     }
 }
