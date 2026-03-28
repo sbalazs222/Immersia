@@ -275,3 +275,16 @@ body {
 .admin-sound-list .oneshot-item {
   width: 100%;
 }
+
+.admin-item-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-item-checkbox {
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
+  flex-shrink: 0;
+}

@@ -15,10 +15,15 @@ function Admin() {
         contentAreaRef
     } = useSoundFetch()
 
-    async function handleFormSubmit(e) {
+    async function handleDeleteFormSubmit(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
         const itemsToDelete = [];
+
+        if (formData.entries().next().done) {
+            toast.info('No items selected for deletion');
+            return;
+        }
 
         for (let [key, value] of formData.entries()) {
             if (key.startsWith('delete-') && value === 'on') {
@@ -29,17 +34,17 @@ function Admin() {
 
         if (itemsToDelete.length > 0) {
             try {
-                const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/delete`, {
-                    method: 'POST',
+                const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/content`, {
+                    method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    credentials: 'include',
+                    // credentials: 'include',
                     body: JSON.stringify({ slugs: itemsToDelete })
                 });
                 if (res.ok) {
                     toast.success('Items deleted successfully');
-                    window.location.reload();
+                    // window.location.reload();
                 }
                 else {
                     const errorData = await res.json();
@@ -51,6 +56,8 @@ function Admin() {
 
         }
     }
+
+    const activeFormId = `admin-delete-form-${activeTab}`;
 
     return (
         <>
@@ -81,8 +88,7 @@ function Admin() {
                     </div>
                     <div ref={contentAreaRef}>
                         <p>This is the admin page. Here you can manage your soundboard content.</p>
-                        <Button variant="outline-primary">Edit</Button>
-                        <Button variant="outline-danger">Delete</Button>  
+                        <Button type="submit" form={activeFormId} variant="outline-danger">Delete</Button>
                         {
                             activeTab === 'scene' ? (
                                 <div>
@@ -90,7 +96,8 @@ function Admin() {
                                     <AdminSoundList 
                                         type='scene'
                                         items={scenes}
-                                        formSubmitHandler={handleFormSubmit}
+                                        formId='admin-delete-form-scene'
+                                        deleteFormSubmitHandler={handleDeleteFormSubmit}
                                     />
                                 </div>
                             ) : activeTab === 'ambience' ? (
@@ -99,7 +106,8 @@ function Admin() {
                                     <AdminSoundList 
                                         type='ambience'
                                         items={ambiences}
-                                        formSubmitHandler={handleFormSubmit}
+                                        formId='admin-delete-form-ambience'
+                                        deleteFormSubmitHandler={handleDeleteFormSubmit}
                                     />
                                 </div>
                             ) : (
@@ -108,7 +116,8 @@ function Admin() {
                                     <AdminSoundList 
                                         type='oneshot'
                                         items={oneshots}
-                                        formSubmitHandler={handleFormSubmit}
+                                        formId='admin-delete-form-oneshot'
+                                        deleteFormSubmitHandler={handleDeleteFormSubmit}
                                     />
                                 </div>
                             )

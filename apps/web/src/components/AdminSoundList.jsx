@@ -5,7 +5,8 @@ import { Row, Col, Form } from 'react-bootstrap'
 function AdminSoundListComponent({
   type,
   items,
-  formSubmitHandler
+  deleteFormSubmitHandler,
+  formId
 }) {
   const className = {
     scene: 'scene-item',
@@ -28,9 +29,15 @@ function AdminSoundListComponent({
   return (
     <div className={`${listClassName} admin-sound-list`}>
       <Row className="g-0">
-        <Form onSubmit={formSubmitHandler}>
+        <Form id={formId} onSubmit={deleteFormSubmitHandler}>
           {items.map(item => (
-            <Col key={item.slug} xs={12} className="mb-2 px-0">
+            <Col key={item.slug} xs={12} className="mb-2 px-0 admin-item-row">
+              <div className="admin-item-checkbox">
+                <Form.Check
+                  type="checkbox"
+                  name={`delete-${item.slug}`}
+                />
+              </div>
               <div className={className}>
 
                 <div className={nameClassName}>
@@ -43,13 +50,9 @@ function AdminSoundListComponent({
                   {item.title}
                 </div>
               </div>
-              <Form.Check 
-                type="checkbox"
-                name={`delete-${item.slug}`}
-              />
             </Col>
           ))}
-        </Form>
+        </Form >
       </Row>
     </div>
   )
