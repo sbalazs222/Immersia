@@ -99,7 +99,7 @@ export default function Navbar({ isLoggedIn, isAdmin, handleLogout }) {
                     {isAdmin && <Route path="/admin" element={<Admin />} />}
                     {isLoggedIn && <Route path="/soundboard" element={<SoundBoard />} />}
                     {isLoggedIn && <Route path="/profile" element={<Profile />} />}
-                    {isLoggedIn && <Route path='/upload' element={<Upload />} />}
+                    {isAdmin && <Route path='/upload' element={<Upload />} />}
                     <Route path='/verify' element={<Verification />} />
                     <Route path='/reset-password' element={<NewPassword />} />
                 </Routes>

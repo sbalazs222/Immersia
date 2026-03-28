@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
       if (response.ok) {
         setIsLoggedIn(true)
         const data = await response.json()
-        setIsAdmin(Boolean(data.data.role))
+        setIsAdmin(Boolean(data.data.role == 1))
       } else if (response.status === 401) {
         setIsLoggedIn(false)
         setIsAdmin(false)
@@ -56,7 +56,7 @@ export function AuthProvider({ children }) {
     }
 
     if (response.ok) {
-      const role = result?.data?.role ?? false
+      const role = result?.data?.role == 1
       setIsLoggedIn(true)
       setIsAdmin(Boolean(role))
       setLastSession(result?.data?.last_session ?? null)
