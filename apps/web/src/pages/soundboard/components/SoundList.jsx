@@ -34,7 +34,7 @@ function SoundListComponent({
       {searchResults.length == 0 ?
         (items.map(item => (
           <div
-            key={item.slug ?? item._id}
+            key={item.slug}
             className={`${className} ${isItemSelected(selectedItems, item) ? 'selected' : ''
               }`}
             onClick={() => onItemClick(item)}
@@ -61,7 +61,7 @@ function SoundListComponent({
         ))) : (
           searchResults.map(item => (
             <div
-              key={item.slug ?? item._id}
+              key={item.slug}
               className={`${className} ${isItemSelected(selectedItems, item) ? 'selected' : ''
                 }`}
               onClick={() => onItemClick(item)}

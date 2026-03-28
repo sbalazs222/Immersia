@@ -31,7 +31,7 @@ export function useSearch() {
     useEffect(() => {
         const delayDebounce = setTimeout(() => {
             handleSearch()
-        }, 500) // Debounce search by 500ms
+        }, 350) // Debounce search by 350ms
 
         return () => clearTimeout(delayDebounce)
     }, [searchTerm, searchType])
