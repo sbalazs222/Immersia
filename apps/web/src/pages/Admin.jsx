@@ -2,6 +2,7 @@ import '../styles/App.css'
 import { useSoundFetch } from './soundboard/hooks/useSoundFetch'
 import { AdminSoundList } from '../components/AdminSoundList';
 import { Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 function Admin() {
 
@@ -18,6 +19,37 @@ function Admin() {
         e.preventDefault();
         const formData = new FormData(e.target);
         const itemsToDelete = [];
+
+        for (let [key, value] of formData.entries()) {
+            if (key.startsWith('delete-') && value === 'on') {
+                const slug = key.replace('delete-', '');
+                itemsToDelete.push(slug);
+            }
+        }
+
+        if (itemsToDelete.length > 0) {
+            try {
+                const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/delete`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ slugs: itemsToDelete })
+                });
+                if (res.ok) {
+                    toast.success('Items deleted successfully');
+                    window.location.reload();
+                }
+                else {
+                    const errorData = await res.json();
+                    toast.error('Failed to delete items: ' + errorData.message);
+                }
+            } catch (error) {
+                toast.error('Failed to delete items: ' + error.message);
+            }
+
+        }
     }
 
     return (
