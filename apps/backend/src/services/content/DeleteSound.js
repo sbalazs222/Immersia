@@ -1,7 +1,6 @@
 import pool from '../../config/mysql.js'
 import fse from 'fs-extra';
 import path from 'path';
-import { ApiError } from '../../utils/apiError.js';
 
 export default async function DeleteSound(slugs) {
   const conn = await pool.getConnection();
