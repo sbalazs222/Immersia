@@ -1,6 +1,6 @@
 import { rateLimit } from 'express-rate-limit';
 
-export const UploadLimiter = rateLimit({
+const PasswordResetLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   limit: 1,
   message: { message: 'Too many uploads from this IP, please try again later,' },
@@ -8,4 +8,4 @@ export const UploadLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-export default UploadLimiter;
+export default PasswordResetLimiter
