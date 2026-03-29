@@ -1,6 +1,5 @@
 WEB
-  -search in admin
-  -forgot pw pw requirements
+  -💨
 
 WEB/DESIGN
   -pw reset
