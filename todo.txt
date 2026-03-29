@@ -2,11 +2,10 @@ WEB
   -💨
 
 WEB/DESIGN
-  -pw reset
+  -pw reset and modal
   -upload pill
-  -make play button a circle
   -admin
-  -search bar more visible
+  -login
 
 BACKEND
   -👺
