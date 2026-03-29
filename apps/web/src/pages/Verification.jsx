@@ -27,15 +27,12 @@ export default function Verification() {
                 toast.success("Email verified successfully, you can now log in")
                 navigate("/login")
             }
-            else if (res.status === 410) {
-                toast.error("Verification code has expired");
+            else if (res.status == 400) {
+                toast.error("Verification code has expired, click the button below to resend the verification email");
                 setIsValidToken(false);
             }
             else {
                 toast.error("Failed to verify email");
-                setTimeout(() => {
-                    navigate("/login");
-                }, 3000);
             }
         }
 
@@ -43,7 +40,7 @@ export default function Verification() {
     }, [token, navigate])
 
     async function resendVerificationEmail() {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/mail/resend?token=${token}`, {
+        const res = await fetch(`https://immersia.techtrove.cc/api/mail/resend?token=${token}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
