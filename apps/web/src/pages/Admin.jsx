@@ -1,8 +1,9 @@
 import '../styles/App.css'
 import { useSoundFetch } from './soundboard/hooks/useSoundFetch'
+import { useSearch } from './soundboard/hooks/useSearch';
 import { API_BASE_URL } from './soundboard/utils/constants'
 import { AdminSoundList } from '../components/AdminSoundList';
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 function Admin() {
@@ -15,6 +16,15 @@ function Admin() {
         oneshots,
         contentAreaRef
     } = useSoundFetch()
+
+    const {
+        searchTerm,
+        searchResults,
+        searchType,
+        setSearchType,
+        isSearching,
+        handleInputChange
+    } = useSearch()
 
     async function handleDeleteFormSubmit(e) {
         e.preventDefault();
@@ -69,22 +79,32 @@ function Admin() {
                         <div className='tabs-container'>
                             <button
                                 className={activeTab === 'scene' ? 'tab-btn active' : 'tab-btn'}
-                                onClick={() => setActiveTab('scene')}
+                                onClick={() => { !isSearching && setActiveTab('scene'); !isSearching && setSearchType('scene') }}
                             >
                                 Scenes
                             </button>
                             <button
                                 className={activeTab === 'ambience' ? 'tab-btn active' : 'tab-btn'}
-                                onClick={() => setActiveTab('ambience')}
+                                onClick={() => { !isSearching && setActiveTab('ambience'); !isSearching && setSearchType('ambience') }}
                             >
                                 Ambiences
                             </button>
                             <button
                                 className={activeTab === 'oneshot' ? 'tab-btn active' : 'tab-btn'}
-                                onClick={() => setActiveTab('oneshot')}
+                                onClick={() => { !isSearching && setActiveTab('oneshot'); !isSearching && setSearchType('oneshot') }}
                             >
                                 One-Shots
                             </button>
+                        </div>
+                        <div className='search-bar-container'>
+                            <Form.Control
+                                type='text'
+                                className='form-control rounded-pill bg-light border-0'
+                                placeholder='Search sounds...'
+                                value={searchTerm}
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                            <i className='bi bi-search fs-5'></i>
                         </div>
                     </div>
                     <div className='content-area' ref={contentAreaRef}>
@@ -94,31 +114,35 @@ function Admin() {
                             activeTab === 'scene' ? (
                                 <div>
                                     <h2>Scenes</h2>
-                                    <AdminSoundList 
+                                    <AdminSoundList
                                         type='scene'
                                         items={scenes}
                                         formId='admin-delete-form-scene'
                                         deleteFormSubmitHandler={handleDeleteFormSubmit}
+                                        searchResults={searchType === 'scene' ? searchResults : null}
                                     />
                                 </div>
                             ) : activeTab === 'ambience' ? (
                                 <div>
                                     <h2>Ambiences</h2>
-                                    <AdminSoundList 
+                                    <AdminSoundList
                                         type='ambience'
                                         items={ambiences}
                                         formId='admin-delete-form-ambience'
                                         deleteFormSubmitHandler={handleDeleteFormSubmit}
+                                        searchResults={searchType === 'ambience' ? searchResults : null}
+
                                     />
                                 </div>
                             ) : (
                                 <div>
                                     <h2>One-Shots</h2>
-                                    <AdminSoundList 
+                                    <AdminSoundList
                                         type='oneshot'
                                         items={oneshots}
                                         formId='admin-delete-form-oneshot'
                                         deleteFormSubmitHandler={handleDeleteFormSubmit}
+                                        searchResults={searchType === 'oneshot' ? searchResults : null}
                                     />
                                 </div>
                             )
