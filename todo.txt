@@ -2,10 +2,9 @@ WEB
   -💨
 
 WEB/DESIGN
-  -pw reset and modal
-  -upload pill
+  -new pw form
+  -upload pill FIX
   -admin
-  -login
 
 BACKEND
   -👺
