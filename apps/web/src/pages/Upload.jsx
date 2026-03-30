@@ -6,6 +6,7 @@ import '../styles/App.css'
 export default function Upload() {
 
     const [uploadType, setUploadType] = useState("oneshot");
+    const [activeTab, setActiveTab] = useState("single");
 
     async function handleSubmitSingle(e) {
         e.preventDefault();
@@ -56,58 +57,80 @@ export default function Upload() {
     return (
         <>
             <div className='soundboard-dsgn d-flex align-items-center justify-content-center'>
-                <div className='soundboard-section p-5' style={{ maxWidth: '450px', flex: 'none' }}>
-                    <h1 className="mb-4 fw-bold">Upload page</h1>
+                <div className='soundboard-section p-5' style={{ maxWidth: '450px', flex: 'none', width: '100%' }}>
 
-                    <Form onSubmit={handleSubmitSingle}>
-                        <Form.Group>
-                            <Form.Label className='mediumtext'>Title - max length: 24 characters</Form.Label>
-                            <Form.Control type='text' name='Title' />
-                        </Form.Group>
-                        {
-                            uploadType !== "scene" ? (
-                                <Form.Group controlId="formAudio" className="mb-3">
-                                    <Form.Label className='mediumtext'>Supported audio formats: .WAW, .MP3, .OGG</Form.Label>
-                                    <Form.Control type="file" name="SoundFile" accept='.mp3, .ogg, .waw' />
-                                </Form.Group>
-                            ) : (
-                                <Form.Group controlId="formAudio" className="mb-3">
-                                    <Form.Label className='mediumtext'>Explore Audio</Form.Label>
-                                    <Form.Control type="file" name="SoundFileExplore" accept='.mp3, .ogg, .waw' />
-                                    <Form.Label className='mediumtext'>Combat Audio</Form.Label>
-                                    <Form.Control type="file" name="SoundFileCombat" accept='.mp3, .ogg, .waw' />
-                                </Form.Group>
-                            )
-                        }
+                    <div className='d-flex justify-content-center mb-4'>
+                        <div className='tabs-container'>
+                            <button type="button" className={activeTab === 'single' ? 'tab-btn active' : 'tab-btn'}
+                                onClick={() => setActiveTab('single')}
+                            >
+                                Single
+                            </button>
+                            <button type="button" className={activeTab === 'bulk' ? 'tab-btn active' : 'tab-btn'}
+                                onClick={() => setActiveTab('bulk')}
+                            >
+                                Bulk (zip)
+                            </button>
+                        </div>
+                    </div>
 
-                        <Form.Group controlId='formImage'>
-                            <Form.Label className='mediumtext'>Image for the effect</Form.Label>
-                            <Form.Control type="file" name="ImageFile" accept='image/*' />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label className='mediumtext'>Effect type</Form.Label>
-                            <Form.Select name="Type" onChange={(e) => setUploadType(e.target.value)}>
-                                <option value="oneshot">One-shot</option>
-                                <option value="ambience">Ambience</option>
-                                <option value="scene">Scene</option>
-                            </Form.Select>
-                        </Form.Group>
-                        <Button variant="dark" type="submit" className="w-100" style={{ backgroundColor: "#333333", border: "none", padding: "10px", marginTop: "15px" }}>
-                            Upload
-                        </Button>
-                    </Form>
-                    
-                    <Form onSubmit={handleSubmitArchive} className='mt-5'>
-                        <hr className='my-4' />
-                        <h2 className='mb-4 fw-bold'>Bulk Upload (Zip Archive)</h2>
-                        <Form.Group controlId="formArchive" className="mb-3">
-                            <Form.Label className='mediumtext'>Upload a zip file containing multiple sounds. The zip should have a specific structure. Refer to the documentation for details.</Form.Label>
-                            <Form.Control type="file" name="Archive" accept='.zip' />
-                        </Form.Group>
-                        <Button variant="dark" type='submit' className="w-100" style={{ backgroundColor: "#333333", border: "none", padding: "10px", marginTop: "15px" }}>
-                            Upload Archive
-                        </Button>
-                    </Form>
+                    {activeTab === 'single' && (
+                        <div>
+                            <h2 className="mb-4 fw-bold text-center">Upload page</h2>
+                            <Form onSubmit={handleSubmitSingle}>
+                                <Form.Group>
+                                    <Form.Label className='mediumtext'>Title - max length: 24 characters</Form.Label>
+                                    <Form.Control type='text' name='Title' />
+                                </Form.Group>
+                                {
+                                    uploadType !== "scene" ? (
+                                        <Form.Group controlId="formAudio" className="mb-3">
+                                            <Form.Label className='mediumtext'>Supported audio formats: .WAW, .MP3, .OGG</Form.Label>
+                                            <Form.Control type="file" name="SoundFile" accept='.mp3, .ogg, .waw' />
+                                        </Form.Group>
+                                    ) : (
+                                        <Form.Group controlId="formAudio" className="mb-3">
+                                            <Form.Label className='mediumtext'>Explore Audio</Form.Label>
+                                            <Form.Control type="file" name="SoundFileExplore" accept='.mp3, .ogg, .waw' />
+                                            <Form.Label className='mediumtext'>Combat Audio</Form.Label>
+                                            <Form.Control type="file" name="SoundFileCombat" accept='.mp3, .ogg, .waw' />
+                                        </Form.Group>
+                                    )
+                                }
+
+                                <Form.Group controlId='formImage'>
+                                    <Form.Label className='mediumtext'>Image for the effect</Form.Label>
+                                    <Form.Control type="file" name="ImageFile" accept='image/*' />
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label className='mediumtext'>Effect type</Form.Label>
+                                    <Form.Select name="Type" onChange={(e) => setUploadType(e.target.value)}>
+                                        <option value="oneshot">One-shot</option>
+                                        <option value="ambience">Ambience</option>
+                                        <option value="scene">Scene</option>
+                                    </Form.Select>
+                                </Form.Group>
+                                <Button variant="dark" type="submit" className="w-100" style={{ backgroundColor: "#333333", border: "none", padding: "10px", marginTop: "15px" }}>
+                                    Upload
+                                </Button>
+                            </Form>
+                        </div>
+                    )}
+
+                    {activeTab === 'bulk' && (
+                        <div>
+                            <Form onSubmit={handleSubmitArchive} className='mt-5'>
+                                <h2 className='mb-4 fw-bold text-center'>Bulk Upload (Zip Archive)</h2>
+                                <Form.Group controlId="formArchive" className="mb-3">
+                                    <Form.Label className='mediumtext'>Upload a zip file containing multiple sounds. The zip should have a specific structure. Refer to the documentation for details.</Form.Label>
+                                    <Form.Control type="file" name="Archive" accept='.zip' />
+                                </Form.Group>
+                                <Button variant="dark" type='submit' className="w-100" style={{ backgroundColor: "#333333", border: "none", padding: "10px", marginTop: "15px" }}>
+                                    Upload Archive
+                                </Button>
+                            </Form>
+                        </div>
+                    )}
                 </div>
             </div>
         </>
