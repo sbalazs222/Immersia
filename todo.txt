@@ -1,5 +1,6 @@
 WEB
   -💨
+  -englishize errors
 
 WEB/DESIGN
   -new pw form
@@ -8,3 +9,4 @@ WEB/DESIGN
 
 BACKEND
   -👺
+  -ratelimit fix
