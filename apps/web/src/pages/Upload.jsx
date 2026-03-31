@@ -57,7 +57,7 @@ export default function Upload() {
     return (
         <>
             <div className='soundboard-dsgn d-flex align-items-center pt-5 mt-5'>
-                <div className='soundboard-section p-5' style={{ maxWidth: '450px', flex: 'none', width: '100%' }}>
+                <div className='soundboard-section p-5' style={{ maxWidth: '450px', flex: 'none', width: '100%', minHeight: '660px' }}>
 
                     <div className='d-flex justify-content-center mb-4'>
                         <div className='tabs-container'>
@@ -119,7 +119,7 @@ export default function Upload() {
 
                     {activeTab === 'bulk' && (
                         <div>
-                            <Form onSubmit={handleSubmitArchive} className='mt-5'>
+                            <Form onSubmit={handleSubmitArchive}>
                                 <h2 className='mb-4 fw-bold text-center'>Bulk Upload (Zip Archive)</h2>
                                 <Form.Group controlId="formArchive" className="mb-3">
                                     <Form.Label className='mediumtext'>Upload a zip file containing multiple sounds. The zip should have a specific structure. Refer to the documentation for details.</Form.Label>
