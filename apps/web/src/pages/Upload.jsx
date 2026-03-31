@@ -56,7 +56,7 @@ export default function Upload() {
 
     return (
         <>
-            <div className='soundboard-dsgn d-flex align-items-center justify-content-center'>
+            <div className='soundboard-dsgn d-flex align-items-center pt-5 mt-5'>
                 <div className='soundboard-section p-5' style={{ maxWidth: '450px', flex: 'none', width: '100%' }}>
 
                     <div className='d-flex justify-content-center mb-4'>
