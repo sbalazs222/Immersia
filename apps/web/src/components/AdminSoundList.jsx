@@ -28,55 +28,61 @@ function AdminSoundListComponent({
   }[type]
 
   return (
-    <div className={`${listClassName} admin-sound-list`}>
-      <Row className="g-0">
         <Form id={formId} onSubmit={deleteFormSubmitHandler}>
+              <div className={`${listClassName} admin-sound-list`}>
           {searchResults.length == 0 ? (items.map(item => (
-            <Col key={item.slug} xs={12} className="mb-2 px-0 admin-item-row">
-              <div className="admin-item-checkbox">
+            <div key={item.slug} className={className}>
+              <div style={{position: 'absolute', top: '6px', zIndex: 10, backgroundColor: 'rgba(255 255, 255, 0.9)', padding: '3px 6px', borderRadius: '6px'}}>
                 <Form.Check
                   type="checkbox"
                   name={`delete-${item.slug}`}
+                  style={{transform: 'scale(1.3)', cursor:'pointer'}}
                 />
               </div>
-              <div className={className}>
+
                 <div className={nameClassName}>
                   <img
                     src={`${API_BASE_URL}/content/thumb/${item.slug}`}
                     alt={item.title}
-                    width="50px"
-                    height="50px"
+                    width={type === 'scene' ? undefined : "50px"}
+                    height={type === 'scene' ? undefined : "50px"}
                   />
-                  {item.title}
+                  {type === 'scene' ? (
+                    <div className='item-title-text'>{item.title}</div>
+                  ) : (
+                    <span>{item.title}</span>
+                  )}
                 </div>
               </div>
-            </Col>
-          ))) :
+          ))) : (
             searchResults.map(item => (
-              <Col key={item.slug} xs={12} className="mb-2 px-0 admin-item-row">
-                <div className="admin-item-checkbox">
+              <div key={item.slug} className={className}>
+
+                <div style={{position: 'absolute', top: '6px', left: '6px', zIndex: 10, backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '3px 6px', borderRadius: '6px'}}>
                   <Form.Check
                     type="checkbox"
                     name={`delete-${item.slug}`}
+                    style={{ transform: 'scale(1.3)', cursor: 'pointer'}}
                   />
                 </div>
-                <div className={className}>
                   <div className={nameClassName}>
                     <img
                       src={`${API_BASE_URL}/content/thumb/${item.slug}`}
                       alt={item.title}
-                      width="50px"
-                      height="50px"
+                      width={type === 'scene' ? undefined : "50px"}
+                      height={type === 'scene' ? undefined: "50px"}
                     />
-                    {item.title}
+                    {type === 'scene' ? (
+                    <div className='item-title-text'>{item.title}</div>
+                    ) : (
+                      <span>{item.title}</span>
+                    )}
                   </div>
                 </div>
-              </Col>
             ))
-          }
+          )}
+          </div>
         </Form >
-      </Row>
-    </div>
   )
 }
 

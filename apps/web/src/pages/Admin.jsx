@@ -109,7 +109,7 @@ function Admin() {
                     </div>
 
                     <div className='d-flex justify-content-between align-items-center mb-3' style={{ backgroundColor: '#f8f9fa', border: '1px solid #ddd', borderRadius: '12px' }}>
-                        <span className='mediumtext m-0'>This is the admin page. Here you can manage your soundboard content.</span>
+                        <span className='mediumtext m-0 px-3'>This is the admin page. Here you can manage your soundboard content.</span>
                         <Button type="submit" form={activeFormId} variant="outline-danger" className='fw-bold d-flex align-items-center' style={{ borderRadius: '8px', padding: '8px 20px' }}>
                             <i className='bi bi-trash3-fill me-2'></i>Delete
                         </Button>
