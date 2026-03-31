@@ -74,8 +74,7 @@ function Admin() {
         <>
             <div className='soundboard-dsgn'>
                 <div className='soundboard-section d-flex flex-column' style={{ height: '100%' }}>
-                    <h2 className='mb-4 fw-bold'>Admin Page</h2>
-                    <div className='tabs-dsgn pb-0 mb-4'>
+                    <div className='top-bar-controls'>
                         <div className='tabs-container'>
                             <button
                                 className={activeTab === 'scene' ? 'tab-btn active' : 'tab-btn'}
