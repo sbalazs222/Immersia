@@ -28,18 +28,48 @@ function AdminSoundListComponent({
   }[type]
 
   return (
-        <Form id={formId} onSubmit={deleteFormSubmitHandler}>
-              <div className={`${listClassName} admin-sound-list`}>
-          {searchResults.length == 0 ? (items.map(item => (
+    <Form id={formId} onSubmit={deleteFormSubmitHandler}>
+      <div className={`${listClassName} admin-sound-list`}>
+        {searchResults.length == 0 ? (items.map(item => (
+          <div key={item.slug} className={className}>
+            <div style={{ position: 'absolute', top: '6px', left: '6px', zIndex: 10, backgroundColor: 'rgba(255 255, 255, 0.9)', padding: '3px 6px', borderRadius: '6px' }}>
+              <Form.Check
+                type="checkbox"
+                name={`delete-${item.slug}`}
+                style={{ transform: 'scale(1.3)', cursor: 'pointer' }}
+                id={`selector-box-${item.slug}`}
+              />
+            </div>
+            <div className={className} onClick={() => document.getElementById(`selector-box-${item.slug}`).click()}>
+              <div className={nameClassName}>
+                <img
+                  src={`${API_BASE_URL}/content/thumb/${item.slug}`}
+                  alt={item.title}
+                  width={type === 'scene' ? undefined : "50px"}
+                  height={type === 'scene' ? undefined : "50px"}
+                />
+                {type === 'scene' ? (
+                  <div className='item-title-text'>{item.title}</div>
+                ) : (
+                  <span>{item.title}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        ))) : (
+          searchResults.map(item => (
             <div key={item.slug} className={className}>
-              <div style={{position: 'absolute', top: '6px', left: '6px', zIndex: 10, backgroundColor: 'rgba(255 255, 255, 0.9)', padding: '3px 6px', borderRadius: '6px'}}>
+
+              <div style={{ position: 'absolute', top: '6px', left: '6px', zIndex: 10, backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '3px 6px', borderRadius: '6px' }}>
                 <Form.Check
                   type="checkbox"
                   name={`delete-${item.slug}`}
-                  style={{transform: 'scale(1.3)', cursor:'pointer'}}
+                  style={{ transform: 'scale(1.3)', cursor: 'pointer' }}
+                  id={`selector-box-${item.slug}`}
                 />
               </div>
 
+              <div className={className} onClick={() => document.getElementById(`selector-box-${item.slug}`).click()}>
                 <div className={nameClassName}>
                   <img
                     src={`${API_BASE_URL}/content/thumb/${item.slug}`}
@@ -54,35 +84,11 @@ function AdminSoundListComponent({
                   )}
                 </div>
               </div>
-          ))) : (
-            searchResults.map(item => (
-              <div key={item.slug} className={className}>
-
-                <div style={{position: 'absolute', top: '6px', left: '6px', zIndex: 10, backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '3px 6px', borderRadius: '6px'}}>
-                  <Form.Check
-                    type="checkbox"
-                    name={`delete-${item.slug}`}
-                    style={{ transform: 'scale(1.3)', cursor: 'pointer'}}
-                  />
-                </div>
-                  <div className={nameClassName}>
-                    <img
-                      src={`${API_BASE_URL}/content/thumb/${item.slug}`}
-                      alt={item.title}
-                      width={type === 'scene' ? undefined : "50px"}
-                      height={type === 'scene' ? undefined: "50px"}
-                    />
-                    {type === 'scene' ? (
-                    <div className='item-title-text'>{item.title}</div>
-                    ) : (
-                      <span>{item.title}</span>
-                    )}
-                  </div>
-                </div>
-            ))
-          )}
-          </div>
-        </Form >
+            </div>
+          )))
+        }
+      </div>
+    </Form >
   )
 }
 
