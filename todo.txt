@@ -4,8 +4,6 @@ WEB
 
 WEB/DESIGN
   -new pw form
-  -upload pill FIX
-  -admin
 
 BACKEND
   -👺
