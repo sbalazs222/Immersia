@@ -31,17 +31,19 @@ export default function ForgotPasswordModal({ onClose }) {
         }
     }
     return (
-        <Modal show onHide={onClose} centered>
+        <Modal show onHide={onClose} centered ModalclassName='soundboard-section p-2'>
             <Modal.Header closeButton>
-                <Modal.Title>Forgot Password</Modal.Title>
+                <Modal.Title className="fw-bold mb-0">Forgot Password</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className='mb-3' controlId='formEmail'>
-                        <Form.Label>Email</Form.Label>
+                        <Form.Label className='mediumtext'>Email</Form.Label>
                         <Form.Control value={email} onChange={(e) => setEmail(e.target.value)} type='email' name='email' placeholder='Enter your email' required />
                     </Form.Group>
-                    <Button variant='primary' type='submit' disabled={isSubmitting}>
+                    <Button variant='dark' type='submit' disabled={isSubmitting}
+                        className="w-100"
+                        style={{ backgroundColor: '#333333', border: 'none', padding: '10px', marginTop: '10px' }}>
                         {isSubmitting ? 'Submitting...' : 'Submit'}
                     </Button>
                 </Form>

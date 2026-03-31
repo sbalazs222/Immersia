@@ -53,7 +53,7 @@ export default function Login() {
                             <Form.Control type='password' name='password' placeholder='Password' required />
                         </Form.Group>
                         <Button type='submit' variant='secondary' className='w-100 mb-3' style={{ backgroundColor: '#333333', border: 'none', padding: '10px' }}>Login</Button>
-                        <Button type='button' onClick={() => setShowForgotPassword(true)}>Forgot Password?</Button>
+                        <Button variant='link' className='w-100 text-decoration-none mt-2' style={{ color: '#555555', fontSize: '14px', fontWeight: '500' }} type='button' onClick={() => setShowForgotPassword(true)}>Forgot Password?</Button>
                     </Form>
                 </div>
             </div>

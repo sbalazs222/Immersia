@@ -1,11 +1,10 @@
 WEB
   -💨
+  -englishize errors
 
 WEB/DESIGN
-  -pw reset and modal
-  -upload pill
-  -admin
-  -login
+  -new pw form
 
 BACKEND
   -👺
+  -ratelimit fix

@@ -73,8 +73,9 @@ function Admin() {
     return (
         <>
             <div className='soundboard-dsgn'>
-                <div className='soundboard-section'>
-                    <div className='tabs-dsgn'>
+                <div className='soundboard-section d-flex flex-column' style={{ height: '100%' }}>
+                    <h2 className='mb-4 fw-bold'>Admin Page</h2>
+                    <div className='tabs-dsgn pb-0 mb-4'>
                         <div className='tabs-container'>
                             <button
                                 className={activeTab === 'scene' ? 'tab-btn active' : 'tab-btn'}
@@ -106,9 +107,14 @@ function Admin() {
                             <i className='bi bi-search fs-5'></i>
                         </div>
                     </div>
+
+                    <div className='d-flex justify-content-between align-items-center mb-3' style={{ backgroundColor: '#f8f9fa', border: '1px solid #ddd', borderRadius: '12px' }}>
+                        <span className='mediumtext m-0 px-3'>This is the admin page. Here you can manage your soundboard content.</span>
+                        <Button type="submit" form={activeFormId} variant="outline-danger" className='fw-bold d-flex align-items-center' style={{ borderRadius: '8px', padding: '8px 20px' }}>
+                            <i className='bi bi-trash3-fill me-2'></i>Delete
+                        </Button>
+                    </div>
                     <div className='content-area' ref={contentAreaRef}>
-                        <p>This is the admin page. Here you can manage your soundboard content.</p>
-                        <Button type="submit" form={activeFormId} variant="outline-danger">Delete</Button>
                         {
                             activeTab === 'scene' ? (
                                 <div>

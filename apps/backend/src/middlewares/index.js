@@ -7,6 +7,7 @@ import UploadLimiter from './util/UploadLimiter.js';
 import ErrorHandler from './util/ErrorHandler.js';
 import OptionalAuthenticateToken from './authentication/OptionalAuthenticateToken.js';
 import IsAdmin from './authentication/IsAdmin.js';
+import PasswordResetLimiter from './util/PasswordResetLimiter.js';
 
 export {
   ValidateRegisterSchema,
@@ -17,5 +18,6 @@ export {
   OptionalAuthenticateToken,
   UploadLimiter,
   ErrorHandler,
-  IsAdmin
+  IsAdmin,
+  PasswordResetLimiter,
 };
