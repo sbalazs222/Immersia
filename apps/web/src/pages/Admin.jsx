@@ -72,7 +72,6 @@ function Admin() {
 
     return (
         <>
-            <h1>Admin Page</h1>
             <div className='soundboard-dsgn'>
                 <div className='soundboard-section'>
                     <div className='tabs-dsgn'>

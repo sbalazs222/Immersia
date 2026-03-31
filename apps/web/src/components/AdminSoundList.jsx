@@ -37,9 +37,10 @@ function AdminSoundListComponent({
                 <Form.Check
                   type="checkbox"
                   name={`delete-${item.slug}`}
+                  id={`selector-box-${item.slug}`}
                 />
               </div>
-              <div className={className}>
+              <div className={className} onClick={() => document.getElementById(`selector-box-${item.slug}`).click()}>
                 <div className={nameClassName}>
                   <img
                     src={`${API_BASE_URL}/content/thumb/${item.slug}`}
@@ -58,9 +59,10 @@ function AdminSoundListComponent({
                   <Form.Check
                     type="checkbox"
                     name={`delete-${item.slug}`}
+                    id={`selector-box-${item.slug}`}
                   />
                 </div>
-                <div className={className}>
+                <div className={className} onClick={() => document.getElementById(`selector-box-${item.slug}`).click()}>
                   <div className={nameClassName}>
                     <img
                       src={`${API_BASE_URL}/content/thumb/${item.slug}`}
