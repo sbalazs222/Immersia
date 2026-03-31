@@ -32,7 +32,7 @@ function AdminSoundListComponent({
               <div className={`${listClassName} admin-sound-list`}>
           {searchResults.length == 0 ? (items.map(item => (
             <div key={item.slug} className={className}>
-              <div style={{position: 'absolute', top: '6px', zIndex: 10, backgroundColor: 'rgba(255 255, 255, 0.9)', padding: '3px 6px', borderRadius: '6px'}}>
+              <div style={{position: 'absolute', top: '6px', left: '6px', zIndex: 10, backgroundColor: 'rgba(255 255, 255, 0.9)', padding: '3px 6px', borderRadius: '6px'}}>
                 <Form.Check
                   type="checkbox"
                   name={`delete-${item.slug}`}
