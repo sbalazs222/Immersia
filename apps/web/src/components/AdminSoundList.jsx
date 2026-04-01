@@ -40,7 +40,7 @@ function AdminSoundListComponent({
                 id={`selector-box-${item.slug}`}
               />
             </div>
-            <div className={className} onClick={() => document.getElementById(`selector-box-${item.slug}`).click()}>
+            <div style={{ width: '100%', height: '100%', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={() => document.getElementById(`selector-box-${item.slug}`).click()}>
               <div className={nameClassName}>
                 <img
                   src={`${API_BASE_URL}/content/thumb/${item.slug}`}
@@ -59,7 +59,6 @@ function AdminSoundListComponent({
         ))) : (
           searchResults.map(item => (
             <div key={item.slug} className={className}>
-
               <div style={{ position: 'absolute', top: '6px', left: '6px', zIndex: 10, backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '3px 6px', borderRadius: '6px' }}>
                 <Form.Check
                   type="checkbox"
@@ -69,7 +68,7 @@ function AdminSoundListComponent({
                 />
               </div>
 
-              <div className={className} onClick={() => document.getElementById(`selector-box-${item.slug}`).click()}>
+              <div style={{ width: '100%', height: '100%', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={() => document.getElementById(`selector-box-${item.slug}`).click()}>
                 <div className={nameClassName}>
                   <img
                     src={`${API_BASE_URL}/content/thumb/${item.slug}`}
