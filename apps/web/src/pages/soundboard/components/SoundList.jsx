@@ -76,7 +76,7 @@ function SoundListComponent({
                   onClick={(e) => onFavouriteClick(e, item)}
                   title={isFavourite(item) ? 'Remove from favourites' : 'Add to favourites'}
                 >
-                  ★
+                  <i className={`bi ${isFavourite(item) ? 'bi-star-fill' : 'bi-star'}`}></i>
                 </button>
               </div>
               <div className={nameClassName}>
