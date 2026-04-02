@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, InputGroup  } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
@@ -10,6 +10,7 @@ import '../styles/App.css'
 export default function Login() {
     const { login, setIsLoggedIn, setIsAdmin } = useContext(AuthContext)
     const [showForgotPassword, setShowForgotPassword] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
 
     const navigate = useNavigate()
     async function handleSubmit(event) {
@@ -50,7 +51,12 @@ export default function Login() {
                         </Form.Group>
                         <Form.Group className='mb-4' controlId='formPassword'>
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type='password' name='password' placeholder='Password' required />
+                            <InputGroup>
+                            <Form.Control type={showPassword ? 'text' : 'password'} name='password' placeholder='Password' required />
+                            <Button variant="outline-secondary" onClick={() => setShowPassword(!showPassword)} style={{ borderColor: '#ddd', display: 'flex', alignItems: 'center' }}>
+                                <i className={`bi ${showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'}`}></i>
+                            </Button>
+                            </InputGroup>
                         </Form.Group>
                         <Button type='submit' variant='secondary' className='w-100 mb-3' style={{ backgroundColor: '#333333', border: 'none', padding: '10px' }}>Login</Button>
                         <Button variant='link' className='w-100 text-decoration-none mt-2' style={{ color: '#555555', fontSize: '14px', fontWeight: '500' }} type='button' onClick={() => setShowForgotPassword(true)}>Forgot Password?</Button>
