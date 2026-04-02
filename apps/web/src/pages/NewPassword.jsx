@@ -1,18 +1,18 @@
 import { useSearchParams, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
-import { Button, Form } from "react-bootstrap"
+import { Button, Form, InputGroup } from "react-bootstrap"
 import { useState } from "react"
 
 export default function NewPassword() {
     const [searchParams] = useSearchParams()
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
+    const [showPassword, setShowPassword] = useState(false)
     const token = searchParams.get("token")
  if (!token) {
         navigate("/login")
         return null
     }
-    
     async function resetPassword(e) {
         e.preventDefault();
         const formdata = new FormData(e.target);
@@ -42,11 +42,16 @@ export default function NewPassword() {
             <Form onSubmit={resetPassword}>
                 <Form.Group className="mb-3">
                     <Form.Label className="mediumtext">New password</Form.Label>
-                    <Form.Control type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <InputGroup>
+                    <Form.Control type={showPassword ? 'text' : 'password'} name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <Button variant="outline-secondary" onClick={() => setShowPassword(!showPassword)} style={{ borderColor: '#ddd', display: 'flex', alignItems: 'center' }}>
+                    <i className={`bi ${showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'}`}></i>
+                    </Button>
+                    </InputGroup>
                 </Form.Group>
                 <Form.Group className="mb-4">
                     <Form.Label className="mediumtext">Confirm new password</Form.Label>
-                    <Form.Control type="password" name="confirmPassword" />
+                    <Form.Control type={showPassword ? 'text' : 'password'} name="confirmPassword" />
                 </Form.Group>
                 <Button variant="dark" type="submit" className="w-100 fw-bold"
                 style={{backgroundColor: '#333333', border: 'none', padding: '10px'}}>
