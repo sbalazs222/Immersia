@@ -49,13 +49,17 @@ function SoundListComponent({
               </button>
             </div>
             <div className={nameClassName}>
-              {item.title}
               <img
                 src={`${API_BASE_URL}/content/thumb/${item.slug}`}
                 alt={item.title}
-                width="50px"
-                height="50px"
+                width={type === 'scene' ? undefined : "50px"}
+                height={type === 'scene' ? undefined : "50px"}
               />
+              {type === 'scene' ? (
+                <div className='item-title-text'>{item.title}</div>
+              ) : (
+                <span>{item.title}</span>
+              )}
             </div>
           </div>
         ))) : (
@@ -72,17 +76,21 @@ function SoundListComponent({
                   onClick={(e) => onFavouriteClick(e, item)}
                   title={isFavourite(item) ? 'Remove from favourites' : 'Add to favourites'}
                 >
-                  ★
+                  <i className={`bi ${isFavourite(item) ? 'bi-star-fill' : 'bi-star'}`}></i>
                 </button>
               </div>
               <div className={nameClassName}>
-                {item.title}
                 <img
                   src={`${API_BASE_URL}/content/thumb/${item.slug}`}
                   alt={item.title}
-                  width="50px"
-                  height="50px"
+                  width={type === 'scene' ? undefined : "50px"}
+                  height={type === 'scene' ? undefined : "50px"}
                 />
+                {type === 'scene' ? (
+                  <div className='item-title-text'>{item.title}</div>
+                ) : (
+                  <span>{item.title}</span>
+                )}
               </div>
             </div>
           ))
