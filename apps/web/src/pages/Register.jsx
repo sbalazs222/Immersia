@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, InputGroup } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import '../styles/App.css'
@@ -7,6 +7,7 @@ import '../styles/App.css'
 export default function Register() {
     const navigate = useNavigate()
     const [password, setPassword] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
     async function handleSubmit(event) {
         event.preventDefault()
         const formdata = new FormData(event.target)
@@ -59,11 +60,16 @@ export default function Register() {
                         </Form.Group>
                         <Form.Group className='mb-3' controlId='formPassword'>
                             <Form.Label>Password</Form.Label>
-                            <Form.Control onChange={(e) => setPassword(e.target.value)} type='password' name='password' placeholder='Password' required />
+                            <InputGroup>
+                                <Form.Control onChange={(e) => setPassword(e.target.value)} type={showPassword ? 'text' : 'password'} name='password' placeholder='Password' required />
+                                <Button variant="outline-secondary" onClick={() => setShowPassword(!showPassword)} style={{ borderColor: '#ddd', display: 'flex', alignItems: 'center' }}>
+                                    <i className={`bi ${showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'}`}></i>
+                                </Button>
+                            </InputGroup>
                         </Form.Group>
                         <Form.Group className='mb-4' controlId='formConfirmPassword'>
                             <Form.Label>Confirm Password</Form.Label>
-                            <Form.Control type='password' name='confirmPassword' placeholder='Confirm Password' required />
+                            <Form.Control type={showPassword ? 'text' : 'password'} name='confirmPassword' placeholder='Confirm Password' required />
                         </Form.Group>
                         {
                             password.length > 0 && <p>
