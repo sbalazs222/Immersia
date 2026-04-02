@@ -1,5 +1,5 @@
 import { rateLimit } from 'express-rate-limit';
-import { ApiError } from '../../utils/apiError';
+import { ApiError } from '../../utils/apiError.js';
 
 const PasswordResetLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
