@@ -22,7 +22,7 @@ export default async function ResetPasswordSend(emailParam, userIdParam) {
   if (email && !userId) {
     const blindIndex = getBlindIndex(email);
 
-    user = (await pool.query('SELECT id FROM users WHERE email_blind_index = ?;', [blindIndex]))[0][0];
+    const user = (await pool.query('SELECT id FROM users WHERE email_blind_index = ?;', [blindIndex]))[0][0];
 
     if (!user) throw new ApiError(404, 'NO_ACCOUNT');
     userId = user.id
