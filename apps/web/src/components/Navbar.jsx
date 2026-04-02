@@ -11,7 +11,7 @@ import Verification from '../pages/Verification'
 import NewPassword from '../pages/NewPassword'
 
 export default function Navbar({ isLoggedIn, isAdmin, handleLogout }) {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(window.innerWidth > 768);
 
     return (
         <div className='app-container'>
