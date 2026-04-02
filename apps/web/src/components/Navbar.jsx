@@ -15,6 +15,13 @@ export default function Navbar({ isLoggedIn, isAdmin, handleLogout }) {
 
     return (
         <div className='app-container'>
+
+        <div className="mobile-menu-btn">
+                <button className='btn border-0' onClick={() => setIsOpen(true)}>
+                    <i className='bi bi-list' style={{ fontSize: '2.5rem' }}></i>
+                </button>
+            </div>
+
             {/* SIDEBAR */}
             <div className={isOpen ? 'sidebar' : 'sidebar sidebar-closed'}>
                 <div className='d-flex align-items-center'>
