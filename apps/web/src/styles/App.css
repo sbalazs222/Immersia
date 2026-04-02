@@ -549,3 +549,123 @@ input[type=range][orient=vertical] {
   transform: translateY(-50%);
   color: #555;
 }
+
+/* MOBIL */
+.mobile-menu-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  
+  .app-container {
+    flex-direction: column;
+  }
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    background-color: #E5E5E5;
+    padding: 10px 20px;
+    z-index: 999;
+  }
+  .main-content {
+    height: 100%;
+  }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1050;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebar.sidebar-closed {
+    transform: translateX(-100%);
+    width: 260px;
+    padding: 30px 20px;
+  }
+
+  .top-bar-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .tabs-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .tabs-container .tab-btn {
+    flex-grow: 1;
+    padding: 8px 5px;
+    font-size: 14px;
+    text-align: center;
+  }
+  .search-bar-container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .soundboard-section {
+    padding: 10px;
+  }
+
+  .scenes-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .scene-item {
+    min-width: 0;
+    height: 140px;
+  }
+
+  .ambiences-list, 
+  .oneshots-list {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+
+  .item-title-text, 
+  .ambience-name span, 
+  .oneshot-name span {
+    max-width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    display: block;
+  }
+
+.soundboard-section .scene-player-card {
+    flex-direction: row;
+    align-items: stretch;
+    padding: 12px;
+    gap: 10px;
+  }
+  
+  .scene-player-card .scene-main-content {
+    flex-grow: 1;
+    width: calc(100% - 50px);
+  }
+  
+  .scene-player-card .scene-main-content img {
+    height: 160px;
+  }
+  
+  .scene-player-card .scene-controls {
+    width: 40px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  .scene-controls input[type=range][orient=vertical] {
+    width: 14px;
+    flex-grow: 1;
+    height: auto;
+    writing-mode: bt-lr;
+    -webkit-appearance: slider-vertical;
+    appearance: slider-vertical;
+    margin-bottom: 15px;
+  }
+}
