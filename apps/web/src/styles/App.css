@@ -493,14 +493,23 @@ input[type=range][orient=vertical] {
 }
 
 .ambience-pill-info {
-  flex-grow: 1;
+  flex-shrink: 0;
+  width: 110px;
   display: flex;
   flex-direction: column;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ambience-pill-info span {
   font-weight: bold;
   font-size: 16px;
+}
+
+.ambience-pill .custom-slider {
+  flex-grow: 1;
+  width: auto;
 }
 
 /* OneShot player */
