@@ -29,7 +29,7 @@ export const uploadMass = multer({
 export const uploadSingle = multer({
   storage: diskStorage,
   limits: {
-    fileSize: 20 * 1024 * 1024,
+    fileSize: 200 * 1024 * 1024,
     files: 3,
   },
   fileFilter: (req, file, cb) => {
