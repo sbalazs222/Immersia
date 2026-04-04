@@ -5,6 +5,31 @@ body {
   overflow: hidden;
 }
 
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+.scene-item, 
+.ambience-item, 
+.oneshot-item, 
+.ambience-pill, 
+.tab-btn, 
+.favourite-btn,
+.scene-btn, 
+.play-circle-btn,
+.item-title-text,
+.ambience-name,
+.oneshot-name {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .app-container {
   display: flex;
   height: 100vh;
