@@ -5,6 +5,31 @@ body {
   overflow: hidden;
 }
 
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+.scene-item, 
+.ambience-item, 
+.oneshot-item, 
+.ambience-pill, 
+.tab-btn, 
+.favourite-btn,
+.scene-btn, 
+.play-circle-btn,
+.item-title-text,
+.ambience-name,
+.oneshot-name {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .app-container {
   display: flex;
   height: 100vh;
@@ -480,8 +505,9 @@ input[type=range][orient=vertical] {
   padding: 8px 15px 8px 8px;
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 10px;
   margin-bottom: 12px;
+  max-width: 100%;
 }
 
 .ambience-pill img {
@@ -490,11 +516,13 @@ input[type=range][orient=vertical] {
   border-radius: 50%;
   background-color: #777;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
 .ambience-pill-info {
-  flex-shrink: 0;
-  width: 110px;
+  flex-shrink: 1;
+  width: 90px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   white-space: nowrap;
@@ -510,6 +538,7 @@ input[type=range][orient=vertical] {
 .ambience-pill .custom-slider {
   flex-grow: 1;
   width: auto;
+  min-width: 0;
 }
 
 /* OneShot player */
@@ -618,6 +647,11 @@ input[type=range][orient=vertical] {
 
   .soundboard-section {
     padding: 10px;
+  }
+
+  .soundboard-dsgn {
+    padding: 5px 10px 10px 10px;
+    gap: 10px;
   }
 
   .scenes-list {

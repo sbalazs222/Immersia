@@ -1,10 +1,11 @@
 WEB
   -💨
   -englishize errors
+  -retain player on reload
+  -admin: refetch after delete
 
 WEB/DESIGN
   -new pw form
 
 BACKEND
   -👺
-  -ratelimit fix
