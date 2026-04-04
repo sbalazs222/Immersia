@@ -86,7 +86,7 @@ export default function Upload() {
                                     uploadType !== "scene" ? (
                                         <Form.Group controlId="formAudio" className="mb-3">
                                             <Form.Label className='mediumtext'>Supported audio formats: .WAW, .MP3, .OGG</Form.Label>
-                                            <Form.Control type="file" name="SoundFile" accept='.mp3, .ogg, .waw' />
+                                            <Form.Control type="file" name="SoundFile" accept='.mp3, .ogg, .wav' />
                                         </Form.Group>
                                     ) : (
                                         <Form.Group controlId="formAudio" className="mb-3">
