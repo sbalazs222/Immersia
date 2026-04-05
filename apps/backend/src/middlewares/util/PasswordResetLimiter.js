@@ -5,9 +5,16 @@ const PasswordResetLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   limit: 1,
   keyGenerator: (req, res) => {
-    return req.body.email || req.ip;
+    if (req.user && req.user.id)
+      return `user_${req.user.id}`;
+
+    if (req.body && req.body.email) {
+      return `email_${req.body.email}`;
+    }
+    
+    return `${req.ip}`;
   },
-  handler: (req, res, next, options) =>{
+  handler: (req, res, next, options) => {
     next(new ApiError(429, 'RATE_LIMIT'));
   }
 

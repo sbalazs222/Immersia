@@ -6,7 +6,7 @@ const MailRouter = Router();
 
 MailRouter.post('/verify', MailControllers.ConfirmEmailReceive);
 MailRouter.post('/resend', MailControllers.ConfirmEmailResend);
-MailRouter.post('/pwreset/sendmail', PasswordResetLimiter, OptionalAuthenticateToken, MailControllers.ResetPasswordSend);
+MailRouter.post('/pwreset/sendmail', OptionalAuthenticateToken, PasswordResetLimiter, MailControllers.ResetPasswordSend);
 MailRouter.post('/pwreset', MailControllers.ResetPasswordReceive);
 
 export default MailRouter;
