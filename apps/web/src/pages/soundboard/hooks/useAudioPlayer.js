@@ -19,17 +19,6 @@ export function useAudioPlayer() {
   const { lastSession, setLastSession } = useContext(AuthContext)
   const initialSession = lastSession ?? DEFAULT_AUDIO_SESSION
 
-  const logSession = (...args) => {
-    console.log('[session]', ...args)
-  }
-
-  useEffect(() => {
-    logSession('useAudioPlayer initialized', {
-      source: lastSession ? 'lastSession' : 'default',
-      initialSession
-    })
-  }, [])
-
   const [selectedScene, setSelectedScene] = useState(initialSession.selectedScene ?? null) // Track selected scene for UI purposes
   const [selectedAmbiences, setSelectedAmbiences] = useState(initialSession.selectedAmbiences ?? []) // Track selected ambiences for UI purposes
   const [selectedOneShots, setSelectedOneShots] = useState(initialSession.selectedOneShots ?? []) // Track selected one-shots for UI purposes
@@ -265,13 +254,6 @@ export function useAudioPlayer() {
     if (hasHydratedRef.current) return
     hasHydratedRef.current = true
 
-    logSession('hydrate start', {
-      hasSelectedScene: Boolean(selectedScene?.slug),
-      ambienceCount: selectedAmbiences.length,
-      isScenePaused,
-      sceneMode
-    })
-
     if (selectedScene?.slug && !sceneAudioRef.current) {
       const audioUrl = `${API_BASE_URL}/content/play/${selectedScene.slug}${
         sceneMode === 'combat' ? '?state=0' : ''
@@ -281,12 +263,6 @@ export function useAudioPlayer() {
       sceneAudio.volume = sceneVolume / 100
       sceneAudioRef.current = sceneAudio
       scenePlayingRef.current = getItemKey(selectedScene)
-
-      logSession('scene restored', {
-        slug: selectedScene.slug,
-        audioUrl,
-        wasPaused: isScenePaused
-      })
 
       if (!isScenePaused) {
         sceneAudio.play().catch(err => {
@@ -305,12 +281,6 @@ export function useAudioPlayer() {
       ambienceAudio.loop = true
       ambienceAudio.volume = (ambienceVolumes[ambienceKey] ?? 0) / 100
       ambienceAudioMapRef.current.set(ambienceKey, ambienceAudio)
-
-      logSession('ambience restored', {
-        key: ambienceKey,
-        slug,
-        volume: ambienceVolumes[ambienceKey] ?? 0
-      })
 
       ambienceAudio.play().catch(err => {
         console.error('Failed to restore ambience playback:', err)
@@ -372,7 +342,7 @@ export function useAudioPlayer() {
 
   // Keep last_session synced so logout can persist current audio state.
   useEffect(() => {
-    const nextSession = {
+    setLastSession({
       selectedScene,
       selectedAmbiences,
       selectedOneShots,
@@ -381,31 +351,13 @@ export function useAudioPlayer() {
       ambienceVolumes,
       oneshotVolume,
       isScenePaused
-    }
-
-    logSession('sync -> AuthContext.lastSession', {
-      selectedScene: selectedScene?.slug ?? null,
-      selectedAmbiences: selectedAmbiences.length,
-      selectedOneShots: selectedOneShots.length,
-      sceneMode,
-      sceneVolume,
-      oneshotVolume,
-      isScenePaused
     })
-
-    setLastSession(nextSession)
   }, [selectedScene, selectedAmbiences, selectedOneShots, sceneMode, sceneVolume, ambienceVolumes, oneshotVolume, isScenePaused, setLastSession])
   
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      logSession('cleanup on unmount', {
-        hadSceneAudio: Boolean(sceneAudioRef.current),
-        ambienceCount: ambienceAudioMapRef.current.size,
-        oneshotCount: oneshotAudioSetRef.current.size
-      })
-
       stopAudio(sceneAudioRef.current)
       sceneAudioRef.current = null
       scenePlayingRef.current = null
