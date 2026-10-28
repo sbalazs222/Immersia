@@ -7,7 +7,7 @@ services:
       dockerfile: apps/backend/Dockerfile
 
     volumes:
-      - /immersia/data:/immersia_data
+      - ${DATA_PATH}:/immersia_data
 
     environment:
       NODE_ENV: ${NODE_ENV}
@@ -65,7 +65,7 @@ services:
       - "traefik.http.services.immersia-frontend.loadbalancer.server.port=80"
       - "traefik.docker.network=shared-proxy"
     volumes:
-      - /immersia/data:/immersia_data:ro
+      - ${DATA_PATH}:/immersia_data:ro
 
 networks:
   shared-proxy:
