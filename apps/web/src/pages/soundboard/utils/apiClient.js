@@ -8,7 +8,7 @@ export const apiClient = {
       {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
-        // credentials: 'include'
+        credentials: 'include'
       }
     )
     const data = await response.json()
@@ -22,7 +22,7 @@ export const apiClient = {
     const response = await fetch(`${API_BASE_URL}/fav`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      // credentials: 'include'
+      credentials: 'include'
     })
 
     if (!response.ok) throw new Error('Failed to fetch favourites')
@@ -34,7 +34,7 @@ export const apiClient = {
     const response = await fetch(`${API_BASE_URL}/fav`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      // credentials: 'include',
+      credentials: 'include',
       body: JSON.stringify({ slug })
     })
 
@@ -46,7 +46,7 @@ export const apiClient = {
     const response = await fetch(`${API_BASE_URL}/content/all/${type}?search=${encodeURIComponent(title)}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      // credentials: 'include'
+      credentials: 'include'
     })
 
     if (!response.ok) throw new Error('Search request failed')
